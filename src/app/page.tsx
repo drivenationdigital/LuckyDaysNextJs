@@ -4,6 +4,7 @@ import Image from "next/image";
 import ObservedQueryProvider from "./context/CompQueryProvider";
 import { HomeProducts } from "@/components/HomeProducts";
 import BannerContent from "@/components/HomeBanner";
+import Cart from "@/components/Cart";
 
 export default function Page() {
   return (
@@ -16,6 +17,8 @@ export default function Page() {
         </div>
       </div>
       <BannerContent />
+
+      <Cart />
 
       <section className="award-section d-md-block">
         <div className="container">

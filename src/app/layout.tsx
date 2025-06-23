@@ -11,7 +11,9 @@ import "./globals.css";
 import BootstrapClient from "@/components/BootstrapClient";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
 import Providers from "./context/QueryClientProvider";
+import { ShoppingCartProvider } from "./context/ShoppingCartProvider";
 
 export const metadata: Metadata = {
   title: "Home - Lucky Day Competitions",
@@ -39,7 +41,9 @@ export default function RootLayout({
         <Header />
         <div className="body-container">
           <Providers>
+            <ShoppingCartProvider>
             {children}
+            </ShoppingCartProvider>
           </Providers>
           <Footer />
         </div>

@@ -5,6 +5,7 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import { fetchProductById, fetchProductMetaData } from '@/api-functions/posts';
 import Countdown from '@/components/CountDownTimer';
 import SlickGalleryWithThumbs from '@/components/Slider';
+import TicketForm from '@/components/ProductActions';
 
 type Props = {
     params: Promise<{ id: string }>
@@ -112,56 +113,7 @@ export default async function Page({
                                                     </h4>
 
                                                     {product.tickets.stock_count > 0 && !product.ticket_sales_disabled ? (
-                                                        <form className="cart" method="post" encType="multipart/form-data">
-                                                            <div className="answers">
-                                                                <div className="answers-label">Multi-Buy Discount</div>
-                                                                <ul className="answers-list">
-                                                                    {[
-                                                                        { qty: 3, discount: 0.05 },
-                                                                        { qty: 5, discount: 0.10 },
-                                                                        { qty: 10, discount: 0.20 },
-                                                                    ].map(({ qty, discount }) => {
-                                                                        const ticketPrice = parseFloat(product.price_float);
-
-                                                                        const savings = (ticketPrice * qty * discount).toFixed(2);
-                                                                        const percent = discount * 100;
-
-                                                                        return (
-                                                                            <li data-value={qty} key={qty}>
-                                                                                <input className="ticket-form-input" type="radio" />
-                                                                                <strong>{qty}</strong> Tickets<br />
-                                                                                <span className="answer-saving">
-                                                                                    <strong>Save {percent}%</strong>
-                                                                                    {` `}
-                                                                                    (
-                                                                                    <span className="woocommerce-Price-amount amount">
-                                                                                        <bdi>
-                                                                                            <span className="woocommerce-Price-currencySymbol">£</span>{savings}
-                                                                                        </bdi>
-                                                                                    </span>
-                                                                                    )
-                                                                                </span>
-                                                                            </li>
-                                                                        )
-                                                                    })}
-                                                                </ul>
-                                                            </div>
-
-                                                            <div className="quantity">
-                                                                <label className="screen-reader-text">Quantity</label>
-                                                                <input
-                                                                    type="number"
-                                                                    name="quantity"
-                                                                    min="1"
-                                                                    max={product.tickets_left}
-                                                                    defaultValue="1"
-                                                                />
-                                                            </div>
-
-                                                            <button type="submit" className="single_add_to_cart_button button alt">
-                                                                Enter Now
-                                                            </button>
-                                                        </form>
+                                                        <TicketForm product={product} />
                                                     ) : (
                                                         <div className="no-ticket-message">
                                                             {product.ticket_sales_disabled
