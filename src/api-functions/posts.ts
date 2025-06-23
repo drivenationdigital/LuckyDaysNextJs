@@ -1,5 +1,7 @@
+import { BASE_URL } from "@/actions/api";
+
 export const fetchHomeCompetitions = async (page: number) => {
-    const response = await fetch(`http://localhost:3000/api/get-home-competitions?page=${page}&_=${Date.now()}`, {
+    const response = await fetch(`${BASE_URL}/api/get-home-competitions?page=${page}&_=${Date.now()}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -19,7 +21,7 @@ export const fetchHomeCompetitions = async (page: number) => {
 };
 
 export const fetchAllCompetitions = async (page: number) => {
-    const response = await fetch(`http://localhost:3000/api/get-all-competitions?page=${page}&_=${Date.now()}`, {
+    const response = await fetch(`${BASE_URL}/api/get-all-competitions?page=${page}&_=${Date.now()}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -39,7 +41,7 @@ export const fetchAllCompetitions = async (page: number) => {
 };
 
 export const fetchHomepageBanners = async () => {
-    const response = await fetch(`http://localhost:3000/api/get-homepage-banners`, {
+    const response = await fetch(`${BASE_URL}/api/get-homepage-banners`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -59,7 +61,7 @@ export const fetchHomepageBanners = async () => {
 }
 
 export const fetchProductMetaData = async (id: string) => {
-    const response = await fetch(`http://localhost:3000/api/get-product-meta-data?id=${id}`, {
+    const response = await fetch(`${BASE_URL}/api/get-product-meta-data?id=${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -79,7 +81,7 @@ export const fetchProductMetaData = async (id: string) => {
 }
 
 export const fetchProductById = async (id: string) => {
-    const response = await fetch(`http://localhost:3000/api/get-product-by-id?id=${id}`, {
+    const response = await fetch(`${BASE_URL}/api/get-product-by-id?id=${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
