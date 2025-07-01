@@ -7,10 +7,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id: cartKey } = params;
+        const { id: cartKey } = await params;
 
         if (!cartKey) {
             return NextResponse.json({ error: "Cart key is required" }, { status: 400 });
