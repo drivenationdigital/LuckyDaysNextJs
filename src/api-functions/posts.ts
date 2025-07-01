@@ -6,7 +6,6 @@ export const fetchHomeCompetitions = async (page: number) => {
         headers: {
             "Content-Type": "application/json",
         },
-        cache: "no-store",
         next: {
             revalidate: 0, // This ensures the data is always fresh
         }
@@ -26,7 +25,6 @@ export const fetchAllCompetitions = async (page: number) => {
         headers: {
             "Content-Type": "application/json",
         },
-        cache: "no-store",
         next: {
             revalidate: 60, // This ensures the data is always fresh
         }
@@ -46,7 +44,6 @@ export const fetchHomepageBanners = async () => {
         headers: {
             "Content-Type": "application/json",
         },
-        cache: "no-store",
         next: {
             revalidate: 60, // This ensures the data is always fresh
         }
@@ -61,12 +58,11 @@ export const fetchHomepageBanners = async () => {
 }
 
 export const fetchProductMetaData = async (id: string) => {
-    const response = await fetch(`${BASE_URL}/api/get-product-meta-data?id=${id}`, {
+    const response = await fetch(`${BASE_URL}/api/product/${id}/meta`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        cache: "no-store",
         next: {
             revalidate: 60, // This ensures the data is always fresh
         }
@@ -81,18 +77,17 @@ export const fetchProductMetaData = async (id: string) => {
 }
 
 export const fetchProductById = async (id: string) => {
-    const response = await fetch(`${BASE_URL}/api/get-product-by-id?id=${id}`, {
+    const response = await fetch(`${BASE_URL}/api/product/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        cache: "no-store",
         next: {
             revalidate: 60, // This ensures the data is always fresh
         }
     });
 
-    if (!response.ok) {
+    if (!response.ok || response.status !== 200) {
         throw new Error('Failed to fetch product by ID');
     }
 

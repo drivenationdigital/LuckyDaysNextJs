@@ -19,17 +19,32 @@ export async function generateMetadata(
     // read route params
     const { id } = await params
 
-    const product = await fetchProductMetaData(id);
+    const response = await fetchProductMetaData(id);
+    
+    if (!response || !response.success) {
+        return {
+            title: 'Product not found - Lucky Day Competitions',
+            description: 'The product you are looking for does not exist.',
+            openGraph: {
+                title: 'Product not found - Lucky Day Competitions',
+                description: 'The product you are looking for does not exist.',
+                images: ['/images/favicon.png'],
+            },
+            icons: {
+                icon: '/images/favicon.png',
+            },
+        };
+    }
 
     // optionally access and extend (rather than replace) parent metadata
     const previousImages = (await parent).openGraph?.images || []
 
     return {
-        title: `${product.title} - Lucky Day Competitions`,
-        description: product.description,
-        keywords: product.keywords,
+        title: `${response.data.title} - Lucky Day Competitions`,
+        description: response.data.description,
+        keywords: response.data.keywords,
         openGraph: {
-            images: [product.image, ...previousImages],
+            images: [response.data.image, ...previousImages],
         },
         icons: {
             icon: '/images/favicon.png',
@@ -44,7 +59,19 @@ export default async function Page({
 }) {
     const { id } = await params
 
-    const product = await fetchProductById(id.toString());
+    const response = await fetchProductById(id.toString());
+
+    if (!response || !response?.success === true) {
+        return (
+            <div className="container">
+                <h1>Product not found</h1>
+                <p>The product you are looking for does not exist.</p>
+                <Link href="/">Go back to homepage</Link>
+            </div>
+        );
+    }
+
+    const product = response.data;
 
     if (!product) {
         return (

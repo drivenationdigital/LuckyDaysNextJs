@@ -6,14 +6,17 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import './woocommerce.css';
+import './fontawesome.css';
 import "./globals.css";
+
 
 import BootstrapClient from "@/components/BootstrapClient";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import Providers from "./context/QueryClientProvider";
-import { ShoppingCartProvider } from "./context/ShoppingCartProvider";
+import { CartProvider } from "./context/cart-context";
 
 export const metadata: Metadata = {
   title: "Home - Lucky Day Competitions",
@@ -38,15 +41,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body>
-        <Header />
-        <div className="body-container">
-          <Providers>
-            <ShoppingCartProvider>
-            {children}
-            </ShoppingCartProvider>
-          </Providers>
-          <Footer />
-        </div>
+        <Providers>
+          <CartProvider>
+            <Header />
+            <div className="body-container">
+              {children}
+              <Footer />
+            </div>
+          </CartProvider>
+        </Providers>
         <BootstrapClient />
       </body>
 

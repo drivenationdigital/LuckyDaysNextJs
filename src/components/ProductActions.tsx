@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useShoppingCart } from '@/app/context/ShoppingCartProvider';
+import { useCart } from '@/app/context/cart-context';
 import { useState } from 'react';
 
 interface MultiBuyOption {
@@ -18,7 +18,7 @@ const multiBuyOptions: MultiBuyOption[] = [
 export default function TicketForm({ product }: { product: any }) {
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedQty, setSelectedQty] = useState<number | null>(null);
-    const { addItem } = useShoppingCart();
+    const { addItem, notice, isMutating } = useCart();
 
     const handleMultiBuySelect = (qty: number) => {
         setQuantity(qty);
@@ -27,7 +27,16 @@ export default function TicketForm({ product }: { product: any }) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await addItem(product.id, quantity);
+        try {
+            const response = await addItem(product.id, quantity);
+            if (response && response.success) {
+                alert("Item added to cart successfully!");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            // Optionally, you can set a notice here if needed
+            // setNotice(`❌ ${error.message}`);
+        }
     };
 
     return (
@@ -85,8 +94,15 @@ export default function TicketForm({ product }: { product: any }) {
                 />
             </div>
 
-            <button type="submit" className="single_add_to_cart_button button alt">
-                Enter Now
+            {notice && <div className="notice">{notice}</div>}
+
+            <button 
+                type="submit" 
+                className="single_add_to_cart_button button alt"
+                disabled={isMutating}
+                title={isMutating ? "Adding to cart..." : "Add to cart"}
+                >
+                {isMutating ? "Adding..." : "Add to cart"}
             </button>
         </form>
     );

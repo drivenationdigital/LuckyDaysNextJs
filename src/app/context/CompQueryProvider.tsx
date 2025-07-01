@@ -35,9 +35,10 @@ const ObservedQueryProvider = ({ children }: any) => {
             return nextPage <= maxPages ? nextPage : undefined;
         },
         refetchOnWindowFocus: true,
-        refetchOnMount: true,
         initialPageParam: 1,
+        refetchOnMount: false, // 👈 Avoid refetch on remount unless necessary
         retry: 1,
+        staleTime: 1000 * 60 * 5, // 👈 5 minutes before considered stale
     });
 
     const getMorePosts = useCallback(async () => {

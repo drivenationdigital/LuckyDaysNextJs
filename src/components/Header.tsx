@@ -2,10 +2,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useCart } from '@/app/context/cart-context';
 
-const Header = ({ cartCount = 0, currency = 'GBP' }) => {
+const Header = ({ currency = 'GBP' }) => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [showMoreDropdown, setShowMoreDropdown] = useState(false);
+
+    const {cart} = useCart();
 
     const toggleOverlay = () => setShowOverlay(!showOverlay);
 
@@ -50,7 +53,7 @@ const Header = ({ cartCount = 0, currency = 'GBP' }) => {
                 <div className="d-header-icons">
                     <Link className="d-header-basket" href="/basket">
                         <Image src="/images/basket-icon.png" alt="Basket" width={24} height={24} />
-                        <span className="d-header-basket-count">{cartCount}</span>
+                        <span className="d-header-basket-count">{cart?.items.length}</span>
                     </Link>
                     <Link className="d-header-account" href="/my-account">
                         <Image src="/images/account-icon.png" alt="Account" width={24} height={24} />

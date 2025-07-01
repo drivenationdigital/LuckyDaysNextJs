@@ -3761,9 +3761,7 @@ header .navbar-toggler:hover, header .navbar-toggler:focus {
 }
 /** WOOCOMMERCE STYLES **/
 
-#content p {
-	color: #3c3c3c !important;
-}
+
 /******** Login Page ********/
 #customer_login {
 	margin: 30px auto 0px auto;
@@ -6618,4 +6616,8 @@ ul {
     opacity: 1;
     border: 2px solid #007bff;
     border-radius: 4px;
+}
+
+#content p {
+	color: #3c3c3c !important;
 }
