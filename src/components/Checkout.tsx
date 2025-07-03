@@ -7,6 +7,7 @@ import { useCart } from '@/app/context/cart-context';
 import { useEffect, useRef, useState } from 'react';
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
+import { CartNotice } from './cart/Cart';
 
 
 export default function CheckoutForm() {
@@ -14,10 +15,9 @@ export default function CheckoutForm() {
     const itiRef = useRef<ReturnType<typeof intlTelInput> | null>(null);
     const selectedCountryRef = useRef<HTMLInputElement>(null);
     const [isLoading, setIsLoading] = useState(false);
-
-  
+      
+    const { cart, clearCart, addCoupon, isMutating, removeCoupon } = useCart();
     const { user } = useSession();
-    const { cart, clearCart } = useCart();
 
     const handleCheckoutSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -64,14 +64,12 @@ export default function CheckoutForm() {
 
             setIsLoading(false);
 
+            const result = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.message}`);
+                alert(`Error: ${result.message}`);
             } else {
-                const result = await response.json();
-                alert(`Order created successfully! Order ID: ${result.order_id}`);
                 clearCart(); // Clear the cart after successful order creation
-                // Optionally, redirect to a confirmation page or clear the cart
                 window.location.href = `/order-received/${result.order_id}`;
             }
         } catch (error) {
@@ -80,6 +78,17 @@ export default function CheckoutForm() {
             alert('An error occurred while creating the order. Please try again later.');
         }
     }
+
+    const handleApply = async (coupon: string) => {
+        if (!coupon.trim()) return;
+
+        try {
+            await addCoupon(coupon.trim());
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            console.error("Error applying coupon:", error);
+        } 
+    };
     
     useEffect(() => {
         const onChange = (number: string, dialCode: string) => {
@@ -128,7 +137,9 @@ export default function CheckoutForm() {
     
     return (
         <div className="woocommerce">
-            {isLoading && (
+            <CartNotice />
+
+            {(isLoading || isMutating) && (
                 <div
                     className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center"
                     style={{ zIndex: 1050 }}
@@ -138,7 +149,8 @@ export default function CheckoutForm() {
                     </div>
                 </div>
             )}
-            <CheckoutCouponForm />
+
+            <CheckoutCouponForm onApply={handleApply} />
             <form className='checkout woocommerce-checkout' name='checkout' id='st-form' onSubmit={handleCheckoutSubmit}>
                 <div className="col2-set" id="customer_details">
                     <div className="col-1">
@@ -229,6 +241,26 @@ export default function CheckoutForm() {
                             <td><span className="woocommerce-Price-amount amount">
                                 <bdi><span className="woocommerce-Price-currencySymbol">£</span>{cart?.discounted_subtotal}</bdi></span></td>
                         </tr>
+
+                        {/* Coupons */}
+                        {(cart?.coupons && cart.coupons.length > 0) && (
+                            cart.coupons.map((coupon, index) => (
+                                <tr className="cart-discount" key={index}>
+                                    <th>
+                                        {coupon.description || `Coupon: ${coupon.code}`}
+                                        <button className="remove-coupon" onClick={() => removeCoupon(coupon.code)}>Remove</button>
+                                    </th>
+                                    <td data-title="Discount">
+                                        <span className="woocommerce-Price-amount amount">
+                                            <bdi>
+                                                <span className="woocommerce-Price-currencySymbol">-£</span>
+                                                {coupon.discount}
+                                            </bdi>
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
 
                         <tr className="order-total">
                             <th>Total</th>

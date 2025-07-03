@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import Basket from '@/components/Cart';
+import Basket from '@/components/cart/Cart';
 // meta
 import { Metadata } from 'next';
 

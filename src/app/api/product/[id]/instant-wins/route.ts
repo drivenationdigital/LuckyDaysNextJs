@@ -16,7 +16,7 @@ export async function GET(request: NextRequest,
     }
 
     try {
-        const response = await fetch(`${API_URL}/wp-json/next/v1/get-product-meta/${id}`, {
+        const response = await fetch(`${API_URL}/wp-json/next/v1/get-product-iw/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +26,12 @@ export async function GET(request: NextRequest,
         });
 
         const data = await response.json();
-        return NextResponse.json(data);
+
+        if (data && data.success === true) {
+            return NextResponse.json(data.data);
+        } else{
+            return NextResponse.json({ error: data.message || "Failed to fetch instant wins" }, { status: 404 });
+        }
     } catch (error: any) {
         return NextResponse.json({ error: error.message || "Fetch failed" }, { status: 500 });
     }

@@ -1,20 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import Image from "next/image";
-import ObservedQueryProvider from "./context/CompQueryProvider";
+import ObservedQueryProvider from "./context/competitions-context";
 import { HomeProducts } from "@/components/HomeProducts";
 import BannerContent from "@/components/HomeBanner";
 
 export default function Page() {
   return (
     <>
-      <div className="text-center luckydays-alert-block">
-        <div className="container">
-          <a href="/next-draw">
-            <strong>Next Draw</strong> View All Prizes <i className="fa fa-caret-right"></i>
-          </a>
-        </div>
-      </div>
       <BannerContent />
 
       <section className="award-section d-md-block">

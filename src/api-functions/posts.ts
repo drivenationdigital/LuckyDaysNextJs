@@ -57,8 +57,8 @@ export const fetchHomepageBanners = async () => {
     return data;
 }
 
-export const fetchProductMetaData = async (id: string) => {
-    const response = await fetch(`${BASE_URL}/api/product/${id}/meta`, {
+export const fetchProductMetaData = async (identifier: string) => {
+    const response = await fetch(`${BASE_URL}/api/product/${identifier}/meta`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

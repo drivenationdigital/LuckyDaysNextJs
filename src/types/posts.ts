@@ -1,5 +1,6 @@
 export interface CompetitionProduct {
     id: number;
+    slug: string;
     title: string;
     permalink: string;
     image: string;

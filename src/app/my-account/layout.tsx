@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 import { useSession } from '../hooks/useSession';
 import AuthPage from '@/components/AuthPage';

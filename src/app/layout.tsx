@@ -7,16 +7,19 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './woocommerce.css';
+import './woocommerce-layout.css';
 import './fontawesome.css';
+import './jcf.css';
+import './dd-plugin.css';
 import "./globals.css";
 
-
 import BootstrapClient from "@/components/BootstrapClient";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "../includes/Header";
+import Footer from "../includes/Footer";
 
 import Providers from "./context/QueryClientProvider";
 import { CartProvider } from "./context/cart-context";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Home - Lucky Day Competitions",
@@ -45,6 +48,11 @@ export default function RootLayout({
           <CartProvider>
             <Header />
             <div className="body-container">
+              <div className="text-center luckydays-alert-block">
+                <div className="container">
+                  <Link href="/next-draw"><strong>Next Draw</strong> View All Prizes <i className="fa fa-caret-right"></i></Link>
+                </div>
+              </div>
               {children}
               <Footer />
             </div>

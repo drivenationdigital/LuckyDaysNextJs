@@ -8,6 +8,8 @@ import { useRef, useEffect, useState } from 'react';
 import { ApplyCoupon } from './ApplyCoupon';
 import Link from 'next/link';
 
+import QuantityInput from '@/components/cart/JcfQtyInput';
+
 interface CartQuantityInputProps {
     item: CartItem;
     updateQty: (itemId: number | string, quantity: number) => Promise<void>;
@@ -38,32 +40,21 @@ function CartQuantityInput({ item, updateQty, removeItem }: CartQuantityInputPro
     }, [inputQty]);
 
     return (
-        <span className="jcf-number">
-            <input
-                type="number"
-                id={`quantity_${item.product_id}`}
-                className="input-text qty text jcf-real-element"
-                step="1"
-                min="0"
-                name={`cart[${item.product_id}][qty]`}
-                value={inputQty}
-                title="Qty"
-                size={4}
-                placeholder=""
-                inputMode="numeric"
-                onChange={(e) => {
-                    const val = parseInt(e.target.value, 10);
-                    setInputQty(isNaN(val) ? 0 : val);
-                }}
-                autoComplete="off"
-            />
-            <span className="jcf-btn-inc"></span>
-            <span className="jcf-btn-dec"></span>
-        </span>
+        <QuantityInput
+            id={`quantity_${item.product_id}`}
+            name={`cart[${item.product_id}][qty]`}
+            step={1}
+            min={1}
+            max={item.tickets_left || item.stock_count || item.max_tickets}
+            quantity={inputQty}
+            onChange={(val) => {
+                setInputQty(val);
+            }}
+        />
     );
 }
 
-function CartNotice() {
+export function CartNotice() {
     const { notice, setNotice } = useCart();
 
     if (!notice) return null;
@@ -72,15 +63,15 @@ function CartNotice() {
         <div className="woocommerce-notices-wrapper">
             <div className="woocommerce-message" role="alert" tabIndex={-1}>
                 {notice}
-            <button
-                onClick={() => setNotice(null)}
-                className="woocommerce-Button woocommerce-Button--icon woocommerce-Button--icon-only remove"
-                aria-label="Dismiss this notice"
-                type="button"
-                style={{ marginLeft: '10px' }}
-            >
-                ✕
-            </button>
+                <button
+                    onClick={() => setNotice(null)}
+                    className="woocommerce-Button woocommerce-Button--icon woocommerce-Button--icon-only remove"
+                    aria-label="Dismiss this notice"
+                    type="button"
+                    style={{ marginLeft: '10px' }}
+                >
+                    ✕
+                </button>
             </div>
         </div>
     );
@@ -100,11 +91,11 @@ function CartLoadingOverlay() {
                 <span className="visually-hidden">Loading...</span>
             </div>
         </div>
-      );
+    );
 }
 
 export default function Basket() {
-    const { cart, removeItem, updateQty, removeCoupon, setNotice} = useCart();
+    const { cart, removeItem, updateQty, removeCoupon, setNotice } = useCart();
 
     const renderCartItems = useMemo(() => {
         if (cart && cart.ignored_coupons && cart.ignored_coupons.length > 0) {
@@ -125,8 +116,8 @@ export default function Basket() {
             {cart.items.map((item) => (
                 <tr key={item.product_id} className="woocommerce-cart-form__cart-item cart_item">
                     <td className="product-remove">
-                        <button
-                            type="button"
+                        <a
+                            href="#"
                             onClick={async (e) => {
                                 e.preventDefault();
                                 await removeItem(item.product_id);
@@ -136,23 +127,24 @@ export default function Basket() {
                             data-product_id={item.product_id}
                         >
                             ×
-                        </button>
+                        </a>
                     </td>
 
                     <td className="product-thumbnail">
-                        <Link href={`/product/${item.slug}`}>
-                            <Image
-                                fetchPriority="high"
-                                decoding="async"
-                                width={300}
-                                height={300}
-                                src={item.thumbnail_url}
-                                alt={item.name}
-                                sizes="(max-width: 300px) 100vw, 300px"
-                                className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-                            />
-
-                        </Link>
+                        {item.thumbnail_url && (
+                            <Link href={`/product/${item.slug}`}>
+                                <Image
+                                    fetchPriority="high"
+                                    decoding="async"
+                                    width={30}
+                                    height={30}
+                                    src={item.thumbnail_url}
+                                    alt={item.name}
+                                    sizes="(max-width: 300px) 100vw, 300px"
+                                    className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+                                />
+                            </Link>
+                        )}
                     </td>
 
                     <td className="product-name" data-title="Product">
@@ -188,24 +180,30 @@ export default function Basket() {
                         <span className="woocommerce-Price-amount amount">
                             <bdi>
                                 <span className="woocommerce-Price-currencySymbol">£</span>
-                                {item.discounted_total_price}
+                                {item.discounted_total_price ? item.discounted_total_price : item.total_price}
                             </bdi>
                         </span>
                     </td>
                 </tr>
             ))}
+
+            <tr>
+                <td colSpan={6} className="actions">
+                    <ApplyCoupon />
+                </td>
+            </tr>
         </>
     }, [cart, removeItem, updateQty]);
 
     return (
         <main id="content">
-            <div className="container">
+            <div className="container woocommerce-cart woocommerce-page">
                 <article className="page type-page status-publish hentry">
                     <header className="header">
                         <h1 className="entry-title">Basket</h1>
                     </header>
                     <CartLoadingOverlay />
-                    
+
                     <div className="entry-content">
                         <div className="woocommerce">
                             <CartNotice />
@@ -229,7 +227,6 @@ export default function Basket() {
                                             </tbody>
                                         </table>
                                     </form>
-                                    <ApplyCoupon />
 
                                     <div className="cart-collaterals">
                                         <div className="cart_totals">

@@ -1,4 +1,10 @@
 import CheckoutForm from "@/components/Checkout";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Checkout - Lucky Day Competitions",
+    description: "Enter exciting competitions to win amazing prizes!",
+};
 
 export default function Page() {
     return (

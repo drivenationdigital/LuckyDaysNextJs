@@ -8,14 +8,6 @@ export const metadata = {
 export default function Page() {
     return (
         <>
-            <div className="text-center luckydays-alert-block">
-                <div className="container">
-                    <a href="/next-draw">
-                        <strong>Next Draw</strong> View All Prizes <i className="fa fa-caret-right"></i>
-                    </a>
-                </div>
-            </div>
-
             <div className="category-banner text-center">
                 <div className="container-fluid">
                     <div className="row">

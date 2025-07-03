@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "My Account - Lucky Day Competitions",
+    description: "Enter exciting competitions to win amazing prizes!",
+};
+
 export default async function Page() {
     return (
         <div className="tab-block">
@@ -9,9 +16,9 @@ export default async function Page() {
 
                     <div className="title">
                         <h3>Welcome!</h3>
-                        <a href="https://staging.luckydaycompetitions.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fstaging.luckydaycompetitions.com%2Fmy-account%2F&amp;_wpnonce=0acbb8aa54">
+                        <Link href="/my-account/logout/" className="logout">
                             (Log out)
-                        </a>
+                        </Link>
                     </div>
 
                     <p>

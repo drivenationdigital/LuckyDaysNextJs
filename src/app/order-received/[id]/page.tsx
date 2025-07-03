@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Thank you - Lucky Day Competitions",
+    description: "Enter exciting competitions to win amazing prizes!",
+};
 
 export default function Page() {
     return (

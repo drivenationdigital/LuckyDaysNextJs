@@ -15,7 +15,11 @@ export type CartItem = {
     price: string;
     discounted_price: string;
     discounted_total_price: string;
+    max_tickets: number;
+    stock_count: number;
+    tickets_left: number; 
     multi_buy_discount_percent?: number; // Optional, only if applicable
+
 };
 
 export type CartCoupons = {

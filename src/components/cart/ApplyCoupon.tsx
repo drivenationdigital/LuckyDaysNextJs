@@ -22,11 +22,14 @@ export function ApplyCoupon() {
         }
     };
 
+    // use bootstrap classes for styling
+
     return (
         <div className="coupon-box">
-            <h4 className="text-lg font-medium mb-2">Have a coupon?</h4>
-            <div className="flex gap-2 items-center">
+            <div className="d-flex d-flex-row gap-2">
                 <input
+                    id="coupon_code"
+                    name="coupon_code"
                     type="text"
                     value={coupon}
                     onChange={(e) => setCoupon(e.target.value)}
@@ -37,9 +40,9 @@ export function ApplyCoupon() {
                 <button
                     onClick={handleApply}
                     disabled={loading || !coupon.trim()}
-                    className="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700"
+                    className="mr-2 px-4"
                 >
-                    {loading ? "Applying..." : "Apply"}
+                    {loading ? "Applying..." : "Apply Coupon"}
                 </button>
             </div>
         </div>

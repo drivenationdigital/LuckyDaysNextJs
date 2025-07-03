@@ -2,8 +2,8 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllCompetitions } from '@/api-functions/posts';
-import CompetitionGrid from '@/components/CompetitionGrid';
-import { ProductCardLoader } from './ProductCard';
+import { ProductCardLoader } from './competition/ProductCard';
+import CompetitionGrid from './competition/CompetitionGrid';
 
 export default function CompetitionsContent() {
     const {

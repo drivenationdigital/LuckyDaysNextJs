@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import CompetitionGrid from './CompetitionGrid';
-import { useObservedQuery } from '@/app/context/CompQueryProvider';
+import { useObservedQuery } from '@/app/context/competitions-context';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { CompetitionSections } from '@/types/posts';
+import CompetitionGrid from './competition/CompetitionGrid';
 
 
 export const HomeProducts: React.FC = () => {

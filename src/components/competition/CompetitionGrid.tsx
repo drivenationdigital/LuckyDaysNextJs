@@ -10,7 +10,7 @@ export const CompetitionGrid: React.FC<{ products: CompetitionProduct[] }> = ({ 
             <ul className="comp-grid row equal">
                 {products.map((product) => {
                     const cardProps: ProductCardProps = {
-                        href: `/product/${product.id}`,
+                        href: `/product/${product.slug}`,
                         imageUrl: product.image,
                         categoryLabel: product.draw_date_tag || '',
                         title: product.title,
