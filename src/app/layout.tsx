@@ -6,18 +6,18 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import './woocommerce.css';
-import './woocommerce-layout.css';
-import './fontawesome.css';
-import './jcf.css';
-import './dd-plugin.css';
+import './css/woocommerce.css';
+import './css/woocommerce-layout.css';
+import './css/fontawesome.css';
+import './css/jcf.css';
+import './css/dd-plugin.css';
 import "./globals.css";
 
-import BootstrapClient from "@/components/BootstrapClient";
+import BootstrapClient from "./context/bootstrap-client-provider";
 import Header from "../includes/Header";
 import Footer from "../includes/Footer";
 
-import Providers from "./context/QueryClientProvider";
+import Providers from "./context/query-client-provider";
 import { CartProvider } from "./context/cart-context";
 import Link from "next/link";
 
@@ -44,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body>
+
         <Providers>
           <CartProvider>
             <Header />

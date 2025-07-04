@@ -53,7 +53,7 @@ const Header = ({ currency = 'GBP' }) => {
                 <div className="d-header-icons">
                     <Link className="d-header-basket" href="/basket">
                         <Image src="/images/basket-icon.png" alt="Basket" width={24} height={24} />
-                        <span className="d-header-basket-count">{cart?.items.length}</span>
+                        <span className="d-header-basket-count">{cart?.items.length || 0}</span>
                     </Link>
                     <Link className="d-header-account" href="/my-account">
                         <Image src="/images/account-icon.png" alt="Account" width={24} height={24} />

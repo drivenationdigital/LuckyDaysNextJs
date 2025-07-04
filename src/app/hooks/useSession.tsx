@@ -25,7 +25,7 @@ export type WPUser = {
 };
 
 export function useSession() {
-    const { data, isLoading, refetch, isFetched } = useQuery<WPUser | null>({
+    const { data, isLoading, refetch, isFetched, } = useQuery<WPUser | null>({
         queryKey: ["session"],
         queryFn: async () => {
             const res = await fetch("/api/session", {
@@ -41,11 +41,33 @@ export function useSession() {
         refetchOnWindowFocus: false,
     });
 
+    const logout = async () => {
+        try {
+            // remove the session cookie, invalidate the session
+            const res = await fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "include",
+            });
+
+            if (!res || !res.ok) {
+                throw new Error("Failed to log out");
+            }
+
+            // refetch the session to update the state
+            await refetch();
+            // Optionally, you can redirect the user to the home page or login page
+            window.location.href = "/auth";
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
+
     return {
         user: data,
         isLoggedIn: !!data,
         isLoading,
         refetch,
         isFetched,
+        logout,
     };
 }

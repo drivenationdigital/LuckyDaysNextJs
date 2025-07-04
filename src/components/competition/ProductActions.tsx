@@ -4,7 +4,7 @@
 import { useCart } from '@/app/context/cart-context';
 import { useState } from 'react';
 import QuantityInput from '@/components/cart/JcfQtyInput';
-import AddToCartModal from '../AddToCartModal';
+import AddToCartModal from '../cart/AddToCartModal';
 
 interface MultiBuyOption {
     qty: number;

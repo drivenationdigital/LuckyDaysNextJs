@@ -17,7 +17,7 @@ export type CartItem = {
     discounted_total_price: string;
     max_tickets: number;
     stock_count: number;
-    tickets_left: number; 
+    tickets_left: number;
     multi_buy_discount_percent?: number; // Optional, only if applicable
 
 };
@@ -35,7 +35,7 @@ export type CartData = {
     total: string;
     subtotal: string;
     discounted_subtotal?: string; // Optional, only if applicable
-    tax: string;    
+    tax: string;
     items: CartItem[];
     ignored_coupons?: {
         code: string;
@@ -44,7 +44,6 @@ export type CartData = {
     }[];
     coupons: CartCoupons[]; // ✅ Add this line
 };
-
 
 type CartContextType = {
     cart: CartData | undefined;
@@ -60,7 +59,6 @@ type CartContextType = {
     sync: () => void;
     isMutating: boolean;
 };
-
 
 const CartContext = createContext<CartContextType | null>(null);
 const CART_KEY = "cart.key";
@@ -219,7 +217,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             setNotice("🚫 Coupon removed.");
             sync();
         } catch (err: any) {
-            
+
             setNotice(`❌ ${err.message}`);
         } finally {
             setIsMutating(false); // ✅ End loading

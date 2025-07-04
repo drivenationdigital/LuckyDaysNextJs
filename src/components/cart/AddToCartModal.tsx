@@ -28,6 +28,7 @@ export default function AddToCartModal({
     const [isVisible, setIsVisible] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
 
+
     useEffect(() => {
         setIsMounted(true);
     }, []);
@@ -63,6 +64,12 @@ export default function AddToCartModal({
 
         return () => window.removeEventListener('keydown', handleEscape);
     }, [show]);
+
+    useEffect(() => {
+        return () => {
+            document.body.style.overflowY = '';
+        };
+    }, []);
 
     const handleClose = () => {
         if (modalRef.current) {

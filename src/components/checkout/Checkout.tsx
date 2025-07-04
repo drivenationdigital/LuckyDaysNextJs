@@ -7,7 +7,7 @@ import { useCart } from '@/app/context/cart-context';
 import { useEffect, useRef, useState } from 'react';
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
-import { CartNotice } from './cart/Cart';
+import { CartNotice } from '../cart/Cart';
 
 
 export default function CheckoutForm() {
@@ -15,7 +15,7 @@ export default function CheckoutForm() {
     const itiRef = useRef<ReturnType<typeof intlTelInput> | null>(null);
     const selectedCountryRef = useRef<HTMLInputElement>(null);
     const [isLoading, setIsLoading] = useState(false);
-      
+
     const { cart, clearCart, addCoupon, isMutating, removeCoupon } = useCart();
     const { user } = useSession();
 
@@ -43,24 +43,24 @@ export default function CheckoutForm() {
             alert("Email addresses do not match.");
             return;
         }
-        
-        
+
+
         // Prepare data for API request
         const data = {
             billing_data: billingData,
         };
-        
+
         // Send data to the API
         try {
             setIsLoading(true);
             const response = await fetch(`/api/order/${cart?.cart_key}/create`,  // Replace with actual API endpoint
                 {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
 
             setIsLoading(false);
 
@@ -84,12 +84,12 @@ export default function CheckoutForm() {
 
         try {
             await addCoupon(coupon.trim());
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Error applying coupon:", error);
-        } 
+        }
     };
-    
+
     useEffect(() => {
         const onChange = (number: string, dialCode: string) => {
             if (selectedCountryRef.current) {
@@ -134,7 +134,7 @@ export default function CheckoutForm() {
     if (!cart || cart.items.length === 0) {
         return null;
     }
-    
+
     return (
         <div className="woocommerce">
             <CartNotice />

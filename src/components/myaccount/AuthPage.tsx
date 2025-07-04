@@ -1,12 +1,10 @@
 'use client';
 
+import { useSession } from '@/app/hooks/useSession';
 import React from 'react';
 
-const AuthPage: React.FC<{
-    onAuthenticated?: () => void;
-}> = ({
-    onAuthenticated,
-}) => {
+const AuthPage: React.FC = () => {
+    const {isLoggedIn, refetch} = useSession();
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -46,13 +44,16 @@ const AuthPage: React.FC<{
             // Optionally, you can redirect or update the UI
             alert('Login successful!');
 
-            if (onAuthenticated) {
-                onAuthenticated();
-            }
+                refetch ();
         } catch (error) {
             alert(`Login failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
 
+    }
+
+    if (isLoggedIn) {
+        window.location.href = '/my-account'; // Redirect to account page if already logged in
+        return null;
     }
 
     return (

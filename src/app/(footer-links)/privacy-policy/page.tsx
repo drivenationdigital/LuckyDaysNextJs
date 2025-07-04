@@ -1,9 +1,18 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Privacy Policy - Lucky Day Competitions",
+    description: "Explore the privacy policy of our exciting competitions and see who has won amazing prizes!",
+    icons: {
+        icon: 'images/favicon.png',
+    }
+};
 
 export default function Page() {
     return (
         <>
-            <h1>Welcome to contact page!</h1>
+            <h1>Welcome to privacy policy page!</h1>
             <nav>
                 <ul>
                     <li>
@@ -17,4 +26,3 @@ export default function Page() {
         </>
     )
 }
-  
