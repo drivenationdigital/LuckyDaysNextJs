@@ -38,6 +38,21 @@ const calculateCountdown = (endsAt: string) => {
     return { days, hours, minutes, seconds: Math.floor((diff / 1000) % 60) };
 };
 
+function BannerContentPlaceholder() {
+    return (
+        <section className="sliderhome-section banner placeholder-banner-wrapper">
+            <div className="placeholder-slide">
+                {/* Desktop Image Placeholder */}
+                <div className="placeholder-image desktop" />
+
+                {/* Mobile Image Placeholder */}
+                <div className="placeholder-image mobile" />
+            </div>
+            <div className="overlay-bg-home" />
+        </section>
+    );
+}
+
 export default function BannerContent() {
     const {
         data,
@@ -49,7 +64,8 @@ export default function BannerContent() {
         staleTime: 1000 * 60 * 5, // 5 minutes cache
     });
 
-    if (isLoading) return <div>Loading banners...</div>;
+    if (isLoading) return <BannerContentPlaceholder />;
+
     if (isError || !data || data.length === 0) return <div>No banners available</div>;
 
     return <HomeSlider slides={data} />;
