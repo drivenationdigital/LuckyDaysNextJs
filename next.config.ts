@@ -20,6 +20,12 @@ const nextConfig: NextConfig = {
         hostname: "cdn.staging.luckydaycompetitions.com",
         port: "",
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "staging.luckydaycompetitions.com",
+        port: "",
+        pathname: "/**",
       }
     ],
   },

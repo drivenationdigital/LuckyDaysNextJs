@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import React, { useRef } from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 import Image from 'next/image';
 
@@ -15,38 +15,46 @@ interface Props {
 }
 
 const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) => {
-    const mainSlider = useRef<Slider | null>(null);
-    const thumbSlider = useRef<Slider | null>(null);
-
     const images = [mainImage, ...galleryImages];
 
-    const mainSettings = {
-        asNavFor: thumbSlider.current as any,
-        ref: (slider: any) => (mainSlider.current = slider),
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: true,
-        fade: true
-    };
-
-    const thumbSettings = {
-        asNavFor: mainSlider.current as any,
-        ref: (slider: any) => (thumbSlider.current = slider),
-        slidesToShow: Math.min(images.length, 4),
-        swipeToSlide: true,
-        focusOnSelect: true,
-        arrows: false
-    };
 
     // if there are no images, return null
     if (!images || images.length === 0 || !mainImage?.url) {
         return <div className="col-lg-6 engine-detail-left-content">No images available</div>;
     }
 
+    // if there is only one image, duplicate it to show in the slider
+    if (images.length === 1) {
+        images.push(images[0]);
+    }
+
+    const settings = {
+        customPaging: function (i: number) {
+            return (
+                <a>
+                    <Image
+                        src={images[i]?.thumbnail || images[i]?.url}
+                        alt={`Thumbnail ${i + 1}`}
+                        width={100}
+                        height={100}
+                        unoptimized
+                    />
+                </a>
+            );
+        },
+        dots: true,
+        dotsClass: "slick-dots slick-thumb",
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+    };
+
     return (
         <div className="col-lg-6 engine-detail-left-content">
-            <div className="prize-main-slider">
-                <Slider {...mainSettings} className="main-slider">
+            <div className="prize-main-slider mb-5">
+                <Slider {...settings} className="main-slider">
                     {images.map((img, idx) => (
                         <div key={idx}>
                             <a href={img?.url} data-fancybox="gallery">
@@ -61,26 +69,9 @@ const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) =
                         </div>
                     ))}
                 </Slider>
-
-                <Slider {...thumbSettings} className="thumb-slider">
-                    {images.map((img, idx) => (
-                        <div key={`thumb-${idx}`} className="thumb-item">
-                            <Image
-                                className='object-fit-cover'
-                                loading="lazy"
-                                src={img?.thumbnail || img?.url}
-                                alt={`Thumbnail ${idx + 1}`}
-                                width={150}
-                                height={150}
-                                unoptimized
-                            />
-                        </div>
-                    ))}
-                </Slider>
             </div>
         </div>
     );
 };
 
 export default SlickGalleryWithThumbs;
-// 
