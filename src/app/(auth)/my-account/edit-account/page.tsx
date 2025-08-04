@@ -1,3 +1,4 @@
+import { AccountDetailsForm } from '@/components/myaccount/AccountDetailsForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,9 +12,7 @@ export default async function Page() {
             <div className="tab-content">
                 <div className="tab-pane active">
                     <div className="woocommerce-notices-wrapper"></div>
-                    <div className="title">
-                        <h3>Your current account details</h3>
-                    </div>
+                    <AccountDetailsForm />
                 </div>
             </div>
         </div>

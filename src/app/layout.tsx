@@ -21,6 +21,8 @@ import Providers from "./context/query-client-provider";
 import { CartProvider } from "./context/cart-context";
 import Link from "next/link";
 
+import NextTopLoader from 'nextjs-toploader';
+
 export const metadata: Metadata = {
   title: "Home - Lucky Day Competitions",
   description: "Enter exciting competitions to win amazing prizes!",
@@ -44,7 +46,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body>
-
+        <NextTopLoader 
+          color="#b67407"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+          template='<div class="bar" role="bar"><div class="peg"></div></div> 
+  <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+          zIndex={1600}
+          showAtBottom={false}
+          showForHashAnchor={false}
+        />
         <Providers>
           <CartProvider>
             <Header />

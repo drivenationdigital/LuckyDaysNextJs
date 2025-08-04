@@ -41,7 +41,7 @@ export const HomeProducts: React.FC = () => {
     }));
 
     return (
-        <main id="main">
+        <>
             <div
                 ref={navRef}
                 className={classNames("nav-bar-wrapper", {
@@ -84,6 +84,6 @@ export const HomeProducts: React.FC = () => {
                     </section>
                 )
             ))}
-        </main>
+        </>
     );
 };

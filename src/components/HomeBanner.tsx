@@ -6,8 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { fetchHomepageBanners } from '@/api-functions/posts';
 
 type Slide = {
@@ -22,6 +20,9 @@ type Slide = {
     product_end_date: string;
     show_days: boolean;
     show_seconds: boolean;
+    video?: {
+        url: string;
+    } | null;
 };
 
 const calculateCountdown = (endsAt: string) => {
@@ -71,77 +72,91 @@ export default function BannerContent() {
     return <HomeSlider slides={data} />;
 }
 
-const HomeSlider: React.FC<{
+export const HomeSlider: React.FC<{
     slides: Slide[];
     className?: string;
 }> = ({
     slides,
     className = ''
 }) => {
-        const settings: Settings = {
-            dots: false,
-            arrows: false,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            adaptiveHeight: true,
-            autoplay: false,
-            autoplaySpeed: 3000
-        };
+    const settings: Settings = {
+        dots: false,
+        arrows: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        autoplay: false,
+        autoplaySpeed: 3000,
 
-        return (
-            <section className={`sliderhome-section banner ${className}`} id="sliderhome">
-                <Slider {...settings} className="sliderhome">
-                    {slides.map((slide, idx) => {
-                        const countdown = calculateCountdown(slide.product_end_date);
+        infinite: true,
+        swipeToSlide: true,   // Allows you to drag to any slide, not only step-by-step
+    };
 
-                        return (
-                            <div key={idx} className="item">
-                                <Link href={slide.link.url} className="slider-row block">
+
+    return (
+        <section className={`sliderhome-section banner ${className}`} id="sliderhome">
+            <Slider {...settings} className="sliderhome">
+                {slides.map((slide, idx) => {
+                    const countdown = calculateCountdown(slide.product_end_date);
+                    return (
+                        <div key={idx} className="item">
+                            <Link href={slide.link.url} className="slider-row">
+                                {slide.video && slide.video.url ? (
+                                    <video
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        className="video-banner">
+                                        <source src={slide.video.url} type="video/mp4" />
+                                    </video>
+                                ) : <>
                                     <div className="d-none d-md-block">
                                         <Image src={slide.image} alt={slide.main_title} width={1920} height={800} />
                                     </div>
                                     <div className="d-block d-md-none">
                                         <Image src={slide.mobile_image} alt={slide.main_title} width={1080} height={1080} />
                                     </div>
-                                </Link>
+                                </>}
+                            </Link>
 
-                                <div className="banner-item">
-                                    <div className="container">
-                                        <div className="row no-gutters d-sm-block d-md-none">
-                                            <div className="col-md-7 col-sm-12">
-                                                <h3 className="wow fadeIn">{slide.main_title}</h3>
-                                                <p className="wow fadeIn">{slide.lower_title}</p>
-                                                <div className="banner-countdown" data-ends={slide.product_end_date}>
-                                                    <div className="banner-countdown-ends"><span>Ends In</span></div>
-                                                    {slide.show_days && (
-                                                        <div className="banner-countdown-time banner-countdown-days">
-                                                            <span>{countdown.days}</span><small>Days</small>
-                                                        </div>
-                                                    )}
-                                                    <div className="banner-countdown-time banner-countdown-hours">
-                                                        <span>{countdown.hours}</span><small>Hours</small>
+                            <div className="banner-item">
+                                <div className="container">
+                                    <div className="row no-gutters d-sm-block d-md-none">
+                                        <div className="col-md-7 col-sm-12">
+                                            <h3 className="wow fadeIn">{slide.main_title}</h3>
+                                            <p className="wow fadeIn">{slide.lower_title}</p>
+                                            <div className="banner-countdown" data-ends={slide.product_end_date}>
+                                                <div className="banner-countdown-ends"><span>Ends In</span></div>
+                                                {slide.show_days && (
+                                                    <div className="banner-countdown-time banner-countdown-days">
+                                                        <span>{countdown.days}</span><small>Days</small>
                                                     </div>
-                                                    <div className="banner-countdown-time banner-countdown-minutes">
-                                                        <span>{countdown.minutes}</span><small>Minutes</small>
-                                                    </div>
-                                                    {slide.show_seconds && (
-                                                        <div className="banner-countdown-time banner-countdown-seconds">
-                                                            <span>{countdown.seconds}</span><small>Seconds</small>
-                                                        </div>
-                                                    )}
+                                                )}
+                                                <div className="banner-countdown-time banner-countdown-hours">
+                                                    <span>{countdown.hours}</span><small>Hours</small>
                                                 </div>
-                                                <Link href={slide.link.url} className="theme-btn wow fadeIn">
-                                                    <span>{slide.link.title || 'ENTER NOW'}</span>
-                                                </Link>
+                                                <div className="banner-countdown-time banner-countdown-minutes">
+                                                    <span>{countdown.minutes}</span><small>Minutes</small>
+                                                </div>
+                                                {slide.show_seconds && (
+                                                    <div className="banner-countdown-time banner-countdown-seconds">
+                                                        <span>{countdown.seconds}</span><small>Seconds</small>
+                                                    </div>
+                                                )}
                                             </div>
+                                            <Link href={slide.link.url} className="theme-btn wow fadeIn">
+                                                <span>{slide.link.title || 'ENTER NOW'}</span>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        );
-                    })}
-                </Slider>
-                <div className="overlay-bg-home absolute inset-0 z-0" />
-            </section>
-        );
-    };
+                        </div>
+                    );
+                })}
+            </Slider>
+            {/* <div className="overlay-bg-home absolute inset-0 z-0" /> */}
+        </section>
+    );
+};

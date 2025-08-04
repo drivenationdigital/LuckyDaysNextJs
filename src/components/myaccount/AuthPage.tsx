@@ -1,12 +1,18 @@
 'use client';
 
 import { useSession } from '@/app/hooks/useSession';
-import React from 'react';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 const AuthPage: React.FC = () => {
-    const {isLoggedIn, refetch} = useSession();
+    const { isLoggedIn, refetch } = useSession();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const pwdInput = React.useRef<HTMLInputElement>(null);
+    const pwdInput2 = React.useRef<HTMLInputElement>(null);
 
     const handleLogin = async (event: React.FormEvent) => {
+        setError(null); // Reset error state
         event.preventDefault();
 
         try {
@@ -19,6 +25,8 @@ const AuthPage: React.FC = () => {
                 throw new Error("Username and password are required");
             }
 
+            setLoading(true);
+
             // Perform login request
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -30,25 +38,23 @@ const AuthPage: React.FC = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Login failed');
+                throw new Error(errorData.error || 'Login failed');
             }
 
             const data = await response.json();
             if (!data.success) {
-                throw new Error(data.message || 'Login failed');
+                throw new Error(data.error || 'Login failed');
             }
 
+            setLoading(false);
             // Store token in cookies 
             document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
-
-            // Optionally, you can redirect or update the UI
-            alert('Login successful!');
-
-                refetch ();
+            refetch();
         } catch (error) {
-            alert(`Login failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
+            setLoading(false);
 
+            setError(error instanceof Error ? error.message : 'Unknown error');
+        }
     }
 
     if (isLoggedIn) {
@@ -58,14 +64,24 @@ const AuthPage: React.FC = () => {
 
     return (
         <main id="content">
-            <div className="container">
+            <div className="container woocommerce-account woocommerce-page woocommerce-js">
                 <article id="post-13" className="post-13 page type-page status-publish hentry">
                     <header className="header">
                         <h1 className="entry-title">My account</h1>
                     </header>
                     <div className="entry-content">
                         <div className="woocommerce">
-                            <div className="woocommerce-notices-wrapper"></div>
+                            {error && (
+                                <div className="woocommerce-notices-wrapper">
+                                    <ul className="woocommerce-error" role="alert" tabIndex={-1}>
+                                        <li>
+                                            <strong>Error:</strong> {error} {` `}
+                                            <Link href="/my-account/lost-password/">Lost your password?</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+
                             <div className="u-columns col2-set" id="customer_login">
                                 <div className="u-column1">
                                     <form className="woocommerce-form woocommerce-form-login login" onSubmit={handleLogin}>
@@ -92,14 +108,22 @@ const AuthPage: React.FC = () => {
                                                     className="woocommerce-Input woocommerce-Input--text input-text"
                                                     type="password"
                                                     name="password"
+                                                    ref={pwdInput}
                                                     id="password"
                                                     autoComplete="current-password"
                                                 />
                                                 <button
                                                     type="button"
-                                                    className="show-password-input"
+                                                    onClick={() => {
+                                                        if (pwdInput.current) {
+                                                            pwdInput.current.type =
+                                                                pwdInput.current.type === 'password' ? 'text' : 'password';
+                                                        }
+                                                    }}
+                                                    className={`show-password-input ${pwdInput2.current?.type === 'text' ? 'display-password' : ''}`}
                                                     aria-label="Show password"
                                                     aria-describedby="password"
+
                                                 ></button>
                                             </span>
                                         </p>
@@ -121,8 +145,9 @@ const AuthPage: React.FC = () => {
                                                 className="woocommerce-button button woocommerce-form-login__submit"
                                                 name="login"
                                                 value="Log in"
+                                                disabled={loading}
                                             >
-                                                Log in
+                                                {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : 'Log in'}
                                             </button>
                                         </p>
                                         <p className="woocommerce-LostPassword lost_password">
@@ -159,12 +184,19 @@ const AuthPage: React.FC = () => {
                                                     name="password"
                                                     id="reg_password"
                                                     autoComplete="new-password"
+                                                    ref={pwdInput2}
                                                 />
                                                 <button
                                                     type="button"
-                                                    className="show-password-input"
+                                                    className={`show-password-input ${pwdInput2.current?.type === 'text' ? 'display-password' : ''}`}
                                                     aria-label="Show password"
                                                     aria-describedby="reg_password"
+                                                    onClick={() => {
+                                                        if (pwdInput2.current) {
+                                                            pwdInput2.current.type =
+                                                                pwdInput2.current.type === 'password' ? 'text' : 'password';
+                                                        }
+                                                    }}
                                                 ></button>
                                             </span>
                                         </p>
@@ -177,8 +209,9 @@ const AuthPage: React.FC = () => {
                                                 className="woocommerce-Button woocommerce-button button woocommerce-form-register__submit"
                                                 name="register"
                                                 value="Register"
+                                                disabled={loading}
                                             >
-                                                Register
+                                                {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : 'Register'}
                                             </button>
                                         </p>
                                     </form>

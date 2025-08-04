@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export const runtime = 'edge';
+
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next'
 import { fetchProductById, fetchProductMetaData } from '@/api-functions/posts';
@@ -86,8 +88,6 @@ export default async function Page({
 
     const mainImage = product.images?.find((img: any) => img.type === 'main');
     const galleryImages = product.images?.filter((img: any) => img.type === 'gallery') || [];
-
-    console.log(product);
 
     return (
         <div id="primary" className="content-area woocommerce woocommerce-page woocommerce-js customize-support">

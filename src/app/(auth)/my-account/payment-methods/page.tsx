@@ -1,3 +1,5 @@
+// import { AccountAddPaymentMethod } from '@/components/myaccount/AccountAddPaymentMethod';
+import { AccountPaymentMethods } from '@/components/myaccount/AccountPaymentMethods';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,6 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  
+
     return (
         <div className="tab-block">
             <div className="tab-content">
@@ -13,6 +17,8 @@ export default async function Page() {
                     <div className="woocommerce-notices-wrapper"></div>
                     <div className="title">
                         <h3>Your payment methods</h3>
+                        <AccountPaymentMethods />
+                        {/* <AccountAddPaymentMethod /> */}
                     </div>
                 </div>
             </div>

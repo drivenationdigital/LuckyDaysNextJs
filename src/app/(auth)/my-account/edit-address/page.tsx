@@ -1,3 +1,4 @@
+import { AddressDetails } from '@/components/myaccount/AddressDetails';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,12 +10,7 @@ export default async function Page() {
     return (
         <div className="tab-block">
             <div className="tab-content">
-                <div className="tab-pane active">
-                    <div className="woocommerce-notices-wrapper"></div>
-                    <div className="title">
-                        <h3>Your current address</h3>
-                    </div>
-                </div>
+                <AddressDetails />
             </div>
         </div>
     );

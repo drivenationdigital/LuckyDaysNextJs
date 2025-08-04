@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { CheckoutCouponForm } from './CheckoutCoupon';
@@ -8,7 +9,6 @@ import { useEffect, useRef, useState } from 'react';
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import { CartNotice } from '../cart/Cart';
-
 
 export default function CheckoutForm() {
     const phoneRef = useRef<HTMLInputElement>(null);

@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: "My Account - Lucky Day Competitions",
     description: "Enter exciting competitions to win amazing prizes!",
+    icons: {
+        icon: 'images/favicon.png',
+    }
 };
 
 export default async function Page() {

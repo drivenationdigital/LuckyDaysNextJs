@@ -1,6 +1,20 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 
+export interface IAddress {
+    first_name: string;
+    last_name: string;
+    company: string;
+    address_1: string;
+    address_2: string;
+    city: string;
+    state: string;
+    postcode: string;
+    country: string;
+    phone: string;
+    email: string;
+}
+
 export type WPUser = {
     id: number;
     username: string;
@@ -8,19 +22,8 @@ export type WPUser = {
     display_name: string;
     first_name: string;
     last_name: string;
-    billing_address: {
-        first_name: string;
-        last_name: string;
-        company: string;
-        address_1: string;
-        address_2: string;
-        city: string;
-        state: string;
-        postcode: string;
-        country: string;
-        phone: string;
-        email: string;
-    };
+    billing_address:IAddress;
+    shipping_address:IAddress;
     roles: string[];
 };
 
