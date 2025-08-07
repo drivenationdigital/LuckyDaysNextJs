@@ -5,11 +5,13 @@ import { CheckoutCouponForm } from './CheckoutCoupon';
 import { useSession } from '@/app/hooks/useSession';
 import { useCart } from '@/app/context/cart-context';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import { CartNotice } from '../cart/Cart';
 import PayPalForm from '../PaymentForms/PayPal';
+import CheckoutField from './CheckoutField';
+import classNames from 'classnames';
 
 interface IPaymentData {
     payment_method: string;
@@ -20,11 +22,59 @@ export default function CheckoutForm() {
     const phoneRef = useRef<HTMLInputElement>(null);
     const itiRef = useRef<ReturnType<typeof intlTelInput> | null>(null);
     const selectedCountryRef = useRef<HTMLInputElement>(null);
-    const [isLoading, setIsLoading] = useState(false);
     const checkoutForm = useRef<HTMLFormElement>(null);
 
     const { cart, clearCart, addCoupon, isMutating, removeCoupon } = useCart();
     const { user } = useSession();
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        billing_first_name: user?.billing_address.first_name || '',
+        billing_last_name: user?.billing_address.last_name || '',
+        billing_email: user?.billing_address.email || '',
+        billing_em_ver: user?.billing_address.email || '',
+        billing_phone: user?.billing_address.phone || '',
+    });
+
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        
+        setFormData(prev => ({ ...prev, [name]: value }));
+
+        // Clear error on change
+        setErrors(prev => ({ ...prev, [name]: '' }));
+    };
+
+    const validateFields = () => {
+        const newErrors: typeof errors = {};
+
+        if (!formData.billing_first_name) newErrors.billing_first_name = 'First name is required.';
+        if (!formData.billing_last_name) newErrors.billing_last_name = 'Last name is required.';
+        if (!formData.billing_email) newErrors.billing_email = 'Email is required.';
+        if (!formData.billing_em_ver) newErrors.billing_em_ver = 'Please confirm your email.';
+        if (formData.billing_email !== formData.billing_em_ver) newErrors.billing_em_ver = 'Emails do not match.';
+        if (!phoneRef.current?.value) newErrors.billing_phone = 'Phone is required.';
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const isFormValid = useMemo(() => validateFields() !== false, [formData, phoneRef.current?.value]);
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!validateFields()) return;
+
+        // Proceed with valid data
+        const form = new FormData();
+        for (const key in formData) {
+            form.append(key, formData[key as keyof typeof formData]);
+        }
+
+        handleCheckoutSubmit(form);
+    };
 
     const handleCheckoutSubmit = async (formData: FormData, paymentData?: IPaymentData) => {
         const billingData = {
@@ -102,14 +152,24 @@ export default function CheckoutForm() {
             console.error("Error applying coupon:", error);
         }
     };
+    
+    const onChange = (number: string, dialCode: string) => {
+        if (selectedCountryRef.current) {
+            selectedCountryRef.current.value = JSON.stringify({ dialCode, number });
+        }
+    };
+
+    const handleChange = () => {
+        const input = phoneRef.current;
+        if (!input || !itiRef.current) return;
+        
+        const number = itiRef.current.getNumber(intlTelInput.utils?.numberFormat.E164);
+        
+        const selectedCountryData = itiRef.current.getSelectedCountryData();
+        onChange?.(number, selectedCountryData.dialCode!);
+    };
 
     useEffect(() => {
-        const onChange = (number: string, dialCode: string) => {
-            if (selectedCountryRef.current) {
-                selectedCountryRef.current.value = JSON.stringify({ dialCode, number });
-            }
-        };
-
         if (!phoneRef.current) return;
 
         itiRef.current = intlTelInput(phoneRef.current, {
@@ -117,15 +177,6 @@ export default function CheckoutForm() {
             // preferredCountries: ['GB', 'IE'],
             separateDialCode: true,
         });
-
-        const handleChange = () => {
-            const input = phoneRef.current;
-            if (!input || !itiRef.current) return;
-
-            const number = itiRef.current.getNumber(intlTelInput.utils?.numberFormat.E164);
-            const selectedCountryData = itiRef.current.getSelectedCountryData();
-            onChange?.(number, selectedCountryData.dialCode!);
-        };
 
         phoneRef.current.addEventListener('blur', handleChange);
         phoneRef.current.addEventListener('countrychange', handleChange);
@@ -137,15 +188,36 @@ export default function CheckoutForm() {
         };
     }, []);
 
+    useEffect(() => {
+        if (user && user.billing_address) {
+            setFormData({
+                billing_first_name: user.billing_address.first_name || '',
+                billing_last_name: user.billing_address.last_name || '',
+                billing_email: user.billing_address.email || '',
+                billing_em_ver: user.billing_address.email || '',
+                billing_phone: user.billing_address.phone || '',
+            });
+        }
+    }, [user]);
+
     // if cart is empty, redirect to home page
     useEffect(() => {
-        if (!cart || cart.items.length === 0) {
+        if ((!cart || cart.items.length === 0) ) {
             window.location.href = '/basket';
         }
     }, [cart]);
 
     if (!cart || cart.items.length === 0) {
-        return null;
+        return <>
+            <div
+                className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center"
+                style={{ zIndex: 1050 }}
+            >
+                <div className="spinner-border text-light" role="status" style={{ width: "3rem", height: "3rem" }}>
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </>;
     }
 
     return (
@@ -164,43 +236,47 @@ export default function CheckoutForm() {
             )}
 
             <CheckoutCouponForm onApply={handleApply} />
-            <form className='checkout woocommerce-checkout' name='checkout'
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    handleCheckoutSubmit(new FormData(e.currentTarget));
-                }}
+            <form className='checkout woocommerce-checkout' name='checkout' onSubmit={onSubmit}
                 id='st-form' ref={checkoutForm}>
                 <div className="col2-set" id="customer_details">
                     <div className="col-1">
                         <div className="woocommerce-billing-fields">
                             <h3>Billing details</h3>
                             <div className="woocommerce-billing-fields__field-wrapper">
-                                <p className="form-row form-row-first validate-required" id="billing_first_name_field">
-                                    <label htmlFor="billing_first_name" className="required_field">
-                                        First name <span className="required">*</span>
-                                    </label>
-                                    <span className="woocommerce-input-wrapper">
-                                        <input type="text" name="billing_first_name" id="billing_first_name" defaultValue={user?.billing_address.first_name} />
-                                    </span>
-                                </p>
+                                <CheckoutField
+                                    name="billing_first_name"
+                                    label="First name"
+                                    required
+                                    value={formData.billing_first_name}
+                                    error={errors.billing_first_name}
+                                    onChange={handleInputChange}
+                                />
 
-                                <p className="form-row form-row-last validate-required" id="billing_last_name_field">
-                                    <label htmlFor="billing_last_name" className="required_field">
-                                        Last name <span className="required">*</span>
-                                    </label>
-                                    <span className="woocommerce-input-wrapper">
-                                        <input type="text" name="billing_last_name" id="billing_last_name" defaultValue={user?.billing_address.last_name} />
-                                    </span>
-                                </p>
+                                <CheckoutField
+                                    name="billing_last_name"
+                                    label="Last name"
+                                    required
+                                    value={formData.billing_last_name}
+                                    error={errors.billing_last_name}
+                                    onChange={handleInputChange}
+                                />
 
                                 {/* Phone Number */}
-                                <p className="form-row form-row-wide validate-required validate-phone" id="billing_phone_field">
+                                <p className={
+                                    classNames('form-row', 'woocommerce-input', 'validate-required',
+                                        { 'woocommerce-invalid': !!errors.billing_phone },
+                                        { 'woocommerce-invalid-required-field': true },
+                                        { 'form-row-first': false },
+                                        { 'form-row-last': false },
+                                        { 'form-row-wide': true }
+                                    )} id="billing_phone_field">
                                     <label htmlFor="billing_phone" className="required_field">
                                         Phone <span className="required">*</span>
                                     </label>
                                     <span className="woocommerce-input-wrapper">
                                         <input
                                             ref={phoneRef}
+                                            onChange={handleInputChange}
                                             type="tel"
                                             name="billing_phone"
                                             id="billing_phone"
@@ -208,27 +284,30 @@ export default function CheckoutForm() {
                                             defaultValue={user?.billing_address.phone}
                                         />
                                     </span>
+
+                                    {errors.billing_phone && <span className="" style={{ color: '#b81c23', fontSize: '12px' }}>{errors.billing_phone}</span>}
                                 </p>
 
-                                <p className="form-row form-row-first validate-required validate-email" id="billing_email_field">
-                                    <label htmlFor="billing_email" className="required_field">
-                                        Email address <span className="required">*</span>
-                                    </label>
-                                    <span className="woocommerce-input-wrapper">
-                                        <input type="email" name="billing_email" id="billing_email" defaultValue={user?.billing_address.email} />
-                                    </span>
-                                </p>
+                                <CheckoutField
+                                    name="billing_email"
+                                    label="Email address"
+                                    type="email"
+                                    required
+                                    value={formData.billing_email}
+                                    error={errors.billing_email}
+                                    onChange={handleInputChange}
+                                />
+
+                                <CheckoutField
+                                    name="billing_em_ver"
+                                    label="Confirm email address"
+                                    required
+                                    value={formData.billing_em_ver}
+                                    error={errors.billing_em_ver}
+                                    onChange={handleInputChange}
+                                />
 
                                 <input ref={selectedCountryRef} type="hidden" id="selected_country_info" name="selected_country_info" />
-
-                                <p className="form-row form-row-last validate-required" id="billing_em_ver_field">
-                                    <label htmlFor="billing_em_ver" className="required_field">
-                                        Confirm email address <span className="required">*</span>
-                                    </label>
-                                    <span className="woocommerce-input-wrapper">
-                                        <input type="text" name="billing_em_ver" id="billing_em_ver" defaultValue={user?.billing_address.email} />
-                                    </span>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -293,7 +372,9 @@ export default function CheckoutForm() {
                         <small style={{ display: "block", borderBottom: "1px #cfcfcf solid", paddingBottom: "15px", marginBottom: "20px", width: "100%" }}>Ace Competitions Ltd, Trading as Lucky Day Competitions. Company registration number: NI659574. Trading Address: 72 Tievcrom Road, Forkhill, Newry, BT35 9RX</small>
 
                         {cart?.total && parseFloat(cart.total) > 0 ? (
-                            <PayPalForm cart={cart}
+                            <PayPalForm
+                                disabled={isFormValid === false}
+                                cart={cart}
                                 callback={(status, details) => {
                                     console.log(`Payment status: ${status}`);
                                     if (details && status === 'success') {
@@ -312,5 +393,4 @@ export default function CheckoutForm() {
             </form>
         </div>
     );
-
 }

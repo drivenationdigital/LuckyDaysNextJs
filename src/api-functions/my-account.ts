@@ -18,8 +18,8 @@ export const fetchMyOrders = async (page: number) => {
     return data.data
 };
 
-export const fetchOrderById = async (id: number, token?: string) => {
-    const response = await fetch(`${BASE_URL}/api/my-account/order/${id}?token=${token ?? '-1'}`, {
+export const fetchOrderById = async (id: number) => {
+    const response = await fetch(`${BASE_URL}/api/my-account/order/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

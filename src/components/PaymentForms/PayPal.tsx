@@ -5,9 +5,10 @@ import { CartData } from "@/app/context/cart-context";
 import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect, useRef } from "react";
 
-function PayPalPaymentButton({ cart, callback }: {
+function PayPalPaymentButton({ cart, callback, disabled }: {
     cart: CartData,
-    callback: (status: 'success' | 'error' | 'cancelled' | 'pending' | 'processing' | 'unknown', details?: any) => void
+    callback: (status: 'success' | 'error' | 'cancelled' | 'pending' | 'processing' | 'unknown', details?: any) => void,
+    disabled?: boolean
 }) {
     const [{ isPending }] = usePayPalScriptReducer();
     const rendered = useRef(false);
@@ -24,6 +25,15 @@ function PayPalPaymentButton({ cart, callback }: {
         <PayPalButtons
             forceReRender={[cart.total]}
             style={{ layout: 'vertical' }}
+            onClick={(data, actions) => {
+                if (disabled) {
+                    // Prevent checkout from continuing
+                    return actions.reject();
+                }
+
+                // Allow the PayPal flow to continue
+                return actions.resolve();
+            }}
             createOrder={async (data, actions) => {
                 return actions.order.create({
                     intent: 'CAPTURE',
@@ -75,15 +85,16 @@ function PayPalPaymentButton({ cart, callback }: {
     );
 }
 
-export default function PayPalForm({ cart, callback }: {
+export default function PayPalForm({ cart, callback, disabled }: {
     cart: CartData, callback: (
         status: 'success' | 'error' | 'cancelled' | 'pending' | 'processing' | 'unknown',
         details?: any // Optional details for more context
-    ) => void
+    ) => void,
+    disabled?: boolean
 }) {
     return (
         <PayPalScriptContext>
-            <PayPalPaymentButton cart={cart} callback={callback} />
+            <PayPalPaymentButton cart={cart} callback={callback} disabled={disabled} />
         </PayPalScriptContext >
     );
 }
