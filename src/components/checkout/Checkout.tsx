@@ -9,21 +9,24 @@ import { useEffect, useRef, useState } from 'react';
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import { CartNotice } from '../cart/Cart';
+import PayPalForm from '../PaymentForms/PayPal';
+
+interface IPaymentData {
+    payment_method: string;
+    details?: any; // Optional details for more context
+}
 
 export default function CheckoutForm() {
     const phoneRef = useRef<HTMLInputElement>(null);
     const itiRef = useRef<ReturnType<typeof intlTelInput> | null>(null);
     const selectedCountryRef = useRef<HTMLInputElement>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const checkoutForm = useRef<HTMLFormElement>(null);
 
     const { cart, clearCart, addCoupon, isMutating, removeCoupon } = useCart();
     const { user } = useSession();
 
-    const handleCheckoutSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.currentTarget);
-
+    const handleCheckoutSubmit = async (formData: FormData, paymentData?: IPaymentData) => {
         const billingData = {
             first_name: formData.get('billing_first_name'),
             last_name: formData.get('billing_last_name'),
@@ -44,11 +47,20 @@ export default function CheckoutForm() {
             return;
         }
 
-
         // Prepare data for API request
-        const data = {
+        const data: {
+            billing_data: typeof billingData;
+            payment_details?: any;
+            payment_method?: IPaymentData['payment_method'];
+        } = {
             billing_data: billingData,
         };
+
+        if (paymentData) {
+            // Handle other payment methods if needed
+            data.payment_details = paymentData.details; // This should be set after PayPal payment is approved
+            data.payment_method = paymentData?.payment_method || 'default'; // Default or other payment method
+        }
 
         // Send data to the API
         try {
@@ -65,12 +77,13 @@ export default function CheckoutForm() {
             setIsLoading(false);
 
             const result = await response.json();
+            console.log('Order creation response:', result);
 
             if (!response.ok) {
                 alert(`Error: ${result.message}`);
             } else {
                 clearCart(); // Clear the cart after successful order creation
-                window.location.href = `/order-received/${result.order_id}`;
+                window.location.href = `/order-received/${result.order_id}/?key=${result.order_key}`; // Redirect to order received page
             }
         } catch (error) {
             setIsLoading(false);
@@ -151,7 +164,12 @@ export default function CheckoutForm() {
             )}
 
             <CheckoutCouponForm onApply={handleApply} />
-            <form className='checkout woocommerce-checkout' name='checkout' id='st-form' onSubmit={handleCheckoutSubmit}>
+            <form className='checkout woocommerce-checkout' name='checkout'
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handleCheckoutSubmit(new FormData(e.currentTarget));
+                }}
+                id='st-form' ref={checkoutForm}>
                 <div className="col2-set" id="customer_details">
                     <div className="col-1">
                         <div className="woocommerce-billing-fields">
@@ -274,7 +292,21 @@ export default function CheckoutForm() {
                     <div className="form-row place-order">
                         <small style={{ display: "block", borderBottom: "1px #cfcfcf solid", paddingBottom: "15px", marginBottom: "20px", width: "100%" }}>Ace Competitions Ltd, Trading as Lucky Day Competitions. Company registration number: NI659574. Trading Address: 72 Tievcrom Road, Forkhill, Newry, BT35 9RX</small>
 
-                        <button type="submit" className="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Place order" data-value="Place order">Pay</button>
+                        {cart?.total && parseFloat(cart.total) > 0 ? (
+                            <PayPalForm cart={cart}
+                                callback={(status, details) => {
+                                    console.log(`Payment status: ${status}`);
+                                    if (details && status === 'success') {
+                                        handleCheckoutSubmit(new FormData(checkoutForm.current!), {
+                                            payment_method: 'paypal',
+                                            details
+                                        });
+                                    }
+                                }}
+                            />
+                        ) : (
+                            <button type="submit" className="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Place order" data-value="Place order">Place Order</button>
+                        )}
                     </div>
                 </div>
             </form>

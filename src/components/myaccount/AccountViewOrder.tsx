@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import React from 'react'
 
-const WinningNumbers = ({ winningNumbers }: { winningNumbers?: { number: string; prize: string }[] }) => {
+export const WinningNumbers = ({ winningNumbers }: { winningNumbers?: { number: string; prize: string }[] }) => {
     if (!winningNumbers || winningNumbers.length === 0) {
         return null;
     }
@@ -54,6 +54,8 @@ export interface IOrderDetails {
     status: string;
     date: string;
     total: string;
+    subtotal: string;
+    discount: number;
     currencySymbol: string;
     items: IOrderItem[];
     billing: {

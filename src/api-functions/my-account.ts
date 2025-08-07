@@ -18,8 +18,8 @@ export const fetchMyOrders = async (page: number) => {
     return data.data
 };
 
-export const fetchOrderById = async (id: number) => {
-    const response = await fetch(`${BASE_URL}/api/my-account/order/${id}`, {
+export const fetchOrderById = async (id: number, token?: string) => {
+    const response = await fetch(`${BASE_URL}/api/my-account/order/${id}?token=${token ?? '-1'}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -30,8 +30,6 @@ export const fetchOrderById = async (id: number) => {
     });
 
     const data = await response.json();
-
-    console.log(`Fetched order data for ID ${id}:`, data);
 
     if (!response.ok) {
         throw new Error(`Failed to fetch order with ID ${id}: ${data.error || 'Unknown error'}`);

@@ -1,20 +1,40 @@
+import OrderReceived from "@/components/checkout/OrderRecieved";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Thank you - Lucky Day Competitions",
     description: "Enter exciting competitions to win amazing prizes!",
+    icons: {
+        icon: 'images/favicon.png',
+    }
 };
 
-export default function Page() {
-    return (
-        <main id="content">
-            <div className="container woocommerce">
-                <h1>Order Received</h1>
-                <p>Thank you for your order! Your order has been received and is being processed.</p>
-                <p>You will receive an email confirmation shortly.</p>
-                <Link href="/" className="btn btn-primary">Return to Shop</Link>
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ id: number }>
+}) {
+    const { id } = await params
+
+    if (!id || isNaN(id)) {
+        return (
+            <div className="woocommerce-checkout woocommerce-page woocommerce-order-received">
+                <main id="content">
+                    <div className="container my-4">
+                        <h1>Invalid Order ID</h1>
+                        <p>Please check the order ID and try again.</p>
+                    </div>
+                </main>
             </div>
-        </main>
+        );
+    }
+
+    return (
+        <div className="woocommerce-checkout woocommerce-page woocommerce-order-received">
+            <main id="content">
+                <OrderReceived order_id={id} />
+            </main>
+        </div>
     );
+
 }

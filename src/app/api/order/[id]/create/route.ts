@@ -19,6 +19,8 @@ export async function POST(
 
         const body = await request.json();
         const billingData = body.billing_data;
+        const paymentMethod = body.payment_method || 'default';
+        const paymentDetails = body.payment_details || {};
 
         if (!billingData) {
             return NextResponse.json({ error: "Billing data is required" }, { status: 400 });
@@ -28,6 +30,8 @@ export async function POST(
         const postData = {
             cart_key: cartKey,
             billing_data: billingData,
+            payment_method: paymentMethod,
+            payment_details: paymentDetails
         };
 
         // Make the API request
@@ -40,8 +44,6 @@ export async function POST(
         }, false);
 
         const data = await response.json();
-        console.log('Order creation response:', data);
-        
         return NextResponse.json(data);
     } catch (error: any) {
         return NextResponse.json({ message: error.message || "Fetch failed" }, { status: 400 });
