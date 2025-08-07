@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_URL, SESSION_COOKIE_NAME } from "@/actions/api";
 import { authFetch } from "@/utils/authFetch";
 import { cookies } from "next/headers";
