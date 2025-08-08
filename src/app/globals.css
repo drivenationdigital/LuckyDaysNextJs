@@ -1490,7 +1490,9 @@ h5.title-line span.bg-white {
 	margin-top: 10px;
 	position: relative;
 }
-
+.answer-saving{
+	cursor: pointer;
+}
 .answers-list li {
 	padding: 10px 32px 4px 15px;
 	border-radius: 3px;

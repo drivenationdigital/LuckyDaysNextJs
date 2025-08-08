@@ -60,7 +60,9 @@ export default function TicketForm({ product }: { product: any }) {
                             const percent = discount * 100;
 
                             return (
-                                <li key={qty} data-value={qty} onClick={() => handleMultiBuySelect(qty)}>
+                                <li key={qty} data-value={qty} onClick={() => handleMultiBuySelect(qty)}
+                                    className={`${selectedQty === qty ? 'answer-active' : ''}`}
+                                >
                                     <label>
                                         <input
                                             className="ticket-form-input"
@@ -104,16 +106,16 @@ export default function TicketForm({ product }: { product: any }) {
 
                 {notice && <div className="notice">{notice}</div>}
 
-                <button
+                {/* <button
                     type="button"
                     className="theme-btn fast-checkout" style={{ display: 'inline-block' }}>
                     <i className="fa fa-bolt"></i> Enter Now
-                </button>
+                </button> */}
 
                 <button
                     type="submit"
                     name="add-to-cart"
-                    className="single_add_to_cart_button button alt white-cart-btn"
+                    className="single_add_to_cart_button button alt"
                     disabled={isMutating}
                     title={isMutating ? "Adding to basket..." : "Add to basket"}
                 >
