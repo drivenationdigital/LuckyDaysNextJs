@@ -57,6 +57,52 @@ const AuthPage: React.FC = () => {
         }
     }
 
+    const handleRegister = async (event: React.FormEvent) => {
+        setError(null); // Reset error state
+        event.preventDefault();
+
+        try {
+            const form = event.target as HTMLFormElement;
+            const formData = new FormData(form);
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+
+            if (!email || !password) {
+                throw new Error("Email and password are required");
+            }
+
+            setLoading(true);
+
+            // Perform registration request
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Registration failed');
+            }
+
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error(data.error || 'Registration failed');
+            }
+
+            setLoading(false);
+            // Store token in cookies 
+            document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
+            refetch();
+        } catch (error) {
+            setLoading(false);
+
+            setError(error instanceof Error ? error.message : 'Unknown error');
+        }
+    };
+
     if (isLoggedIn) {
         window.location.href = '/my-account'; // Redirect to account page if already logged in
         return null;
@@ -158,7 +204,7 @@ const AuthPage: React.FC = () => {
                                     </form>
                                 </div>
                                 <div className="u-column2">
-                                    <form method="post" className="woocommerce-form woocommerce-form-register register">
+                                    <form method="post" className="woocommerce-form woocommerce-form-register register" onSubmit={handleRegister}>
                                         <h2>Register</h2>
                                         <p className="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label htmlFor="reg_email">
