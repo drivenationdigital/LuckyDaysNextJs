@@ -38,7 +38,16 @@ export default function OrderReceived({ order_id }: Props) {
     });
 
     if (isLoading) {
-        return <p>Loading order details...</p>;
+        return (
+            <div className="order-loading-container">
+                <div className="text-center">
+                    <div className="spinner-border text-primary mb-3" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <p className="lead">We&apos;re loading your order details...</p>
+                </div>
+            </div>
+        )
     }
 
     if (isError || !data) {
@@ -59,6 +68,9 @@ export default function OrderReceived({ order_id }: Props) {
         billing,
         winning_numbers = [],
     } = data as IOrderDetails;
+
+    console.log(data);
+    
 
     return (
         <div className="container my-4">

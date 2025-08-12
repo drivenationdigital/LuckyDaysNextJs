@@ -17,8 +17,6 @@ export async function GET(request: NextRequest) {
     const page = parseInt(request.nextUrl.searchParams.get("page") ?? "1", 10);
     
     try {
-        console.log(`${API_URL}/wp-json/next/v1/my-orders?page=${page}`);
-        
         const res = await authFetch(`${API_URL}/wp-json/next/v1/my-orders?page=${page}`);
         const data = await res.json();
 

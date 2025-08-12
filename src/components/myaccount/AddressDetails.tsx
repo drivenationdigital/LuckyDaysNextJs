@@ -9,6 +9,9 @@ export const AddressDetails: React.FC = () => {
         return <p>You must be logged in to view this page.</p>;
     }
 
+    console.log(user);
+
+
     return (
         <div className="tab-pane active">
             <div className="woocommerce-notices-wrapper"></div>
@@ -26,10 +29,10 @@ export const AddressDetails: React.FC = () => {
                     <address>
                         {(user?.billing_address?.address_1 && user?.billing_address?.city && user?.billing_address?.postcode) ? (
                             <>
-                                <p>{user?.billing_address?.first_name} {user?.billing_address?.last_name}</p>
-                                <p>{user?.billing_address?.address_1}</p>
-                                <p>{user?.billing_address?.city}</p>
-                                <p>{user?.billing_address?.postcode}</p>
+                                <p>{user?.billing_address?.first_name} {user?.billing_address?.last_name}<br />
+                                    {user?.billing_address?.address_1}<br />
+                                    {user?.billing_address?.city}<br />
+                                    {user?.billing_address?.postcode}</p>
                             </>
                         ) : (
                             <>You have not set up this type of address yet.</>
@@ -47,10 +50,10 @@ export const AddressDetails: React.FC = () => {
                     <address>
                         {(user?.shipping_address?.address_1 && user?.shipping_address?.city && user?.shipping_address?.postcode) ? (
                             <>
-                                <p>{user?.shipping_address?.first_name} {user?.shipping_address?.last_name}</p>
-                                <p>{user?.shipping_address?.address_1}</p>
-                                <p>{user?.shipping_address?.city}</p>
-                                <p>{user?.shipping_address?.postcode}</p>
+                                <p>{user?.shipping_address?.first_name} {user?.shipping_address?.last_name}<br />
+                                    {user?.shipping_address?.address_1}<br />
+                                    {user?.shipping_address?.city}<br />
+                                    {user?.shipping_address?.postcode}</p>
                             </>
                         ) : (
                             <>You have not set up this type of address yet.</>

@@ -11,8 +11,8 @@ export interface IAddress {
     state: string;
     postcode: string;
     country: string;
-    phone: string;
-    email: string;
+    phone?: string;
+    email?: string;
 }
 
 export type WPUser = {
@@ -22,8 +22,8 @@ export type WPUser = {
     display_name: string;
     first_name: string;
     last_name: string;
-    billing_address:IAddress;
-    shipping_address:IAddress;
+    billing_address: IAddress;
+    shipping_address: IAddress;
     roles: string[];
 };
 

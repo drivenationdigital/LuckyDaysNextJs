@@ -23,7 +23,7 @@ const settings = {
     arrows: true,
 }
 
-const Testimonials = () => {
+const Testimonials = ({ showTitle = true }) => {
     const {
         data,
     } = useQuery({
@@ -40,10 +40,12 @@ const Testimonials = () => {
     return (
         <section className="winner-section">
             <div className="container">
-                <div className="text-center winner-title-content">
-                    <div className="sub-titless">Our Winning</div>
-                    <h2 className="white-color">Testimonials</h2>
-                </div>
+                {showTitle && (
+                    <div className="text-center winner-title-content">
+                        <div className="sub-titless">Our Winning</div>
+                        <h2 className="white-color">Testimonials</h2>
+                    </div>
+                )}
 
                 <div className="testimonials-container slick-initialized slick-slider">
                     <Slider {...settings}>

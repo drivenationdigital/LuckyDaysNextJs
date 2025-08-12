@@ -1,5 +1,7 @@
+import { AllWinnersSection } from "@/components/AllWinners";
+import { AwardsSection } from "@/components/home/AwardsSection";
+import Testimonials from "@/components/home/Testimonials";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Past Winners - Lucky Day Competitions",
@@ -11,18 +13,13 @@ export const metadata: Metadata = {
 
 export default function Page() {
     return (
-        <>
-            <h1>Welcome to past winners page page!</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <Link href="/">Page 1</Link>
-                    </li>
-                    <li>
-                        <Link href="/products">Page 2</Link>
-                    </li>
-                </ul>
-            </nav>
-        </>
+        <main>
+            <div className="category-banner past-winners-banner text-center" 
+            style={{ backgroundImage: `url('https://cdn.staging.luckydaycompetitions.com/wp-content/uploads/2025/04/15141210/past-winner-banner.jpeg')` }}>
+            </div>
+            <AwardsSection />
+            <Testimonials showTitle={false} />
+            <AllWinnersSection />
+        </main>
     )
 }

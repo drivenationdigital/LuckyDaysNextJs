@@ -1,5 +1,5 @@
+import { LiveDrawsSection } from "@/components/LiveDraws";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Live Draws - Lucky Day Competitions",
@@ -8,21 +8,11 @@ export const metadata: Metadata = {
         icon: 'images/favicon.png',
     }
 };
-
 export default function Page() {
     return (
-        <>
-            <h1>Welcome to live draws page!</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <Link href="/">Page 1</Link>
-                    </li>
-                    <li>
-                        <Link href="/products">Page 2</Link>
-                    </li>
-                </ul>
-            </nav>
-        </>
+        <main>
+            <div className="sep-30"></div>
+            <LiveDrawsSection />
+        </main>
     )
 }

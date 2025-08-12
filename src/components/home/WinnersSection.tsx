@@ -1,9 +1,10 @@
 'use client';
 import { fetchWinners } from '@/api-functions/home';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import React from 'react'
 
-interface IPastWinner {
+export interface IPastWinner {
     id: number;
     prize_won: string;
     winner_name: string;
@@ -17,7 +18,7 @@ export const WinnersSection: React.FC = () => {
         data,
     } = useQuery({
         queryKey: ['winners'],
-        queryFn: fetchWinners,
+        queryFn: () => fetchWinners(3),
         staleTime: 1000 * 60 * 5, // 5 minutes cache
     });
 
@@ -55,7 +56,7 @@ export const WinnersSection: React.FC = () => {
                 </div>
             </div>
 
-            <div className="rowtheme-btn"> <a className="theme-btn" href="/past-winners/"><span>View more winners</span></a></div>
+            <div className="rowtheme-btn"> <Link className="theme-btn" href="/past-winners/"><span>View more winners</span></Link></div>
             <div className="clearfix"></div>
         </section>
     );

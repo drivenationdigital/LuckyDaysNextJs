@@ -1,4 +1,5 @@
 import { BASE_URL } from "@/actions/api";
+import { IAddress } from "@/app/hooks/useSession";
 
 export const fetchMyOrders = async (page: number) => {
     const response = await fetch(`${BASE_URL}/api/my-account/order?page=${page}`, {
@@ -124,4 +125,21 @@ export const updatePaymentMethod = async (
     }
 
     return await response.json(); // Should return the updated payment method
+};
+
+export const updateAddress = async (addressType: 'billing' | 'shipping', addressData: IAddress) => {
+    const response = await fetch(`${BASE_URL}/api/my-account/update-address`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address: addressData, address_type: addressType }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Failed to update ${addressType} address: ${errorData.error || 'Unknown error'}`);
+    }
+
+    return await response.json();
 };

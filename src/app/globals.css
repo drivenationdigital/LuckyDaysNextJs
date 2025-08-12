@@ -1215,14 +1215,16 @@ h5.title-line span.bg-white {
 	color: #fff;
 }
 
-.product-pagination ul li a {
+.product-pagination ul li a,
+.product-pagination ul li button {
 	font-size: 16px;
 	color: #fff;
 	margin: 0 1px;
 	padding: 10px 7px;
 }
 
-.product-pagination ul li a:hover {
+.product-pagination ul li a:hover,
+.product-pagination ul li button:hover {
 	background-color: #B77A13;
 	color: #fff;
 	border-radius: 5px;
@@ -8219,4 +8221,11 @@ ul {
 .slick-dots.slick-thumb li {
 	width: 80px !important;
 	height: 80px !important;
+}
+
+.order-loading-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60vh;
 }
