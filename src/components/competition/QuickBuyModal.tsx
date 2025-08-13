@@ -115,7 +115,7 @@ export default function QuickBuyModal({
                                 <i className="fas fa-times"></i>
                             </button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body quick-buy-popup">
                             <div className="modal-quick-buy-wrapper">
                                 <div className="modal-quick-buy-title-new">
                                     <h2>{product?.title}</h2>
@@ -134,7 +134,9 @@ export default function QuickBuyModal({
                                 <div className="competition-timer-section shadow-img product-details-info">
                                     <div className="que-ans-block">
                                         <div className="item wow fadeIn">
-                                            <TicketForm product={product} />
+                                            <TicketForm
+                                                product={product}
+                                            />
 
                                             <div className="product_meta">
                                                 <span className="posted_in">

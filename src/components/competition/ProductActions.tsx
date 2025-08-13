@@ -5,6 +5,7 @@ import { useCart } from '@/app/context/cart-context';
 import { useState } from 'react';
 import QuantityInput from '@/components/cart/JcfQtyInput';
 import AddToCartModal from '../cart/AddToCartModal';
+import { CompetitionProduct } from '@/types/posts';
 
 interface MultiBuyOption {
     qty: number;
@@ -17,7 +18,7 @@ const multiBuyOptions: MultiBuyOption[] = [
     { qty: 10, discount: 0.2 },
 ];
 
-export default function TicketForm({ product }: { product: any }) {
+export default function TicketForm({ product, onAfterSubmit }: { product: CompetitionProduct, onAfterSubmit?: () => void }) {
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedQty, setSelectedQty] = useState<number | null>(null);
     const { addItem, notice, isMutating } = useCart();
@@ -33,6 +34,7 @@ export default function TicketForm({ product }: { product: any }) {
         try {
             const response = await addItem(product.id, quantity);
             if (response && response.success) {
+                onAfterSubmit?.();
                 setModalVisible(true);
             }
         } catch (error) {
@@ -47,7 +49,7 @@ export default function TicketForm({ product }: { product: any }) {
             <form className="cart" onSubmit={handleSubmit}>
                 <AddToCartModal
                     show={modalVisible}
-                    productName={product.name}
+                    productName={product.title}
                     onClose={() => setModalVisible(false)}
                 />
 
@@ -55,7 +57,7 @@ export default function TicketForm({ product }: { product: any }) {
                     <div className="answers-label">Multi-Buy Discount</div>
                     <ul className="answers-list">
                         {multiBuyOptions.map(({ qty, discount }) => {
-                            const ticketPrice = parseFloat(product.price_float);
+                            const ticketPrice = parseFloat(product.regular_price.replace(/[^0-9.-]+/g, ''));
                             const savings = (ticketPrice * qty * discount).toFixed(2);
                             const percent = discount * 100;
 
@@ -90,13 +92,13 @@ export default function TicketForm({ product }: { product: any }) {
                 </div>
 
                 <div className="quantity">
-                    <label className="screen-reader-text" htmlFor={`quantity_${product.id}`}>{`Quantity for ${product.name}`}</label>
+                    <label className="screen-reader-text" htmlFor={`quantity_${product.id}`}>{`Quantity for ${product.title}`}</label>
                     <QuantityInput
                         id={`quantity_${product.id}`}
                         name="quantity"
                         step={1}
                         min={1}
-                        max={product.tickets.left}
+                        max={product.tickets_left}
                         quantity={quantity}
                         onChange={(val) => {
                             setQuantity(val);
