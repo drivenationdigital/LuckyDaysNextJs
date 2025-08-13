@@ -1,37 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import TicketForm from './ProductActions';
+import { CompetitionProduct } from '@/types/posts';
 
 type QuickBuyModalProps = {
     productName?: string;
     show: boolean;
     onClose: () => void;
-    showExtraContent?: boolean;
-    product: any; // Adjust type as needed
-    extraContent?: {
-        title: string;
-        description: string;
-        imageUrl: string;
-        link: string;
-    };
+    product: CompetitionProduct | null; // Adjust type as needed
 };
 
 export default function QuickBuyModal({
     show,
     onClose,
-    productName,
-    showExtraContent,
-    extraContent,
     product,
 }: QuickBuyModalProps) {
     const [isMounted, setIsMounted] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
-
 
     useEffect(() => {
         setIsMounted(true);
@@ -86,7 +76,7 @@ export default function QuickBuyModal({
         }, 300); // Delay matches fade-out CSS
     };
 
-    if (!isMounted || !isVisible) return null;
+    if (!isMounted || !isVisible || !product) return null;
 
     return createPortal(
         <>
@@ -128,12 +118,12 @@ export default function QuickBuyModal({
                         <div className="modal-body">
                             <div className="modal-quick-buy-wrapper">
                                 <div className="modal-quick-buy-title-new">
-                                    <h2>{product?.name}</h2>
+                                    <h2>{product?.title}</h2>
                                     <div className="modal-quick-buy-price">
                                         <h4>
                                             <span className="woocommerce-Price-amount amount">
                                                 <bdi><span className="woocommerce-Price-currencySymbol">£</span>
-                                                {product?.price_float?.toFixed(2)}
+                                                    {parseFloat(product.regular_price.replace(/[^0-9.-]+/g, '')).toFixed(2)}
                                                 </bdi>
                                             </span>
                                             <span className="per-ticket"> per ticket</span>
@@ -144,9 +134,7 @@ export default function QuickBuyModal({
                                 <div className="competition-timer-section shadow-img product-details-info">
                                     <div className="que-ans-block">
                                         <div className="item wow fadeIn">
-                                            <TicketForm 
-                                                product={product}
-                                            />
+                                            <TicketForm product={product} />
 
                                             <div className="product_meta">
                                                 <span className="posted_in">

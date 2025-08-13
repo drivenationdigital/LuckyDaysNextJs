@@ -3,6 +3,7 @@
 import Slider from 'react-slick'
 import { useQuery } from '@tanstack/react-query';
 import { fetchTestimonials } from '@/api-functions/home';
+import Image from 'next/image';
 
 
 type ITestimonial = {
@@ -54,13 +55,18 @@ const Testimonials = ({ showTitle = true }) => {
                                 <div className="row align-items-center">
                                     <div className="col-12 col-sm-5">
                                         <a className="testimonial-media" tabIndex={-1} {...testimonial.is_video ? { href: testimonial.video_url, 'data-fancybox': '' } : {}}>
-                                            <div className="img-blk" 
-                                                style={{ 
+                                            <div className="img-blk"
+                                                style={{
                                                     backgroundImage: `url(${testimonial.image_url})`,
                                                     backgroundColor: testimonial.video_url ? '' : '#666666'
                                                 }}>
                                                 {testimonial.is_video && (
-                                                    <img src="images/play-icon.png" alt='Play Video'/>
+                                                    <Image
+                                                        src="images/play-icon.png"
+                                                        alt='Play Video'
+                                                        width={50}
+                                                        height={50}
+                                                    />
                                                 )}
                                             </div>
                                             <div className="clearfix"></div>

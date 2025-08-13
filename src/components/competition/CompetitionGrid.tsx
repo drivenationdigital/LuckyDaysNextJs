@@ -8,7 +8,7 @@ import QuickBuyModal from './QuickBuyModal';
 
 export const CompetitionGrid: React.FC<{ products: CompetitionProduct[] }> = ({ products }) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+    const [selectedProduct, setSelectedProduct] = useState<CompetitionProduct | null>(null);
 
     return (
         <div className="container">
@@ -32,12 +32,7 @@ export const CompetitionGrid: React.FC<{ products: CompetitionProduct[] }> = ({ 
                         onQuickBuy: () => {
                             setModalVisible(true);
                             // Handle quick buy action
-                            setSelectedProduct({
-                                id: product.id,
-                                name: product.title,
-                                tickets: { left: product.tickets_left },
-                                price_float: parseFloat(product.regular_price.replace(/[^0-9.-]+/g, '')),
-                            });
+                            setSelectedProduct(product);
                         },
                     };
 
