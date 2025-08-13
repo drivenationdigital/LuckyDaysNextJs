@@ -1,5 +1,5 @@
+import FaqAccordion from "@/components/FAQ";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "FAQ - Lucky Day Competitions",
@@ -12,17 +12,17 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <>
-            <h1>Welcome to FAQ page!</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <Link href="/">Page 1</Link>
-                    </li>
-                    <li>
-                        <Link href="/products">Page 2</Link>
-                    </li>
-                </ul>
-            </nav>
+            <div className="category-banner text-center">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-sm-6 offset-sm-3">
+                            <h1>Facts &amp; FAQs</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <FaqAccordion />
+            <br />
         </>
     )
 }

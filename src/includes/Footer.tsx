@@ -2,10 +2,12 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import TrustpilotWidget from './TrustPilotReviews';
 
 const Footer = () => {
     return (
         <>
+            <TrustpilotWidget />
             <section className="prizes-worth-section text-center">
                 <div className="container">
                     <h2 className="wow fadeIn">Over £70M worth of prizes given away already!</h2>

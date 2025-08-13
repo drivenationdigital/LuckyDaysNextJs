@@ -56,7 +56,9 @@ export const WinnersSection: React.FC = () => {
                 </div>
             </div>
 
-            <div className="rowtheme-btn"> <Link className="theme-btn" href="/past-winners/"><span>View more winners</span></Link></div>
+            <div className="rowtheme-btn">
+                <Link className="theme-btn" href="/past-winners/"><span>View more winners</span></Link>
+            </div>
             <div className="clearfix"></div>
         </section>
     );

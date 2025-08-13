@@ -18,7 +18,6 @@ export default async function Page() {
 
       <AwardsSection />
 
-      <main id="main">
         <ObservedQueryProvider>
           <HomeProducts />
         </ObservedQueryProvider>
@@ -63,7 +62,6 @@ export default async function Page() {
 
         <Testimonials />
         <WinnersSection />
-      </main>
     </>
   )
 }

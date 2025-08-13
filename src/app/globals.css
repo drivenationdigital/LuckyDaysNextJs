@@ -798,6 +798,7 @@ h5.title-line span.bg-white {
 	display: block;
 	width: 100%;
 	border-radius: 12px;
+	cursor: pointer;
 }
 
 .ending-item .ending-img {
@@ -8228,4 +8229,16 @@ ul {
 	justify-content: center;
 	align-items: center;
 	height: 60vh;
+}
+
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
 }
