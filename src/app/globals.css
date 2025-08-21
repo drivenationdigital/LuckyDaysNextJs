@@ -5949,7 +5949,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	color: #e7c770;
 }
 
-.nav-bar-wrapper.fixed {
+.nav-bar-wrapper.fixed, .nav-bar-wrapper.sticky-nav {
 	position: fixed !important;
 	top: 78px !important;
 	width: 100% !important;
@@ -7858,7 +7858,7 @@ header .currency-nav a[rel="EUR"] {
 		font-size: 13px;
 	}
 
-	.nav-bar-wrapper.fixed {
+	.nav-bar-wrapper.fixed, .nav-bar-wrapper.sticky-nav {
 		top: 94px !important;
 	}
 
