@@ -6778,6 +6778,8 @@ header.header-top-wrapper {
 		padding-left: 0px;
 	}
 
+	nav.navbar .col-md-3.cart-col{padding-right: 15px;}
+
 	.logo-col {
 		width: 33%;
 		position: absolute;

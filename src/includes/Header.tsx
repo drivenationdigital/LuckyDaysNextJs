@@ -64,8 +64,8 @@ const Header = ({ currency = 'GBP' }) => {
             {/* Mobile Header */}
             <div className="m-header">
                 <nav className="navbar navbar-expand-md">
-                    <div className="container">
-                        <div className="col-md-3 menu-col">
+                    <div className="container px-0">
+                        <div className="col-md-3 menu-col position-relative">
                             <div className="desktop-menu-header">
                                 <div className="wrapper-menu" onClick={toggleOverlay}>
                                     <div className="container">
