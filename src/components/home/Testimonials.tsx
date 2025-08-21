@@ -62,7 +62,7 @@ const Testimonials = ({ showTitle = true }) => {
                                                 }}>
                                                 {testimonial.is_video && (
                                                     <Image
-                                                        src="images/play-icon.png"
+                                                        src="/images/play-icon.png"
                                                         alt='Play Video'
                                                         width={50}
                                                         height={50}
