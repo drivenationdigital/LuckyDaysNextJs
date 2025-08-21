@@ -1235,8 +1235,14 @@ h5.title-line span.bg-white {
 .product-pagination ul li .page-numbers.current {
 	background-color: #B77A13;
 	color: #fff;
-	padding: 0px 4px;
 	border-radius: 5px;
+}
+
+.product-pagination ul.page-numbers .page-numbers {
+	border: none;
+	background-color: transparent;
+	padding: 12px 6px 10px 6px;
+	margin: 0 4px;
 }
 
 .fb-video-container {
