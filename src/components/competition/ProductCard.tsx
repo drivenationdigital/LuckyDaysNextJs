@@ -1,7 +1,7 @@
 
 import React from 'react';
 // import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export interface ProductCardProps {
     href: string;
@@ -28,41 +28,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
     productId,
     onQuickBuy,
 }) => {
-    const router = useRouter();
-
     return (
         <li className="col-lg-4 col-sm-6 col-6">
-            <div className="ending-item wow fadeIn sell-item"
-                onClick={(e) => {
-                    const target = e.target as HTMLElement;
-
-                    // Check if the click originated from an element that wants to skip link navigation
-                    if (
-                        target.closest('[data-skip-link="true"]')
-                    ) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    } else {
-                        router.push(href);
-                    }
-                }}
-            >
+            <div className="ending-item wow fadeIn sell-item">
                 <div className="ending-item-s">
-                    <div
-                        className="ending-img"
-                        style={{ backgroundImage: `url(${imageUrl})` }}
-                    />
+                    <Link href={href} className="product-image-link d-block">
+                        <div
+                            className="ending-img"
+                            style={{ backgroundImage: `url(${imageUrl})` }}
+                        />
                     <div className="product-category-text-img">{categoryLabel}</div>
+                    </Link>
                 </div>
+
                 <div className="desc text-left">
-                    <h4>{title}</h4>
-                    <div className="price-row-div">
-                        <p className="discount-price">
-                            <span className="big">{price}</span>
-                        </p>
-                    </div>
+                    <Link href={href} className="product-title-link">
+                        <h4>{title}</h4>
+                        <div className="price-row-div">
+                            <p className="discount-price">
+                                <span className="big">{price}</span>
+                            </p>
+                        </div>
+                    </Link>
                     <div className="product-card-lower">
-                        <div className="ticket-block tickets-box-rs">
+                        <Link href={href} className="ticket-block tickets-box-rs w-100">
                             <span className="tickets-remaining-label">Tickets remaining</span>
                             <div className="progress">
                                 <div
@@ -73,23 +62,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 </div>
                                 <div className="valuesprogress">{ticketsRemaining}</div>
                             </div>
-                        </div>
+                        </Link>
                         <div className="product-category-btn-home">
                             {(ticketsRemaining && parseInt(ticketsRemaining) > 0) && (
-                            <button className="quick-buy-btn" name="quick-buy" data-pid={productId} 
-                                data-skip-link="true"
-                                onClick={(e) => {
-                                    e.stopPropagation();       // Prevent event bubbling to the Link
-                                    e.preventDefault();        // Prevent Link navigation
-                                    onQuickBuy(productId);     // Your modal logic
-                                }}
-                            >
-                                <i className="fas fa-bolt"></i>Quick Buy
-                            </button>
+                                <button className="quick-buy-btn" name="quick-buy" data-pid={productId}
+                                    data-skip-link="true"
+                                    onClick={(e) => {
+                                        e.stopPropagation();       // Prevent event bubbling to the Link
+                                        e.preventDefault();        // Prevent Link navigation
+                                        onQuickBuy(productId);     // Your modal logic
+                                    }}
+                                >
+                                    <i className="fas fa-bolt"></i>Quick Buy
+                                </button>
                             )}
-                            <button className="enter-now-btn" name="enter-now">
+                            <Link href={href} className="enter-now-btn">
                                 <i className="fas fa-ticket-alt"></i>Enter Now
-                            </button>
+                            </Link>
+
                         </div>
                     </div>
                 </div>
