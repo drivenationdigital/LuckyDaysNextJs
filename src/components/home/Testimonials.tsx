@@ -60,14 +60,14 @@ const Testimonials = ({ showTitle = true }) => {
                                                     backgroundImage: `url(${testimonial.image_url})`,
                                                     backgroundColor: testimonial.video_url ? '' : '#666666'
                                                 }}>
-                                                {testimonial.is_video && (
-                                                    <Image
+                                                {testimonial.video_url ? (
+                                                    <img
                                                         src="images/play-icon.png"
                                                         alt='Play Video'
                                                         width={50}
                                                         height={50}
                                                     />
-                                                )}
+                                                ) : null}
                                             </div>
                                             <div className="clearfix"></div>
                                         </a>
