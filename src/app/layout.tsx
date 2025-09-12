@@ -22,6 +22,7 @@ import { CartProvider } from "./context/cart-context";
 import Link from "next/link";
 
 import NextTopLoader from 'nextjs-toploader';
+import { BottomBar } from "@/includes/BottomBar";
 
 export const metadata: Metadata = {
   title: "Home - Lucky Day Competitions",
@@ -70,6 +71,7 @@ export default function RootLayout({
                 </div>
               </div>
               {children}
+              <BottomBar />
               <Footer />
             </div>
           </CartProvider>

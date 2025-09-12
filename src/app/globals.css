@@ -8250,3 +8250,37 @@ img.emoji {
 	background: none !important;
 	padding: 0 !important;
 }
+
+.bottom-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 60px;
+	background: #15141B;
+	border-top: 1px solid #ddd;
+	    border-top: 1px #3d3d3d solid;
+	z-index: 1050;
+	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-item {
+	flex: 1;
+	color: white;
+	font-size: 12px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.bottom-item:hover {
+	background: linear-gradient(135deg, rgba(227, 198, 107, 1) 0%, rgba(182, 116, 7, 1) 100%);
+	cursor: pointer;
+	color: #000;
+}
+
+.bottom-label {
+	font-size: 12px;
+	font-weight: 500;
+}
