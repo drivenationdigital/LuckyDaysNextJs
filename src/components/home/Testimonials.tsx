@@ -3,8 +3,6 @@
 import Slider from 'react-slick'
 import { useQuery } from '@tanstack/react-query';
 import { fetchTestimonials } from '@/api-functions/home';
-import Image from 'next/image';
-
 
 type ITestimonial = {
     title: string
