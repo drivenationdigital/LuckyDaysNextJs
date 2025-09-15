@@ -461,7 +461,10 @@ h5.title-line span.bg-white {
 	background-color: rgba(0, 0, 0, 0.90);
 	z-index: 999999;
 	text-align: center;
+	transition: 0.3s ease-in;
 }
+
+.overlay-menu.active {left: 0;}
 
 .overlay-menu .overlay-close {
 	position: absolute;
@@ -8260,7 +8263,7 @@ img.emoji {
 	background: #15141B;
 	border-top: 1px solid #ddd;
 	    border-top: 1px #3d3d3d solid;
-	z-index: 1050;
+	z-index: 49;
 	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 

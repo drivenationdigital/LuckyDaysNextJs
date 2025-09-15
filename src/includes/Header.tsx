@@ -101,22 +101,22 @@ const Header = ({ currency = 'GBP' }) => {
                 </nav>
 
                 {/* Overlay Mobile Menu */}
-                {showOverlay && (
-                    <div className="overlay-menu">
+                
+                    <div className={`overlay-menu ${showOverlay ? "active" : ""}`}>
                         <a href="#" className="overlay-close" onClick={toggleOverlay}><i className="fa fa-times"></i></a>
                         <ul className="mobile-menu">
                             <li className="logo-list">
-                                <Link href="/"><Image src="/images/logo.png?v=1.02" alt="logo" width={120} height={40} /></Link>
+                                <Link href="/"><Image src="/images/logo.png?v=1.02" alt="logo" width={120} height={40} className='img-fluid' /></Link>
                             </li>
-                            <li><Link href="/">Home</Link></li>
-                            <li><Link href="/all-competitions">Competitions</Link></li>
-                            <li><Link href="/live-draws">Live Draws</Link></li>
-                            <li><Link href="/draw-results">Draw Results</Link></li>
-                            <li><Link href="/past-winners">Our winners</Link></li>
+                            <li><Link href="/" onClick={toggleOverlay}>Home</Link></li>
+                            <li><Link href="/all-competitions" onClick={toggleOverlay}>Competitions</Link></li>
+                            <li><Link href="/live-draws" onClick={toggleOverlay}>Live Draws</Link></li>
+                            <li><Link href="/draw-results" onClick={toggleOverlay}>Draw Results</Link></li>
+                            <li><Link href="/past-winners" onClick={toggleOverlay}>Our winners</Link></li>
                             <li><a href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a></li>
-                            <li><Link href="/faqs">Facts & FAQs</Link></li>
+                            <li><Link href="/faqs" onClick={toggleOverlay}>Facts & FAQs</Link></li>
                             <li><a href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a></li>
-                            <li><Link href="/my-account">My Account</Link></li>
+                            <li><Link href="/my-account" onClick={toggleOverlay}>My Account</Link></li>
                         </ul>
 
                         <div className="mobile-currency-nav wcml_currency_switcher">
@@ -128,7 +128,7 @@ const Header = ({ currency = 'GBP' }) => {
                             </a>
                         </div>
                     </div>
-                )}
+                
             </div>
         </header>
     );
