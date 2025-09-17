@@ -8052,6 +8052,12 @@ ul {
 	z-index: 100;
 }
 
+.sticky-header-nav {
+	position: sticky;
+	top: 81px;
+	z-index: 100;
+}
+
 .loader-item {
 	background-color: #f8f9fa;
 	border-radius: 10px;

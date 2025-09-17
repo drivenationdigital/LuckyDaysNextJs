@@ -13,25 +13,26 @@ export const HomeProducts: React.FC = () => {
     const navRef = useRef<HTMLDivElement>(null);
     const [isSticky, setIsSticky] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!navRef.current) return;
+    const handleScroll = () => {
+        if (!navRef.current) return;
 
-            const navTop = navRef.current.getBoundingClientRect().top;
-            const headerOffset = 120; // adjust based on header height
+        // const navTop = navRef.current.getBoundingClientRect().top;
+        // const headerOffset = 120; // adjust based on header height
+        // if (navTop <= headerOffset) {
+        //     setIsSticky(true);
+        // } else {
+        //     setIsSticky(false);
+        // }
 
-            if (navTop <= headerOffset) {
-                setIsSticky(true);
-            } else {
-                setIsSticky(false);
-            }
-        };
+        window.scrollY > 120 ? setIsSticky(true) : setIsSticky(false); 
+    };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, []);
 
-    if (isFetching || !data) return <div className="text-center py-10">Loading competitions...</div>;
+    if (isFetching || !data) return <div className="text-center py-10 text-white mt-5 pt-2">Loading competitions...</div>;
 
     const sections: CompetitionSections = data.pages[0];
     
@@ -44,7 +45,7 @@ export const HomeProducts: React.FC = () => {
         <>
             <div
                 ref={navRef}
-                className={classNames("nav-bar-wrapper", {
+                className={classNames("nav-bar-wrapper sticky-header-nav", {
                     'sticky-nav': isSticky,
                 })}
             >

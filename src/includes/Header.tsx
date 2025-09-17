@@ -21,7 +21,7 @@ const Header = ({ currency = 'GBP' }) => {
     });
 
     return (
-        <header className={`top-header ${pageScrolled == false ? "ffffff" : "fixed"}`}>
+        <header className={`top-header ${pageScrolled == false ? "" : "fixed"}`}>
             <div className="d-header">
                 <div className="d-header-logo">
                     <Link href="/">
