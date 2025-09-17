@@ -8,7 +8,7 @@ Description:
 Text Domain: 
 */
 
-.container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm{--bs-gutter-x: 30px;}
+.container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .row > *{--bs-gutter-x: 30px;}
 
 .paddingl-none {
 	padding-left: 0px;
