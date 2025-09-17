@@ -196,7 +196,7 @@ const AuthPage: React.FC = () => {
                                                 {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : 'Log in'}
                                             </button>
                                         </p>
-                                        <p className="woocommerce-LostPassword lost_password">
+                                        <p className="woocommerce-LostPassword lost_password mb-0">
                                             <a href="https://staging.luckydaycompetitions.com/my-account/lost-password/">
                                                 Lost your password?
                                             </a>
