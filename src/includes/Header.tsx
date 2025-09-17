@@ -1,19 +1,27 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '@/app/context/cart-context';
 
 const Header = ({ currency = 'GBP' }) => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [showMoreDropdown, setShowMoreDropdown] = useState(false);
+    const [pageScrolled, setPageScrolled] = useState(false);
 
     const {cart} = useCart();
 
     const toggleOverlay = () => setShowOverlay(!showOverlay);
 
+    const handleScroll = () =>  window.scrollY > 10 ? setPageScrolled(true) : setPageScrolled(false); 
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    });
+
     return (
-        <header className="top-header">
+        <header className={`top-header ${pageScrolled == false ? "ffffff" : "fixed"}`}>
             <div className="d-header">
                 <div className="d-header-logo">
                     <Link href="/">
