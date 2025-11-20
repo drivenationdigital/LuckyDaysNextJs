@@ -6,9 +6,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string, prize: string } }
+    { params }: { params: Promise<{ id: string, prizes: string }> }
 ) {
-    const { id, prize } = params;
+    const { id, prizes } = await params;
 
     if (!id) {
         return NextResponse.json(
@@ -23,13 +23,13 @@ export async function GET(
     const offset = searchParams.get('offset') || '0';
 
     console.log(`${API_URL}/wp-json/next/v1/instant-win-winners?product_id=${id}&prize=${encodeURIComponent(
-        prize
+        prizes
     )}&limit=${limit}&offset=${offset}`);
     
     try {
         const response = await fetch(
             `${API_URL}/wp-json/next/v1/instant-win-winners?product_id=${id}&prize=${encodeURIComponent(
-                prize
+                prizes
             )}&limit=${limit}&offset=${offset}`,
             {
                 method: 'GET',
