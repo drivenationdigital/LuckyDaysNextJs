@@ -63,7 +63,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 const CART_KEY = "cart.key";
 
-function getStoredCartKey(): string {
+export function getStoredCartKey(): string {
     if (typeof window === "undefined") return "";
     let key = localStorage.getItem(CART_KEY) ?? "";
     if (!key) {

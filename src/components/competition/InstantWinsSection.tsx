@@ -1,95 +1,178 @@
-'use client';
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react'
-import Image from 'next/image';
+"use client";
 
-type Ticket = {
-    number: number;
-    winner: string | null;
+import { useState, useRef } from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+
+// Types
+type InstantWinPrize = {
     prize: string;
+    image: string;
+    prize_count: number;
+    prize_remaining: number;
+    prize_won_count: number;
+    has_wins: string;
 };
 
-type InstantWinGroup = {
-    subtitle?: string;
-    image?: string;
-    tickets: Ticket[];
+type WinnerResponse = {
+    success: boolean;
+    data: {
+        html: string;
+        has_more: boolean;
+    };
 };
 
-type InstantWinsData = {
-    [key: string]: InstantWinGroup;
+type WinnersQueryParams = {
+    product_id: number | string;
+    prize: string;
+    pageParam?: number;
 };
 
-type InstantWinsAccordionProps = {
-    data: InstantWinsData;
-};
+// Fetch winners paginated
+async function fetchWinners({ product_id, prize, pageParam = 1 }: WinnersQueryParams) {
+    try {
+        const res = await fetch(`/api/product/${product_id}/instant-wins/${prize}/prizes?page=${pageParam}&offset=${(pageParam - 1) * 20}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify({
+            //     product_id,
+            //     prize,
+            //     limit: 20,
+            //     offset: (pageParam - 1) * 20,
+            // }),
+        });
 
-function InstantWinsAccordion({ data }: InstantWinsAccordionProps) {
-    if (!data || Object.keys(data).length === 0) return null;
+        const json: WinnerResponse = await res.json();
+
+        if (!json.success) {
+            throw new Error("Failed to load winners");
+        }
+        return json.data;
+    } catch (error) {
+        console.error("Error fetching winners:", error);
+        return { html: "<p class='instant-win-error'>Error loading winners</p>", has_more: false };
+    }
+}
+
+// Winners Modal
+function WinnersModal({
+    isOpen,
+    onClose,
+    productId,
+    prize,
+}: {
+    isOpen: boolean;
+    onClose: () => void;
+    productId: number | string | null;
+    prize: string | null;
+}) {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        error,
+    } = useInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: ["winners", productId, prize],
+        queryFn: ({ pageParam = 1 }) => fetchWinners({ product_id: productId!, prize: prize!, pageParam }),
+        getNextPageParam: (lastPage, pages) => (lastPage.has_more ? pages.length + 1 : undefined),
+        retry: 1,
+        enabled: isOpen && !!productId && !!prize,
+    });
+
+    // Infinite scroll
+    const handleScroll = () => {
+        const el = containerRef.current;
+        if (el && hasNextPage && !isFetchingNextPage) {
+            if (el.scrollTop + el.clientHeight >= el.scrollHeight - 100) {
+                fetchNextPage();
+            }
+        }
+    };
+
+    if (!isOpen) return null;
+
+
+    console.log(data);
+
+    if (!data || !data.pages.length) return null;
 
     return (
-        <>
-            {Object.entries(data).map(([key, group], index) => {
-                const panelId = `iw-panel-${index}`;
-                const { tickets, subtitle, image } = group;
-                const winners = tickets.filter((ticket) => ticket.winner);
-                const instantWinsLeft = tickets.length - winners.length;
+        <div className="modal-backdrop">
+            <div className="modal">
+                <div className="modal-header">
+                    <h5>All Winners for {prize}</h5>
+                    <button onClick={onClose}>X</button>
+                </div>
+                <div
+                    className="modal-body"
+                    ref={containerRef}
+                    onScroll={handleScroll}
+                    style={{ maxHeight: "400px", overflowY: "auto" }}
+                >
+                    {isLoading && <div className="iw-loader">Loading...</div>}
+                    {error && <div className="instant-win-error">Error loading winners</div>}
 
+                    <div className="instant-wins-number-container">
+                        {data?.pages.map((page, i) => (
+                            <div
+                                key={i}
+                                dangerouslySetInnerHTML={{ __html: page.html }}
+                            />
+                        ))}
+                    </div>
+
+                    {isFetchingNextPage && <div className="iw-loader">Loading more...</div>}
+                    {!hasNextPage && !isLoading && (
+                        <div className="instant-win-empty">No more winners</div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// Accordion (Prize list)
+function InstantWinsAccordion({
+    data,
+    productId,
+    onPrizeClick,
+}: {
+    data: InstantWinPrize[];
+    productId: number | string;
+    onPrizeClick: (prize: string, productId: number | string) => void;
+}) {
+    return (
+        <>
+            {data.map((item, index) => {
+                const hasWins = item.prize_won_count > 0 ? "has-wins" : "no-wins";
                 return (
-                    <div className="card" key={key}>
+                    <div className="card" key={index}>
                         <div
-                            data-bs-toggle="collapse"
-                            data-bs-target={`#${panelId}`}
-                            className="instant-wins-group-header text-left collapsed" 
+                            className={`instant-wins-group-header text-left collapsed ${hasWins}`}
+                            data-prize={item.prize}
                             style={{ cursor: "pointer" }}
+                            onClick={() => hasWins === "has-wins" && onPrizeClick(item.prize, productId)}
                         >
                             <Image
-                                className="instant-win-image"
-                                src={image || '/images/placeholder.jpg'}
-                                alt={key}
+                                src={item.image || "/images/placeholder.jpg"}
+                                alt={item.prize}
                                 width={60}
                                 height={60}
                             />
                             <div className="prize-text">
-                                <span>{key}</span>
-                                <span className="winners-count">{instantWinsLeft} Remaining</span>
-                            </div>
-                        </div>
-
-                        <div id={panelId} className="card-header collapse">
-                            <div className="card-body instant-win-groups">
-                                {subtitle && (
-                                    <div className="instant-win-grouped-item subtitle">{subtitle}</div>
-                                )}
-
-                                <div className="instant-wins-number-container">
-                                    {tickets.map((ticket) => {
-                                        const won = !!ticket.winner;
-                                        return (
-                                            <div
-                                                key={ticket.number}
-                                                className={`instant-win-grouped-item ${won ? 'won' : 'not-won'}`}
-                                                style={{ order: ticket.number }}
-                                            >
-                                                <span
-                                                    className={`instant-win-number ${won ? 'won' : 'not-won'}`}
-                                                    style={{ fontWeight: 700 }}
-                                                >
-                                                    {won ? (
-                                                        <span data-id={ticket.number}>WON</span>
-                                                    ) : (
-                                                        ticket.number
-                                                    )}
-                                                </span>
-                                                <div className="sep-30"></div>
-                                                <span
-                                                    className={`instant-win-item-tag ${won ? 'won' : 'not-won'}`}
-                                                >
-                                                    {won ? ticket.winner : 'Win Now'}
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                <span>
+                                    <strong>{item.prize}</strong>
+                                </span>
+                                <span className="winners-count">
+                                    <strong>
+                                        {item.prize_remaining}/{item.prize_count}
+                                    </strong>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -99,67 +182,78 @@ function InstantWinsAccordion({ data }: InstantWinsAccordionProps) {
     );
 }
 
-const InstantWinsSection: React.FC<{ product_id: number }> = ({ product_id }) => {
+// Section
+const InstantWinsSection: React.FC<{ product_id: number }> = ({
+    product_id,
+}) => {
     const [notice, setNotice] = useState<string | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedPrize, setSelectedPrize] = useState<string | null>(null);
 
-    const {
-        data: instantWins,
-        isLoading,
-    } = useQuery<InstantWinsData>({
+    const { data, isLoading } = useQuery<{ success: boolean; data: InstantWinPrize[] }>({
         queryKey: ["instant-wins", product_id],
         queryFn: async () => {
             const res = await fetch(`/api/product/${product_id}/instant-wins`);
-            if (!res.ok) {
-                const errorData = await res.json();
-                setNotice(`${errorData.message || "Failed to fetch instant wins"}`);
-                throw new Error(errorData.message || "Failed to fetch instant wins");
+            const json = await res.json();
+            if (!res.ok || !json.length) {
+                setNotice(json.message || "Failed to fetch instant wins");
+                throw new Error(json.message || "Failed to fetch instant wins");
             }
-
-            setNotice(null); // Clear notice on successful fetch
-            return res.json();
+            setNotice(null);
+            return {
+                success: true,
+                data: json,
+            };
         },
         staleTime: 60 * 1000,
         refetchInterval: 120 * 1000,
         retry: 1,
     });
 
-    if (isLoading || !instantWins) return null;
-
-    if (instantWins && Object.keys(instantWins).length === 0) return null
+    if (isLoading) return null;
+    if (!data?.data || data.data.length === 0) return null;
 
     return (
         <section className="pro-info-tab mt-0 pt-1">
             <div className="container">
                 <h3 className="text-center">Instant Wins</h3>
                 <div id="product-accordion">
-                {notice && (
-                    <div className="alert alert-danger text-center" role="alert">
-                        {notice}
-                    </div>
-                )}
+                    {notice && (
+                        <div className="alert alert-danger text-center" role="alert">
+                            {notice}
+                        </div>
+                    )}
                     <div className="instant-wins-container">
                         <div id="dropdown-iw" className="collapse show" data-parent="#faq">
                             <div className="card-body">
                                 <div id="accordion">
-                                    {isLoading && (
-                                        <div className="text-center">
-                                            <div className="spinner-border text-primary" role="status">
-                                                <span className="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {instantWins && (
-                                        <InstantWinsAccordion data={instantWins} />
-                                    )}
+                                    <InstantWinsAccordion
+                                        data={data.data}
+                                        productId={product_id}
+                                        onPrizeClick={(prize) => {
+                                            setSelectedPrize(prize);
+                                            setModalOpen(true);
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Modal */}
+            <WinnersModal
+                isOpen={modalOpen}
+                onClose={() => {
+                    setModalOpen(false);
+                    setSelectedPrize(null);
+                }}
+                productId={product_id}
+                prize={selectedPrize}
+            />
         </section>
     );
-}
+};
 
 export default InstantWinsSection;

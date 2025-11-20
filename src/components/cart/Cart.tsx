@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { CartItem, useCart } from '@/app/context/cart-context';
+import { CartItem, getStoredCartKey, useCart } from '@/app/context/cart-context';
 import Image from 'next/image';
 import React, { useMemo } from 'react';
 
@@ -9,6 +10,7 @@ import { ApplyCoupon } from './ApplyCoupon';
 import Link from 'next/link';
 
 import QuantityInput from '@/components/cart/JcfQtyInput';
+import { useSession } from '@/app/hooks/useSession';
 
 interface CartQuantityInputProps {
     item: CartItem;
@@ -95,7 +97,29 @@ function CartLoadingOverlay() {
 }
 
 export default function Basket() {
-    const { cart, removeItem, updateQty, removeCoupon, setNotice } = useCart();
+    const { cart, removeItem, updateQty, removeCoupon, setNotice, isMutating } = useCart();
+    const { user } = useSession();
+
+    const handleCheckout = async () => {
+        try {
+            const userId = user?.id;           // however you store logged-in user ID
+            const cartKey = getStoredCartKey(); // runs in browser
+
+            const res = await fetch("/api/checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ cartKey, userId }),
+            });
+
+            const data = await res.json();
+
+            if (!data.success) throw new Error(data.message);
+
+            window.open(data.url, "_blank", "noopener,noreferrer");
+        } catch (err: any) {
+            setNotice(`❌ ${err.message}`);
+        }
+    };
 
     const renderCartItems = useMemo(() => {
         if (cart && cart.ignored_coupons && cart.ignored_coupons.length > 0) {
@@ -283,9 +307,13 @@ export default function Basket() {
                                             </table>
 
                                             <div className="wc-proceed-to-checkout">
-                                                <Link href="/checkout/" className="checkout-button button alt wc-forward">
+                                                <button
+                                                    type="button"
+                                                    onClick={handleCheckout}
+                                                    disabled={isMutating}
+                                                    className="checkout-button button alt wc-forward">
                                                     Proceed to checkout
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
