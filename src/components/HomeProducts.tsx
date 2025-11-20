@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useObservedQuery } from '@/app/context/competitions-context';
 import Link from 'next/link';
 import classNames from 'classnames';
@@ -11,21 +11,21 @@ import CompetitionGrid from './competition/CompetitionGrid';
 export const HomeProducts: React.FC = () => {
     const { data, isFetching } = useObservedQuery();
     const navRef = useRef<HTMLDivElement>(null);
-    const [isSticky, setIsSticky] = useState(false);
+    // const [isSticky, setIsSticky] = useState(false);
 
-    const handleScroll = () => {
-        if (!navRef.current) return;
+    // const handleScroll = () => {
+    //     if (!navRef.current) return;
 
-        // const navTop = navRef.current.getBoundingClientRect().top;
-        // const headerOffset = 120; // adjust based on header height
-        // if (navTop <= headerOffset) {
-        //     setIsSticky(true);
-        // } else {
-        //     setIsSticky(false);
-        // }
+    //     // const navTop = navRef.current.getBoundingClientRect().top;
+    //     // const headerOffset = 120; // adjust based on header height
+    //     // if (navTop <= headerOffset) {
+    //     //     setIsSticky(true);
+    //     // } else {
+    //     //     setIsSticky(false);
+    //     // }
 
-        window.scrollY > 120 ? setIsSticky(true) : setIsSticky(false); 
-    };
+    //     window.scrollY > 120 ? setIsSticky(true) : setIsSticky(false); 
+    // };
 
     // useEffect(() => {
     //     window.addEventListener('scroll', handleScroll);
@@ -46,7 +46,7 @@ export const HomeProducts: React.FC = () => {
             <div
                 ref={navRef}
                 className={classNames("nav-bar-wrapper sticky-header-nav", {
-                    'sticky-nav': isSticky,
+                    'sticky-nav': false, //isSticky
                 })}
             >
                 <div className="nav-bar-list">
