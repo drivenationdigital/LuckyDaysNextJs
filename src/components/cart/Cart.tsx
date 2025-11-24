@@ -12,6 +12,13 @@ import Link from 'next/link';
 import QuantityInput from '@/components/cart/JcfQtyInput';
 import { useSession } from '@/app/hooks/useSession';
 
+const CURRENCY_SYMBOL: { [key: string]: string } = {
+    'GBP': '£',
+    'USD': '$',
+    'EUR': '€',
+    // Add more currencies as needed
+};
+
 interface CartQuantityInputProps {
     item: CartItem;
     updateQty: (itemId: number | string, quantity: number) => Promise<void>;
@@ -178,7 +185,7 @@ export default function Basket() {
                     <td className="product-price" data-title="Price">
                         <span className="woocommerce-Price-amount amount">
                             <bdi>
-                                <span className="woocommerce-Price-currencySymbol">£</span>
+                                <span className="woocommerce-Price-currencySymbol">{CURRENCY_SYMBOL[cart.currency]}</span>
                                 {item.discounted_price ? <>
                                     <ins>{item.discounted_price} {` `}</ins>
                                     <del>{item.price}</del>
@@ -203,7 +210,7 @@ export default function Basket() {
                     <td className="product-subtotal" data-title="Subtotal">
                         <span className="woocommerce-Price-amount amount">
                             <bdi>
-                                <span className="woocommerce-Price-currencySymbol">£</span>
+                                <span className="woocommerce-Price-currencySymbol">{CURRENCY_SYMBOL[cart.currency]}</span>
                                 {item.discounted_total_price ? item.discounted_total_price : item.total_price}
                             </bdi>
                         </span>
@@ -263,7 +270,7 @@ export default function Basket() {
                                                         <td data-title="Subtotal">
                                                             <span className="woocommerce-Price-amount amount">
                                                                 <bdi>
-                                                                    <span className="woocommerce-Price-currencySymbol">£</span>
+                                                                    <span className="woocommerce-Price-currencySymbol">{CURRENCY_SYMBOL[cart.currency]}</span>
                                                                     {cart?.discounted_subtotal ? cart.discounted_subtotal : '0.00'}
                                                                 </bdi>
                                                             </span>
@@ -281,7 +288,7 @@ export default function Basket() {
                                                                 <td data-title="Discount">
                                                                     <span className="woocommerce-Price-amount amount">
                                                                         <bdi>
-                                                                            <span className="woocommerce-Price-currencySymbol">-£</span>
+                                                                            <span className="woocommerce-Price-currencySymbol">-{CURRENCY_SYMBOL[cart.currency]}</span>
                                                                             {coupon.discount}
                                                                         </bdi>
                                                                     </span>
@@ -296,7 +303,7 @@ export default function Basket() {
                                                             <strong>
                                                                 <span className="woocommerce-Price-amount amount">
                                                                     <bdi>
-                                                                        <span className="woocommerce-Price-currencySymbol">£</span>
+                                                                        <span className="woocommerce-Price-currencySymbol">{CURRENCY_SYMBOL[cart.currency]}</span>
                                                                         {cart?.total ? cart.total : '0.00'}
                                                                     </bdi>
                                                                 </span>

@@ -33,6 +33,7 @@ export type CartData = {
     cart_key: string;
     shipping: string;
     total: string;
+    currency: string;
     subtotal: string;
     discounted_subtotal?: string; // Optional, only if applicable
     tax: string;

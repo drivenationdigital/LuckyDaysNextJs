@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/woocommerce.css';
 import './css/woocommerce-layout.css';
+import './css/woocommerce-small-screen.css';
 import './css/fontawesome.css';
 import './css/jcf.css';
 import './css/dd-plugin.css';

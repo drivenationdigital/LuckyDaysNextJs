@@ -16,9 +16,6 @@ export async function POST(req: NextRequest) {
 
         const secret = process.env.CHECKOUT_SHARED_SECRET!;
 
-        console.log(secret);
-        
-
         const token = jwt.sign(
             { cart_key: cartKey, user_id: userId, source: "next-app", },
             secret,
