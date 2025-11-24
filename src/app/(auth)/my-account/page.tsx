@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Metadata } from 'next';
+import { LogoutButton } from "@/components/myaccount/LogoutButton";
 
 export const metadata: Metadata = {
     title: "My Account - Lucky Day Competitions",
@@ -48,6 +49,12 @@ export default async function Page() {
                         <br />
                         Account
                     </Link>
+
+                    {/* if mobile. show logout button */}
+                    <div className="mobile-logout-btn d-lg-none">
+                        <LogoutButton />
+                    </div>
+
                     <div className="sep-20"></div>
                 </div>
             </div>

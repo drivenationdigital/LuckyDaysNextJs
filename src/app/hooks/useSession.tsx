@@ -34,6 +34,11 @@ export function useSession() {
             const res = await fetch("/api/session", {
                 method: "GET",
                 credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // avoid caching to always get the latest session info
+                cache: "no-store",
             });
 
             if (!res || !res.ok) return null;
