@@ -11,6 +11,7 @@ import Link from 'next/link';
 
 import QuantityInput from '@/components/cart/JcfQtyInput';
 import { useSession } from '@/app/hooks/useSession';
+import { useRouter } from 'next/navigation';
 
 const CURRENCY_SYMBOL: { [key: string]: string } = {
     'GBP': '£',
@@ -105,10 +106,17 @@ function CartLoadingOverlay() {
 
 export default function Basket() {
     const { cart, removeItem, updateQty, removeCoupon, setNotice, isMutating } = useCart();
-    const { user } = useSession();
+    const { user, isLoggedIn } = useSession();
+    const router = useRouter();
 
     const handleCheckout = async () => {
         try {
+            if (!isLoggedIn){
+                // redirect to login page
+                router.push('/auth?redirect=/basket');
+                return;
+            }
+
             const userId = user?.id;           // however you store logged-in user ID
             const cartKey = getStoredCartKey(); // runs in browser
 
