@@ -33,7 +33,7 @@ export function ApplyCoupon() {
                     type="text"
                     value={coupon}
                     onChange={(e) => setCoupon(e.target.value)}
-                    placeholder="Enter coupon code"
+                    placeholder="Coupon code"
                     className="border rounded px-3 py-2 text-sm"
                     disabled={loading}
                 />
