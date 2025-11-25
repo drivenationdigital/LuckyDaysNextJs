@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import WinnersModal from "./WinnersModal";
 
 // Types
 type InstantWinPrize = {
@@ -29,33 +30,60 @@ type WinnersQueryParams = {
 };
 
 // Fetch winners paginated
+// Fetch winners paginated
 async function fetchWinners({ product_id, prize, pageParam = 1 }: WinnersQueryParams) {
     try {
-        const res = await fetch(`/api/product/${product_id}/instant-wins/${prize}/prizes?page=${pageParam}&offset=${(pageParam - 1) * 20}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            // body: JSON.stringify({
-            //     product_id,
-            //     prize,
-            //     limit: 20,
-            //     offset: (pageParam - 1) * 20,
-            // }),
-        });
+        const res = await fetch(
+            `/api/product/${product_id}/instant-wins/${prize}/prizes?page=${pageParam}&offset=${(pageParam - 1) * 20}`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            }
+        );
 
-        const json: WinnerResponse = await res.json();
-
-        if (!json.success) {
-            throw new Error("Failed to load winners");
+        // 1. Handle non-200 responses
+        if (!res.ok) {
+            console.error("Fetch failed: status", res.status);
+            return {
+                html: "<p class='instant-win-error'>Server returned an error</p>",
+                has_more: false,
+            };
         }
+
+        // 2. Try JSON parse safely
+        let json: WinnerResponse;
+        try {
+            json = await res.json();
+        } catch (err) {
+            console.error("Invalid JSON response", err);
+            return {
+                html: "<p class='instant-win-error'>Invalid server response</p>",
+                has_more: false,
+            };
+        }
+
+        // 3. Validate success flag & structure
+        if (!json || !json.success || !json.data) {
+            console.error("Invalid data format", json);
+            return {
+                html: "<p class='instant-win-error'>Failed to load winners</p>",
+                has_more: false,
+            };
+        }
+
         return json.data;
     } catch (error) {
         console.error("Error fetching winners:", error);
-        return { html: "<p class='instant-win-error'>Error loading winners</p>", has_more: false };
+        return {
+            html: "<p class='instant-win-error'>Network error</p>",
+            has_more: false,
+        };
     }
 }
 
+
 // Winners Modal
-function WinnersModal({
+function PrizeWinners({
     isOpen,
     onClose,
     productId,
@@ -78,9 +106,16 @@ function WinnersModal({
     } = useInfiniteQuery({
         initialPageParam: 1,
         queryKey: ["winners", productId, prize],
-        queryFn: ({ pageParam = 1 }) => fetchWinners({ product_id: productId!, prize: prize!, pageParam }),
-        getNextPageParam: (lastPage, pages) => (lastPage.has_more ? pages.length + 1 : undefined),
-        retry: 1,
+        queryFn: ({ pageParam = 1 }) =>
+            fetchWinners({
+                product_id: productId!,
+                prize: prize!,
+                pageParam,
+            }),
+        getNextPageParam: (lastPage, pages) =>
+            lastPage?.has_more ? pages.length + 1 : undefined,
+        retry: 0,             // stop retry loops
+        throwOnError: false,  // prevent component crash
         enabled: isOpen && !!productId && !!prize,
     });
 
@@ -96,10 +131,7 @@ function WinnersModal({
 
     if (!isOpen) return null;
 
-
-    console.log(data);
-
-    if (!data || !data.pages.length) return null;
+    const pages = data?.pages ?? [];
 
     return (
         <div className="modal-backdrop">
@@ -108,25 +140,38 @@ function WinnersModal({
                     <h5>All Winners for {prize}</h5>
                     <button onClick={onClose}>X</button>
                 </div>
+
                 <div
                     className="modal-body"
                     ref={containerRef}
                     onScroll={handleScroll}
                     style={{ maxHeight: "400px", overflowY: "auto" }}
                 >
-                    {isLoading && <div className="iw-loader">Loading...</div>}
-                    {error && <div className="instant-win-error">Error loading winners</div>}
+                    {isLoading && (
+                        <div className="iw-loader">Loading...</div>
+                    )}
+
+                    {error && (
+                        <div className="instant-win-error">
+                            Unable to load winners.
+                        </div>
+                    )}
 
                     <div className="instant-wins-number-container">
-                        {data?.pages.map((page, i) => (
+                        {pages.map((page, i) => (
                             <div
                                 key={i}
-                                dangerouslySetInnerHTML={{ __html: page.html }}
+                                dangerouslySetInnerHTML={{
+                                    __html: page?.html ?? "<p>Error loading page.</p>",
+                                }}
                             />
                         ))}
                     </div>
 
-                    {isFetchingNextPage && <div className="iw-loader">Loading more...</div>}
+                    {isFetchingNextPage && (
+                        <div className="iw-loader">Loading more...</div>
+                    )}
+
                     {!hasNextPage && !isLoading && (
                         <div className="instant-win-empty">No more winners</div>
                     )}
@@ -135,6 +180,7 @@ function WinnersModal({
         </div>
     );
 }
+
 
 // Accordion (Prize list)
 function InstantWinsAccordion({
@@ -244,7 +290,7 @@ const InstantWinsSection: React.FC<{ product_id: number }> = ({
 
             {/* Modal */}
             <WinnersModal
-                isOpen={modalOpen}
+                show={modalOpen}
                 onClose={() => {
                     setModalOpen(false);
                     setSelectedPrize(null);
