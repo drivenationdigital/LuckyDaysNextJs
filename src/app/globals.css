@@ -2859,9 +2859,24 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 }
 
 .shop_table.cart .button {
-	padding: 4px 8px !important;
+	padding: 4px 20px !important;
 	border: 0 !important;
 	border-radius: 5px;
+	background-color: #B77A13;
+	color:white;
+}
+
+@media(max-width:768px){
+	.shop_table.cart .button {
+		padding: 4px 5px !important;
+	}
+}
+
+.woocommerce-cart .entry-content .woocommerce{padding-bottom: 60px;}
+
+.woocommerce-cart .header h1.entry-title, .woocommerce-checkout .header h1.entry-title{margin: 20px 0 30px !important;}
+@media(min-width:500px){
+	.woocommerce-cart .header h1.entry-title, .woocommerce-checkout .header h1.entry-title{margin: 20px 0 50px !important;}
 }
 
 #wc-dnapayments-form {

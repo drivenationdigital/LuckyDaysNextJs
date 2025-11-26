@@ -588,7 +588,8 @@
 }
 
 @media(max-width:400px){
-    .woocommerce .shop_table_responsive .coupon-box > .d-flex #coupon_code{width: 51%;}
+    .woocommerce .shop_table_responsive .coupon-box > .d-flex #coupon_code{width: 51%; min-width: 97px; padding: 5px 10px 6px !important;}
+    .woocommerce .shop_table_responsive .coupon-box > .d-flex #coupon_code::placeholder{font-size: 11px;}
     .woocommerce .shop_table_responsive .coupon-box > .d-flex button{width: 46%;}
 }
 

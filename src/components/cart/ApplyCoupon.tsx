@@ -40,7 +40,7 @@ export function ApplyCoupon() {
                 <button
                     onClick={handleApply}
                     disabled={loading || !coupon.trim()}
-                    className="mr-2 px-4"
+                    className="mr-2 px-4 button fw-medium"
                 >
                     {loading ? "Applying..." : "Apply Coupon"}
                 </button>
