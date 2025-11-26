@@ -799,7 +799,7 @@ h5.title-line span.bg-white {
 	box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
 	text-align: center;
-	padding: 0 0 210px 0;
+	padding: 0 0 185px 0;
 	display: block;
 	width: 100%;
 	border-radius: 12px;
@@ -815,7 +815,7 @@ h5.title-line span.bg-white {
 }
 
 .ending-item h4 {
-	margin-bottom: 20px;
+	margin-bottom: 9px;
 	font-size: 21px;
 	text-transform: none;
 	text-align: center;
@@ -958,11 +958,15 @@ h5.title-line span.bg-white {
 
 /* Winner Section */
 .winner-section {
-	padding: 60px 0px 0;
+	padding: 60px 0px 60px;
 	background: url(/images/bg1.jpg);
 	background-size: cover;
 	float: left;
 	width: 100%;
+}
+
+@media(max-width:768px){
+	.winner-section {padding: 40px 0px 20px;}
 }
 
 .winner-section .container {
@@ -3241,7 +3245,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	}
 
 	.ending-item h4 {
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 		font-size: 17px;
 		text-transform: none;
 	}
@@ -4217,7 +4221,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	}
 
 	.ending-item h4 {
-		margin-bottom: 10px;
+		margin-bottom: 5px;
 		font-size: 13px;
 		line-height: 17px;
 	}
@@ -4239,11 +4243,11 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	.comp-grid li {
 		margin-bottom: 30px;
 		padding: 0 13px;
-		width: 95% !important;
+		/* width: 95% !important; */
 	}
 
 	.ending-item .desc {
-		margin: 10px 10px 50px 10px;
+		margin: 10px 10px 10px 10px;
 	}
 
 	/*prices worth section*/
@@ -5865,7 +5869,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	background: #1d1e22;
 	border: solid 1px #b87b14;
 	position: relative;
-	max-width: 92%;
+	max-width: 100%;
 	margin: 0 auto;
 }
 
@@ -5880,7 +5884,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 }
 
 .ending-item .ticket-block.tickets-box-rs {
-	padding-bottom: 43px;
+	padding-bottom: 21px;
 }
 
 .mobile-cart-header ul li {
@@ -6032,7 +6036,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	float: left;
 	width: 100%;
 	text-align: center;
-	margin-bottom: 20px;
+	margin-bottom: 0px;
 }
 
 .price-row-div p {
@@ -6387,6 +6391,12 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	}
 }
 
+@media(max-width:990px) {
+	.valuesprogress {
+		top: -2px;
+	}
+}
+
 .autodraw-winner-title {
 	font-size: 20px !important;
 	color: #fff !important;
@@ -6652,13 +6662,6 @@ header.header-top-wrapper {
 	.overlays-text-top-title {
 		padding: 0px !important;
 		width: 80%;
-	}
-
-	.nav-bar-wrapper ul.nav-bar-ul {
-		display: flex;
-		overflow-x: scroll;
-		white-space: nowrap;
-		margin-bottom: 0px;
 	}
 
 	.modal-quick-buy-title-new h2 {
@@ -7060,6 +7063,15 @@ header.header-top-wrapper {
 
 	.top-rating-hide {
 		display: none;
+	}
+}
+
+@media(max-width:1280px){
+	.nav-bar-wrapper ul.nav-bar-ul {
+		display: flex;
+		overflow-x: scroll;
+		white-space: nowrap;
+		margin-bottom: 0px;
 	}
 }
 
@@ -7980,16 +7992,16 @@ header .currency-nav a[rel="EUR"] {
 	}
 
 	.ending-item .ending-img {
-		padding-top: 100%;
+		padding-top: 60%;
 	}
 
-	.comp-grid .col-6:nth-of-type(odd) {
+	/* .comp-grid .col-6:nth-of-type(odd) {
 		padding-right: 7px !important;
 	}
 
 	.comp-grid .col-6:nth-of-type(even) {
 		padding-left: 7px !important;
-	}
+	} */
 
 	.product-content .product-content-row {
 		margin: 1px 0;
