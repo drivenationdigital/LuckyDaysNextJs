@@ -8357,3 +8357,4 @@ img.emoji {
 }
 
 .woocommerce-EditAccountForm.edit-account button[type="submit"], .woocommerce-button.woocommerce-button--next.woocommerce-Button.woocommerce-Button--next.button{background-color: var(--primary-color); color:white;}
+.post-edit-link{color: white !important;}
