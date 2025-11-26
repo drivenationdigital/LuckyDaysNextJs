@@ -2625,6 +2625,11 @@ form.cart .qty {
 	margin-right: auto;
 }
 
+#product-accordion .accordion#faq{display: grid; gap: 16px;}
+#product-accordion .accordion#faq .card{background-color: transparent; border: 1px solid white; overflow: hidden;}
+#product-accordion .accordion#faq .card .card-header .btn-header-link{border-color: transparent;}
+#product-accordion #faq .card, #product-accordion #faq .card .collapse.show{line-height: normal !important;}
+
 @media(max-width:980px) {
 
 	#product-accordion #accordion .card {
