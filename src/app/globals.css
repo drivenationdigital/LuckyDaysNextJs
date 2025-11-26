@@ -7820,6 +7820,10 @@ header .currency-nav a[rel="EUR"] {
 }
 
 
+.product-description-row .left-, .product-content, .engine-detail-left-content {
+	color:white;
+}
+
 
 @media (max-width:767px) {
 
