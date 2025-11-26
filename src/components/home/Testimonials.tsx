@@ -3,6 +3,7 @@
 import Slider from 'react-slick'
 import { useQuery } from '@tanstack/react-query';
 import { fetchTestimonials } from '@/api-functions/home';
+import Image from 'next/image';
 
 type ITestimonial = {
     title: string
@@ -59,8 +60,8 @@ const Testimonials = ({ showTitle = true }) => {
                                                     backgroundColor: testimonial.video_url ? '' : '#666666'
                                                 }}>
                                                 {testimonial.video_url ? (
-                                                    <img
-                                                        src="images/play-icon.png"
+                                                    <Image
+                                                        src="/images/play-icon.png"
                                                         alt='Play Video'
                                                         width={50}
                                                         height={50}

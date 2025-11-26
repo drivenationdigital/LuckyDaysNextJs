@@ -37,7 +37,7 @@ export const WinnersSection: React.FC = () => {
                 <div className="row equal">
                     {data && data.winners?.length > 0 && data.winners.map((winner: IPastWinner, index: number) => (
                         <div className="col-12 col-sm-6 col-lg-4" key={index}>
-                            <a href={winner.permalink} className="winner-box text-center">
+                            <Link href='/past-winners' className="winner-box text-center">
                                 <div className="img-blk"
                                     style={{
                                         backgroundImage: `url(${winner.image})`,
@@ -50,7 +50,7 @@ export const WinnersSection: React.FC = () => {
                                     <h6><strong>Won by:</strong> {winner.winner_name}</h6>
                                     <div className="clearfix"></div>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </div>
