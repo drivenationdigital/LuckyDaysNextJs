@@ -25,30 +25,29 @@ export default async function Page() {
                         </Link>
                     </div>
 
-                    <p>
+                    <p className="mb-4">
                         From your account dashboard you can view your{' '}
                         <Link href="/my-account/orders/">recent orders</Link>, manage your{' '}
                         <Link href="/my-account/edit-address/">shipping and billing addresses</Link>, and{' '}
                         <Link href="/my-account/edit-account/">edit your password and account details</Link>.
                     </p>
 
-                    <Link href="/my-account/orders/" className="shortcut-icon">
-                        <i className="fa fa-box"></i>
-                        <br />
-                        Orders
-                    </Link>
+                    <div className="d-grid dashboard-cta">
+                        <Link href="/my-account/orders/" className="shortcut-icon">
+                            <i className="fa fa-box fa-lg"></i>
+                            <p className="mb-0">Orders</p>
+                        </Link>
 
-                    <Link href="/my-account/edit-address/" className="shortcut-icon">
-                        <i className="fa fa-map-marker"></i>
-                        <br />
-                        Addresses
-                    </Link>
+                        <Link href="/my-account/edit-address/" className="shortcut-icon">
+                            <i className="fa fa-map-marker"></i>
+                            <p className="mb-0">Addresses</p>
+                        </Link>
 
-                    <Link href="/my-account/edit-account/" className="shortcut-icon">
-                        <i className="fa fa-user"></i>
-                        <br />
-                        Account
-                    </Link>
+                        <Link href="/my-account/edit-account/" className="shortcut-icon">
+                            <i className="fa fa-user"></i>
+                            <p className="mb-0">Account</p>
+                        </Link>
+                    </div>
 
                     {/* if mobile. show logout button */}
                     <div className="mobile-logout-btn d-lg-none">
