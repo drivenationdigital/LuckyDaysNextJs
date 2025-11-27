@@ -341,8 +341,7 @@ export default function Basket() {
                                             <div className="wc-proceed-to-checkout">
                                                 <a
                                                     href={checkoutUrl || "#"}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
+                                                    {...(checkoutUrl && isLoggedIn ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                                                     className={`checkout-button button alt wc-forward ${!checkoutUrl ? "disabled" : ""}`}
                                                     onClick={(e) => {
                                                         if (!isLoggedIn) {
