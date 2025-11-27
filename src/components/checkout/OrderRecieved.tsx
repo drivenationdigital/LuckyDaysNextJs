@@ -1,7 +1,7 @@
 'use client'
 import { fetchOrderById } from "@/api-functions/my-account";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { IOrderDetails, IOrderItem, WinningNumbers } from "../myaccount/AccountViewOrder";
 import Link from "next/link";
 
@@ -36,6 +36,24 @@ export default function OrderReceived({ order_id }: Props) {
         queryFn: () => fetchOrderById(order_id),
         staleTime: 1000 * 60 * 1, // 5 minutes cache
     });
+
+    useEffect(() => {
+        if (!order_id) return;
+
+        const deepLink = `luckydays://order/${order_id}`;
+        const fallback = `/order-summary?order_id=${order_id}`;
+
+        // Try opening the app
+        window.location.href = deepLink;
+
+        // Fallback after 700ms
+        const timer = setTimeout(() => {
+            // Stay on this page OR redirect to web summary
+            window.location.href = fallback;
+        }, 700);
+
+        return () => clearTimeout(timer);
+    }, [order_id]);
 
     if (isLoading) {
         return (
