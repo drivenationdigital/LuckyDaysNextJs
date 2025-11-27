@@ -30,6 +30,10 @@ export const metadata: Metadata = {
   description: "Enter exciting competitions to win amazing prizes!",
   icons: {
     icon: 'images/favicon.png',
+  },
+  other: {
+    viewport:
+      "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
   }
 };
 

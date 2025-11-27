@@ -8,6 +8,25 @@ Description:
 Text Domain: 
 */
 
+input,
+textarea,
+select {
+	font-size: 16px !important;
+}
+
+* {
+	touch-action: pan-x pan-y;
+}
+
+html,
+body {
+	touch-action: manipulation;
+}
+
+body {
+	overscroll-behavior: none;
+}
+
 .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .row > *{--bs-gutter-x: 30px;}
 
 .paddingl-none {
