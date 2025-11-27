@@ -40,7 +40,7 @@ export default function OrderReceived({ order_id }: Props) {
     useEffect(() => {
         if (!order_id) return;
 
-        const deepLink = `luckydays://order/${order_id}`;
+        const deepLink = `luckydays://order-received/${order_id}`;
         const fallback = `/order-summary?order_id=${order_id}`;
 
         // Try opening the app
