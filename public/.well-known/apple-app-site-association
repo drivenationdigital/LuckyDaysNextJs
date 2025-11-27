@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appID": "1501850869.com.app.luckydaycompetitions",
+        "paths": [
+          "/*"
+        ]
+      }
+    ]
+  }
+}
