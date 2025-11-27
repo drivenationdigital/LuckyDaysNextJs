@@ -109,37 +109,47 @@ export default function Basket() {
     const { user, isLoggedIn } = useSession();
     const router = useRouter();
 
-    const handleCheckout = async () => {
-        try {
-            if (!isLoggedIn){
-                // redirect to login page
-                router.push('/auth?redirect=/basket');
-                return;
-            }
+    const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
-            const userId = user?.id;           // however you store logged-in user ID
-            const cartKey = getStoredCartKey(); // runs in browser
+    useEffect(() => {
+        const load = async () => {
+            if (!isLoggedIn) return;
+
+            const userId = user?.id;
+            const cartKey = getStoredCartKey();
 
             const res = await fetch("/api/checkout-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ cartKey, userId }),
+                body: JSON.stringify({ userId, cartKey }),
             });
 
             const data = await res.json();
+            if (data.success) {
+                setCheckoutUrl(data.url);
+            } else {
+                setNotice("❌ " + data.message);
+            }
+        };
 
-            if (!data.success) throw new Error(data.message);
+        load();
+    }, [isLoggedIn]);
 
-            // window.open(data.url, "_blank", "noopener,noreferrer");
-            const a = document.createElement("a");
-            a.href = data.url;
-            a.target = "_blank";
-            a.rel = "noopener";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        } catch (err: any) {
-            setNotice(`❌ ${err.message}`);
+    const handleCheckout = () => {
+        if (!isLoggedIn){
+            // redirect to login page
+            router.push('/auth?redirect=/basket');
+            return;
+        }
+
+        if (!checkoutUrl) {
+            setNotice("Checkout not ready, please wait...");
+            return;
+        }
+
+        const newTab = window.open(checkoutUrl, "_blank");
+        if (!newTab) {
+            setNotice("Please allow popups to continue checkout.");
         }
     };
 
