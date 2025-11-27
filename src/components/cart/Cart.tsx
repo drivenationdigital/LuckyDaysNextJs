@@ -105,7 +105,7 @@ function CartLoadingOverlay() {
 }
 
 export default function Basket() {
-    const { cart, removeItem, updateQty, removeCoupon, setNotice, isMutating } = useCart();
+    const { cart, removeItem, updateQty, removeCoupon, setNotice } = useCart();
     const { user, isLoggedIn } = useSession();
     const router = useRouter();
 
@@ -135,23 +135,23 @@ export default function Basket() {
         load();
     }, [isLoggedIn]);
 
-    const handleCheckout = () => {
-        if (!isLoggedIn){
-            // redirect to login page
-            router.push('/auth?redirect=/basket');
-            return;
-        }
+    // const handleCheckout = () => {
+    //     if (!isLoggedIn){
+    //         // redirect to login page
+    //         router.push('/auth?redirect=/basket');
+    //         return;
+    //     }
 
-        if (!checkoutUrl) {
-            setNotice("Checkout not ready, please wait...");
-            return;
-        }
+    //     if (!checkoutUrl) {
+    //         setNotice("Checkout not ready, please wait...");
+    //         return;
+    //     }
 
-        const newTab = window.open(checkoutUrl, "_blank");
-        if (!newTab) {
-            setNotice("Please allow popups to continue checkout.");
-        }
-    };
+    //     const newTab = window.open(checkoutUrl, "_blank");
+    //     if (!newTab) {
+    //         setNotice("Please allow popups to continue checkout.");
+    //     }
+    // };
 
     const renderCartItems = useMemo(() => {
         if (cart && cart.ignored_coupons && cart.ignored_coupons.length > 0) {
@@ -339,14 +339,28 @@ export default function Basket() {
                                             </table>
 
                                             <div className="wc-proceed-to-checkout">
-                                                <button
-                                                    type="button"
-                                                    onClick={handleCheckout}
-                                                    disabled={isMutating}
-                                                    className="checkout-button button alt wc-forward">
+                                                <a
+                                                    href={checkoutUrl || "#"}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={`checkout-button button alt wc-forward ${!checkoutUrl ? "disabled" : ""}`}
+                                                    onClick={(e) => {
+                                                        if (!isLoggedIn) {
+                                                            // redirect to login page
+                                                            router.push('/auth?redirect=/basket');
+                                                            return;
+                                                        }
+
+                                                        if (!checkoutUrl) {
+                                                            e.preventDefault();
+                                                            setNotice("Checkout not ready…");
+                                                        }
+                                                    }}
+                                                >
                                                     Proceed to checkout
-                                                </button>
+                                                </a>
                                             </div>
+
                                         </div>
                                     </div>
                                 </>
