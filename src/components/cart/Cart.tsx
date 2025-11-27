@@ -130,7 +130,14 @@ export default function Basket() {
 
             if (!data.success) throw new Error(data.message);
 
-            window.open(data.url, "_blank", "noopener,noreferrer");
+            // window.open(data.url, "_blank", "noopener,noreferrer");
+            const a = document.createElement("a");
+            a.href = data.url;
+            a.target = "_blank";
+            a.rel = "noopener";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
         } catch (err: any) {
             setNotice(`❌ ${err.message}`);
         }
