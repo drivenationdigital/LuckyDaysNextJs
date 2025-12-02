@@ -41,18 +41,8 @@ export default function OrderReceived({ order_id }: Props) {
         if (!order_id) return;
 
         const deepLink = `luckydays://order-received/${order_id}`;
-        const fallback = `/order-summary?order_id=${order_id}`;
-
-        // Try opening the app
         window.location.href = deepLink;
-
-        // Fallback after 700ms
-        const timer = setTimeout(() => {
-            // Stay on this page OR redirect to web summary
-            window.location.href = fallback;
-        }, 700);
-
-        return () => clearTimeout(timer);
+        
     }, [order_id]);
 
     if (isLoading) {
