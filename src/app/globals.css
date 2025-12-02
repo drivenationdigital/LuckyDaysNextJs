@@ -8381,6 +8381,8 @@ img.emoji {
 	font-weight: 500;
 }
 
+:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce a.button.alt.disabled{background-color: #B77A13 !important;}
+
 
 .woocommerce-form__input{margin-right: 5px;}
 
@@ -8398,3 +8400,10 @@ img.emoji {
 
 .woocommerce-EditAccountForm.edit-account button[type="submit"], .woocommerce-button.woocommerce-button--next.woocommerce-Button.woocommerce-Button--next.button{background-color: var(--primary-color); color:white;}
 .post-edit-link{color: white !important;}
+
+
+button:not(:disabled), [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled) {
+    cursor: pointer;
+    border: none;
+    padding: 2px 6px; background-color: var(--primary-color); color:white;
+}
