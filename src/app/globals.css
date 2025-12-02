@@ -8402,8 +8402,8 @@ img.emoji {
 .post-edit-link{color: white !important;}
 
 
-/* button:not(:disabled), [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled) {
+.woocommerce-Button--icon-only.remove {
     cursor: pointer;
     border: none;
     padding: 2px 6px; background-color: var(--primary-color); color:white;
-} */
+}
