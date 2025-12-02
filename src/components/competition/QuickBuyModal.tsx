@@ -92,7 +92,7 @@ export default function QuickBuyModal({
                 role="dialog"
                 ref={modalRef}
                 style={{
-                    padding: '15px',
+                   
                     display: 'block',
                 }}
                 aria-modal="true"

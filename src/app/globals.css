@@ -42,6 +42,10 @@ body {
 	max-width: 1550px;
 }
 
+.container .container {
+	width:auto;
+}
+
 .sep-10 {
 	display: block;
 	clear: both;
@@ -3943,7 +3947,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	.row.equal .col-sm-6,
 	.row.equal .col-6 {
 		display: flex;
-		width: 100%;
+		/* width: 100%; */
 		max-width: 100%;
 		margin: 0 auto 30px auto;
 	}
@@ -4281,12 +4285,17 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 
 	.comp-grid li {
 		margin-bottom: 30px;
-		padding: 0 13px;
+		padding: 0 7px;
 		/* width: 95% !important; */
 	}
 
 	.ending-item .desc {
 		margin: 10px 10px 10px 10px;
+	}
+	@media(max-width:410px){
+		.ending-item .desc {
+			margin: 10px 10px 10px 10px;
+		}
 	}
 
 	/*prices worth section*/
@@ -6049,7 +6058,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 }
 
 .enter-now-btn {
-	font-size: 20px;
+	font-size: 18px;
 	background: rgb(183, 123, 19);
 	background: linear-gradient(63deg, rgba(243, 219, 135, 1) 14%, rgba(183, 123, 19, 1) 100%);
 	font-weight: bold;
@@ -6061,6 +6070,11 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 }
 
 .enter-now-btn i{margin-right: 5px;}
+
+@media (max-width: 767px) {
+    .enter-now-btn{font-size: 11px; padding: 3px 8px}
+
+}
 
 .product-category-btn-home button i {
 	margin-right: 6px;
@@ -6154,6 +6168,12 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	border: solid 1px #717171;
 	padding: 20px;
 }
+
+.modal-bg .modal-content .modal-close-button{text-align: right;}
+.modal-bg .modal-content .modal-close-button i{opacity: 0.75; transition: 0.3s;}
+.modal-bg .modal-content .modal-close-button i:hover{opacity: 1;}
+
+.modal-body.quick-buy-popup{padding: 0;}
 
 .basket-popup .basket-popup-wrapper {
 	float: left;

@@ -98,7 +98,7 @@ export default function AddToCartModal({
                 role="dialog"
                 ref={modalRef}
                 style={{
-                    padding: '15px',
+                  
                     display: 'block',
                     // transition: 'opacity 0.3s ease', 
                 }}
