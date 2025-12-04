@@ -9,9 +9,6 @@ export const AddressDetails: React.FC = () => {
         return <p>You must be logged in to view this page.</p>;
     }
 
-    console.log(user);
-
-
     return (
         <div className="tab-pane active">
             <div className="woocommerce-notices-wrapper"></div>

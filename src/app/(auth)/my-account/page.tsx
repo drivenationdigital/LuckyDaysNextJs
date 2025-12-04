@@ -47,6 +47,7 @@ export default async function Page() {
                             <i className="fa fa-user"></i>
                             <p className="mb-0">Account</p>
                         </Link>
+
                     </div>
 
                     {/* if mobile. show logout button */}

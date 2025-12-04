@@ -2,7 +2,7 @@
 
 import { useSession } from '@/app/hooks/useSession';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const AuthPage: React.FC = () => {
     const { isLoggedIn, refetch } = useSession();
@@ -10,6 +10,19 @@ const AuthPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const pwdInput = React.useRef<HTMLInputElement>(null);
     const pwdInput2 = React.useRef<HTMLInputElement>(null);
+
+    const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+
+    // Safe access to window after mount
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const urlParams = new URLSearchParams(window.location.search);
+            setRedirectUrl(urlParams.get("redirect") || "/my-account");
+        }
+    }, []);
+
+    // While redirect URL is loading, avoid rendering login logic
+    if (redirectUrl === null) return null;
 
     const handleLogin = async (event: React.FormEvent) => {
         setError(null); // Reset error state
@@ -104,7 +117,8 @@ const AuthPage: React.FC = () => {
     };
 
     if (isLoggedIn) {
-        window.location.href = '/my-account'; // Redirect to account page if already logged in
+
+        window.location.href = redirectUrl; // Redirect to account page if already logged in
         return null;
     }
 

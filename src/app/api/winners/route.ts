@@ -2,6 +2,9 @@
 import { API_URL } from "@/actions/api";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
     try {
         const page = parseInt(request.nextUrl.searchParams.get("page") ?? "1", 10);

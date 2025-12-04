@@ -17,6 +17,18 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "luckydaycompetitions.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.luckydaycompetitions.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "cdn.staging.luckydaycompetitions.com",
         port: "",
         pathname: "/**",

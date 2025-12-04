@@ -28,6 +28,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
     productId,
     onQuickBuy,
 }) => {
+    function decodeHtml(str: string) {
+        if (!str) return "";
+        const txt = document.createElement("textarea");
+        txt.innerHTML = str;
+        return txt.value;
+    }
+
+
     return (
         <li className="col-lg-4 col-sm-6 col-6">
             <div className="ending-item wow fadeIn sell-item">
@@ -43,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                 <div className="desc text-left">
                     <Link href={href} className="product-title-link">
-                        <h4>{title}</h4>
+                        <h4>{decodeHtml(title)}</h4>
                         <div className="price-row-div">
                             <p className="discount-price">
                                 <span className="big">{price}</span>

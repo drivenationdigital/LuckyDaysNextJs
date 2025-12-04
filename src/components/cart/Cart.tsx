@@ -342,7 +342,7 @@ export default function Basket() {
                                                 <a
                                                     href={checkoutUrl || "#"}
                                                     {...(checkoutUrl && isLoggedIn ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                                                    className={`checkout-button button alt wc-forward ${!checkoutUrl ? "disabled" : ""}`}
+                                                    className={`checkout-button button alt wc-forward`}
                                                     onClick={(e) => {
                                                         if (!isLoggedIn) {
                                                             // redirect to login page

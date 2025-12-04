@@ -24,7 +24,7 @@ export type WPUser = {
     last_name: string;
     billing_address: IAddress;
     shipping_address: IAddress;
-    roles: string[];
+    role: string;
 };
 
 export function useSession() {
