@@ -6173,7 +6173,26 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 .modal-bg .modal-content .modal-close-button i{opacity: 0.75; transition: 0.3s;}
 .modal-bg .modal-content .modal-close-button i:hover{opacity: 1;}
 
-.modal-body.quick-buy-popup{padding: 0;}
+.modal-body.quick-buy-popup, .winners-modal .modal-body{padding: 0;}
+
+.winners-modal .modal-header, .winners-modal .modal-footer{border: 0 !important;}
+.winners-modal .instant-wins-number-container{display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;}
+.winners-modal .instant-wins-number-container .iw-row{text-align: center; border-radius: 8px; overflow: hidden;}
+.winners-modal .instant-wins-number-container .iw-row span{display: block; text-align: center;}
+.winners-modal .instant-wins-number-container .iw-row span.iw-user{padding: 6px 20px; color:white; background-color: var(--primary-color); font-size: 15px; text-transform: uppercase;}
+.winners-modal .instant-wins-number-container .iw-row span.iw-number{height: 84px; display: grid; place-items: center; background-color: white; padding-top: 4px;}
+.winners-modal .que-ans-block{padding: 30px 10px 30px 30px;}
+.winners-modal .que-ans-block .modal-body{padding-right: 30px; scrollbar-width: thin; scrollbar-color: var(--primary-color) #1d1e22;}
+.winners-modal .que-ans-block .modal-body::-webkit-scrollbar {width: 5px;}
+.winners-modal .que-ans-block .modal-body::-webkit-scrollbar-track {background-color: var(--primary-color);} 
+.winners-modal .que-ans-block .modal-body::-webkit-scrollbar-thumb {background-color: #1d1e22; border-radius: 10px;}
+.winners-modal .modal-dialog{max-width: 800px;}
+@media(max-width:500px){
+	.winners-modal .instant-wins-number-container{grid-template-columns: 1fr;}
+	.winners-modal .que-ans-block{padding: 25px 20px 25px 20px;}
+	.winners-modal .que-ans-block .modal-body{padding-right: 0px; -ms-overflow-style: none; scrollbar-width: none;}
+	.winners-modal .que-ans-block .modal-body::-webkit-scrollbar{display: none;}
+}
 
 .basket-popup .basket-popup-wrapper {
 	float: left;
@@ -6316,13 +6335,14 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	margin-right: 5px;
 }
 
-.modal-bg button.close {
+.modal-bg button.close, .modal-bg .modal-close-button i {
 	color: #fff;
 	font-size: 22px;
 }
 
-.modal-bg button.close i {
+.modal-bg button.close i, .modal-bg .modal-close-button i {
 	color: #fff;
+	cursor: pointer;
 }
 
 .ticket-form-box .answers .quick-select-title-1 {
@@ -6492,7 +6512,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	margin-bottom: 21px;
 }
 
-.modal-quick-buy-title-new h2 {
+.modal-quick-buy-title-new h2, .winners-modal .modal-header h2{
 	font-size: 26px;
 	color: #fff;
 	text-transform: none;
@@ -6724,7 +6744,7 @@ header.header-top-wrapper {
 		width: 80%;
 	}
 
-	.modal-quick-buy-title-new h2 {
+	.modal-quick-buy-title-new h2, .winners-modal .modal-header h2 {
 		font-size: 23px;
 		margin-bottom: 0px;
 		padding-bottom: 15px;
@@ -7136,7 +7156,7 @@ header.header-top-wrapper {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-	.modal-quick-buy-title-new h2 {
+	.modal-quick-buy-title-new h2, .winners-modal .modal-header h2 {
 		margin-bottom: 18px;
 	}
 

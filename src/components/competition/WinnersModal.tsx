@@ -68,29 +68,36 @@ function WinnersModal({ show, onClose, productId, prize }: WinnersModalProps) {
                 style={{ transition: 'opacity 0.3s ease' }}
             />
             <div
-                className="modal fade"
+                className="modal-bg modal fade winners-modal"
                 ref={modalRef}
                 role="dialog"
                 tabIndex={-1}
-                style={{ padding: '15px', display: 'block' }}
+                style={{ display: 'block' }}
                 aria-modal="true"
             >
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
 
-                        <div className="modal-header">
-                            <h5 className="modal-title">All Winners for {prize} ({productId})</h5>
-                            <button type="button" className="btn-close" onClick={handleClose} />
+                        <div className="modal-close-button">
+                            <i className="fas fa-times" onClick={handleClose}></i>
+                        </div>
+
+                        <div className="modal-header justify-content-center">
+                            <h2 className="modal-title text-center">All Winners for {prize} ({productId})</h2>
                         </div>
 
                         <div className="modal-body" style={{ minHeight: '120px' }}>
-                            <PrizeWinners
-                                productId={productId}
-                                prize={prize}
-                            />
+
+                            <div className="que-ans-block">
+                                <PrizeWinners
+                                    productId={productId}
+                                    prize={prize}
+                                />
+                            </div>
+                            
                         </div>
 
-                        <div className="modal-footer">
+                        {/* <div className="modal-footer">
                             <button
                                 type="button"
                                 className="btn btn-secondary"
@@ -98,7 +105,7 @@ function WinnersModal({ show, onClose, productId, prize }: WinnersModalProps) {
                             >
                                 Close
                             </button>
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>
