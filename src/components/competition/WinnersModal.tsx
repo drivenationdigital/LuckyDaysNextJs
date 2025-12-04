@@ -83,7 +83,7 @@ function WinnersModal({ show, onClose, productId, prize }: WinnersModalProps) {
                         </div>
 
                         <div className="modal-header justify-content-center">
-                            <h2 className="modal-title text-center">All Winners for {prize} ({productId})</h2>
+                            <h2 className="modal-title text-center">All Winners for {prize}</h2>
                         </div>
 
                         <div className="modal-body" style={{ minHeight: '120px' }}>
