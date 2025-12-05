@@ -37,13 +37,32 @@ export default function OrderReceived({ order_id }: Props) {
         staleTime: 1000 * 60 * 1, // 5 minutes cache
     });
 
+    // useEffect(() => {
+    //     if (!order_id) return;
+
+    //     const deepLink = `luckydays://order-received/${order_id}`;
+    //     window.location.href = deepLink;
+        
+    // }, [order_id]);
     useEffect(() => {
         if (!order_id) return;
 
         const deepLink = `luckydays://order-received/${order_id}`;
+
+        // If running inside the mobile app WebView
+        if (window.ReactNativeWebView) {
+            // window.ReactNativeWebView.postMessage(JSON.stringify({
+            //     type: "OPEN_DEEP_LINK",
+            //     url: deepLink
+            // }));
+            return; // <-- do NOT redirect inside WebView
+        }
+
+        // Normal browser behavior
         window.location.href = deepLink;
-        
+
     }, [order_id]);
+
 
     if (isLoading) {
         return (

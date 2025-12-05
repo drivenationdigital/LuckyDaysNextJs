@@ -7,3 +7,5 @@ export const JWT_SECRET = process.env.JWT_SECRET
 export const SESSION_COOKIE_NAME = "token";
 
 export const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+
+export const CHECKOUT_SHARED_SECRET = 'super-strong-random-secret';

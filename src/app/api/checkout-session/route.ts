@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { CHECKOUT_SHARED_SECRET } from "@/actions/api";
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ success: false, message: "Missing userId" }, { status: 401 });
         }
 
-        const secret = process.env.CHECKOUT_SHARED_SECRET!;
+        const secret = CHECKOUT_SHARED_SECRET;
 
         const token = jwt.sign(
             { cart_key: cartKey, user_id: userId, source: "next-app", },

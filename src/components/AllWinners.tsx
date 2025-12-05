@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchWinners } from "@/api-functions/home";
 import { IPastWinner } from "./home/WinnersSection";
@@ -53,6 +53,15 @@ export const AllWinnersSection: React.FC = () => {
         staleTime: 1000 * 60 * 5,
     });
 
+    // when page changes, scroll to top of .winner-section
+    useEffect(() => {
+        const winnerSection = document.querySelector('.winner-section');
+        if (winnerSection) {
+            winnerSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [page]);
+
+
     if ((!data || !data.winners || data.winners.length === 0) && !isFetching) {
         return <div className="text-center">No winners found.</div>;
     }
@@ -71,7 +80,7 @@ export const AllWinnersSection: React.FC = () => {
                         // Keep showing old winners, but add skeleton overlay when changing page
                         data.winners.map((winner: IPastWinner, index: number) => (
                             <div className="col-12 col-sm-6 col-lg-4" key={index}>
-                                <a href={winner.permalink} className={`winner-box text-center ${isFetching ? 'loading' : ''}`}>
+                                <div className={`winner-box text-center ${isFetching ? 'loading' : ''}`}>
                                     <div
                                         className="img-blk"
                                         style={{
@@ -84,7 +93,7 @@ export const AllWinnersSection: React.FC = () => {
                                         <h4>{winner.prize_won}</h4>
                                         <h6><strong>Won by:</strong> {winner.winner_name}</h6>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         ))
                     )}
