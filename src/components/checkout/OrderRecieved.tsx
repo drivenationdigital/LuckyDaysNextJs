@@ -51,6 +51,7 @@ export default function OrderReceived({ order_id }: Props) {
 
         // If running inside the mobile app WebView
         if (window.ReactNativeWebView) {
+            alert("In App WebView detected, not redirecting.");
             // window.ReactNativeWebView.postMessage(JSON.stringify({
             //     type: "OPEN_DEEP_LINK",
             //     url: deepLink
