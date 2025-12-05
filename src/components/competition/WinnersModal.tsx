@@ -51,6 +51,7 @@ function WinnersModal({ show, onClose, productId, prize }: WinnersModalProps) {
     const handleClose = () => {
         modalRef.current?.classList.remove('show');
 
+
         setTimeout(() => {
             setIsVisible(false);
             onClose();
@@ -134,14 +135,17 @@ async function fetchWinners({ product_id, prize, pageParam = 1 }: WinnersQueryPa
     try {
         const offset = (pageParam - 1) * 20;
 
-        const res = await fetch(
-            `/api/get-winners-for-prize?` +
-            `prize=${encodeURIComponent(prize)}&product_id=${encodeURIComponent(product_id)}&limit=20&offset=${offset}`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            }
-        );
+        const res = await fetch(`/api/get-winners-for-prize`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                product_id,
+                prize,
+                limit: 20,
+                offset,
+            }),
+        });
+
 
         if (!res.ok) {
             return { rows: [], has_more: false };

@@ -2,18 +2,19 @@
 import { API_URL } from "@/actions/api";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-    request: NextRequest,
-) {
-    const { searchParams } = new URL(request.url);
+// no cache for this route
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
-    // Prize now comes from the query parameters
-    const prizeParam = searchParams.get("prize") || "";
-    const decodedPrize = decodeURIComponent(prizeParam);
+export async function POST(request: NextRequest) {
+    const body = await request.json();
 
-    const limit = searchParams.get("limit") || "12";
-    const offset = searchParams.get("offset") || "0";
-    const id = searchParams.get("product_id") || "";
+    const id = body.product_id || "";
+    const prize = body.prize || "";
+    const limit = body.limit || 20;
+    const offset = body.offset || 0;
+
+    const decodedPrize = decodeURIComponent(prize);
 
     const apiURL =
         `${API_URL}/wp-json/next/v2/instant-win-winners` +
@@ -36,55 +37,14 @@ export async function GET(
 
         const data = await response.json();
 
-        if (response.ok) {
-            return NextResponse.json({
-                "success": true,
-                "data": {
-                    "rows": [
-                        {
-                            "number": "26",
-                            "user": "Mark T."
-                        },
-                        {
-                            "number": "20",
-                            "user": "Mark T."
-                        },
-                        {
-                            "number": "93",
-                            "user": "Mark T."
-                        },
-                        {
-                            "number": "73",
-                            "user": "Mark T."
-                        },
-                        {
-                            "number": "31",
-                            "user": "Mark T."
-                        },
-                        {
-                            "number": "14",
-                            "user": "Mark T."
-                        },
-                        {
-                            "number": "9",
-                            "user": "Mark T."
-                        }
-                    ],
-                    "count": 7,
-                    "has_more": false,
-                    "total": 7,
-                    "offset": 0
-                }
-            });
-        }
+        return NextResponse.json(data, {
+            status: response.status,
+            headers: {
+                "Cache-Control": "no-store, no-cache, must-revalidate",
+            },
+        });
 
-        return NextResponse.json(
-            { error: data.message || "Failed to fetch instant wins" },
-            { status: response.status }
-        );
     } catch (error: any) {
-        console.log(error);
-        
         return NextResponse.json(
             { error: error.message || "Fetch failed" },
             { status: 500 }

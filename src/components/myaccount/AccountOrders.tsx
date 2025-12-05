@@ -61,9 +61,9 @@ const RecentOrdersTable: React.FC = () => {
                                 <Link href={`/my-account/view-order/${order.id}`} className="woocommerce-button button view">
                                     View
                                 </Link>
-                                <Link href={`/order-received/${order.id}`} className="woocommerce-button button view">
+                                {/* <Link href={`/order-received/${order.id}`} className="woocommerce-button button view">
                                     View Thank you
-                                </Link>
+                                </Link> */}
                             </td>
                         </tr>
                     ))}
