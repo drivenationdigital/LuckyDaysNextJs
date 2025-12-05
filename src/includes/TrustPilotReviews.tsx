@@ -6,9 +6,10 @@ export default function TrustpilotWidget() {
             <div className="container-fluid wow fadeIn">
 
                 <Script
-                    src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-                    strategy="lazyOnload"
+                    src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+                    strategy="afterInteractive"
                 />
+
                 <div
                     className="trustpilot-widget"
                     data-locale="en-GB"
