@@ -37,21 +37,18 @@ export default function OrderReceived({ order_id }: Props) {
         staleTime: 1000 * 60 * 1, // 5 minutes cache
     });
 
-    // const isInWebView = typeof window !== 'undefined' &&
-    //     (window.navigator.userAgent.includes("wv") ||
-    //         window.navigator.userAgent.includes("WebView"));
-
-    // useEffect(() => {
-    //     if (!order_id || !isInWebView) return;
-
-    //     setTimeout(() => {
-    //         window.location.href = `luckydays://order-received/${order_id}`;
-    //     }, 300);
-    // }, [order_id, isInWebView]);
+    const isInWebView = typeof window !== 'undefined' &&
+        (window.navigator.userAgent.includes("wv") ||
+            window.navigator.userAgent.includes("WebView"));
 
     useEffect(() => {
-        alert(JSON.stringify(data));
-    }, [data]);
+        if (!order_id || !isInWebView) return;
+
+        setTimeout(() => {
+            window.location.href = `luckydays://order-received/${order_id}`;
+        }, 300);
+    }, [order_id, isInWebView]);
+
 
     if (isLoading) {
         return (
@@ -189,10 +186,11 @@ export default function OrderReceived({ order_id }: Props) {
                                                 <th scope="row">Subtotal:</th>
                                                 <td>{currencySymbol}{subtotal}</td>
                                             </tr>
-                                            {discount > 0 && (
+
+                                            {Number(discount) > 0 && (
                                                 <tr>
                                                     <th scope="row">Discount:</th>
-                                                    <td>-{currencySymbol}{discount.toFixed(2)}</td>
+                                                    <td>-{currencySymbol}{Number(discount).toFixed(2)}</td>
                                                 </tr>
                                             )}
                                             
