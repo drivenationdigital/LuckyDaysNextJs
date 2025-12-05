@@ -31,23 +31,27 @@ interface Props {
 }
 
 export default function OrderReceived({ order_id }: Props) {
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, error } = useQuery({
         queryKey: ['order', order_id],
         queryFn: () => fetchOrderById(order_id),
         staleTime: 1000 * 60 * 1, // 5 minutes cache
     });
 
-    const isInWebView = typeof window !== 'undefined' &&
-        (window.navigator.userAgent.includes("wv") ||
-            window.navigator.userAgent.includes("WebView"));
+    // const isInWebView = typeof window !== 'undefined' &&
+    //     (window.navigator.userAgent.includes("wv") ||
+    //         window.navigator.userAgent.includes("WebView"));
+
+    // useEffect(() => {
+    //     if (!order_id || !isInWebView) return;
+
+    //     setTimeout(() => {
+    //         window.location.href = `luckydays://order-received/${order_id}`;
+    //     }, 300);
+    // }, [order_id, isInWebView]);
 
     useEffect(() => {
-        if (!order_id || !isInWebView) return;
-
-        setTimeout(() => {
-            window.location.href = `luckydays://order-received/${order_id}`;
-        }, 300);
-    }, [order_id, isInWebView]);
+        alert(JSON.stringify(data));
+    }, [data]);
 
     if (isLoading) {
         return (
@@ -62,7 +66,7 @@ export default function OrderReceived({ order_id }: Props) {
         )
     }
 
-    if (isError || !data) {
+    if (isError || !data || error) {
         return (
             <div className="container my-4">
                 <h1>Order not found</h1>
