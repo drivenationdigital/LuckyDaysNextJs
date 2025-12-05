@@ -62,7 +62,7 @@ const AuthPage: React.FC = () => {
             setLoading(false);
             // Store token in cookies 
             // document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
-            document.cookie = `token=${data.token}; Path=/; Secure; SameSite=None`;
+            // document.cookie = `token=${data.token}; Path=/; Secure; SameSite=None`;
 
             refetch();
         } catch (error) {

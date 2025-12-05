@@ -37,13 +37,6 @@ export default function OrderReceived({ order_id }: Props) {
         staleTime: 1000 * 60 * 1, // 5 minutes cache
     });
 
-    // useEffect(() => {
-    //     if (!order_id) return;
-
-    //     const deepLink = `luckydays://order-received/${order_id}`;
-    //     window.location.href = deepLink;
-        
-    // }, [order_id]);
     useEffect(() => {
         if (!order_id) return;
 
@@ -67,7 +60,6 @@ export default function OrderReceived({ order_id }: Props) {
 
         // Normal browser behavior
         window.location.href = deepLink;
-
     }, [order_id]);
 
 

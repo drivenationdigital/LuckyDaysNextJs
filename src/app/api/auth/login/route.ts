@@ -1,4 +1,4 @@
-import { API_URL } from "@/actions/api";
+import { API_URL, SESSION_COOKIE_NAME } from "@/actions/api";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -16,5 +16,13 @@ export async function POST(request: NextRequest) {
   }
 
   const data = await wpRes.json();
-  return NextResponse.json(data);
+  const response = NextResponse.json({ success: true });
+
+  response.headers.set(
+    "Set-Cookie",
+    `${SESSION_COOKIE_NAME}=${data.token}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=604800`
+  );
+
+  return response;
+  // return NextResponse.json(data);
 }
