@@ -49,6 +49,12 @@ export default function OrderReceived({ order_id }: Props) {
 
         const deepLink = `luckydays://order-received/${order_id}`;
 
+        // if window is not defined, return
+        if (typeof window === 'undefined') {
+            alert("Window is undefined, not redirecting.");
+            return;
+        }
+
         // If running inside the mobile app WebView
         if (window.ReactNativeWebView) {
             alert("In App WebView detected, not redirecting.");
@@ -96,9 +102,6 @@ export default function OrderReceived({ order_id }: Props) {
         billing,
         winning_numbers = [],
     } = data as IOrderDetails;
-
-    console.log(data);
-    
 
     return (
         <div className="container my-4">
