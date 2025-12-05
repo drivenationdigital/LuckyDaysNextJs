@@ -37,31 +37,17 @@ export default function OrderReceived({ order_id }: Props) {
         staleTime: 1000 * 60 * 1, // 5 minutes cache
     });
 
+    const isInWebView = typeof window !== 'undefined' &&
+        (window.navigator.userAgent.includes("wv") ||
+            window.navigator.userAgent.includes("WebView"));
+
     useEffect(() => {
-        if (!order_id) return;
+        if (!order_id || !isInWebView) return;
 
-        const deepLink = `luckydays://order-received/${order_id}`;
-
-        // if window is not defined, return
-        if (typeof window === 'undefined') {
-            alert("Window is undefined, not redirecting.");
-            return;
-        }
-
-        // If running inside the mobile app WebView
-        if (window.ReactNativeWebView) {
-            alert("In App WebView detected, not redirecting.");
-            // window.ReactNativeWebView.postMessage(JSON.stringify({
-            //     type: "OPEN_DEEP_LINK",
-            //     url: deepLink
-            // }));
-            return; // <-- do NOT redirect inside WebView
-        }
-
-        // Normal browser behavior
-        window.location.href = deepLink;
-    }, [order_id]);
-
+        setTimeout(() => {
+            window.location.href = `luckydays://order-received/${order_id}`;
+        }, 300);
+    }, [order_id, isInWebView]);
 
     if (isLoading) {
         return (
