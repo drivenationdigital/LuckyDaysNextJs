@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   }
 
   const data = await wpRes.json();
-  const response = NextResponse.json({ success: true });
+  const response = NextResponse.json({ success: true, token: data.token });
 
   response.headers.set(
     "Set-Cookie",
@@ -24,5 +24,4 @@ export async function POST(request: NextRequest) {
   );
 
   return response;
-  // return NextResponse.json(data);
 }
