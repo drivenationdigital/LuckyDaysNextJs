@@ -59,8 +59,6 @@ const AuthPage: React.FC = () => {
                 throw new Error(data.error || 'Login failed');
             }
 
-            alert(JSON.stringify(data));
-
             if (data.token) {
                 if (window.ReactNativeWebView) {
                     window.ReactNativeWebView.postMessage(
@@ -69,9 +67,7 @@ const AuthPage: React.FC = () => {
                             token: data.token,
                         })
                     );
-                } else {
-                    alert("No ReactNativeWebView found");
-                }
+                } 
             }
 
             setLoading(false);
