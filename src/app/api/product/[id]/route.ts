@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { API_URL } from '@/actions/api';
 import { NextRequest, NextResponse } from 'next/server';

@@ -96,22 +96,22 @@ export const fetchProductMetaData = async (identifier: string) => {
     return data;
 }
 
-export const fetchProductById = async (id: string, currency: 'GBP' | 'EUR' = 'GBP') => {
+export const fetchProductById = async (
+    id: string,
+    currency: 'GBP' | 'EUR' = 'GBP'
+) => {
     const response = await fetch(`${BASE_URL}/api/product/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "X-App-Currency": currency,
         },
-        next: {
-            revalidate: 60, // This ensures the data is always fresh
-        }
+        cache: "no-store", // ✅ disables all caching
     });
 
-    if (!response.ok || response.status !== 200) {
+    if (!response.ok) {
         throw new Error('Failed to fetch product by ID');
     }
 
-    const data = await response.json();
-    return data;
-}
+    return response.json();
+};
