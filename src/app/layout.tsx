@@ -53,7 +53,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body>
-        <NativeTokenBridge />
         
         <NextTopLoader 
           color="#b67407"
@@ -70,6 +69,8 @@ export default function RootLayout({
           showForHashAnchor={false}
         />
         <Providers>
+          <NativeTokenBridge />
+
           <CartProvider>
             <Header />
             <div className="body-container">
