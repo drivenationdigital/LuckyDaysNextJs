@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { API_URL } from "@/actions/api";
+import { headlessFetch } from "@/utils/headlessFetch";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Call your EXISTING WordPress popup endpoint
-        const res = await fetch(
+        const res = await headlessFetch(
             `${API_URL}/wp-json/next/v1/fetch-product-upsell`,
             {
                 method: "POST",

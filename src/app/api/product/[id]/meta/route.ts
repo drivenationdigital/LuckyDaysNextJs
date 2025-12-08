@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic';
 
 import { API_URL } from '@/actions/api';
+import { headlessFetch } from '@/utils/headlessFetch';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest,
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest,
     }
 
     try {
-        const response = await fetch(`${API_URL}/wp-json/next/v1/get-product-meta/${id}`, {
+        const response = await headlessFetch(`${API_URL}/wp-json/next/v1/get-product-meta/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

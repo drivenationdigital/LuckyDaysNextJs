@@ -2,6 +2,8 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET, SESSION_COOKIE_NAME } from "@/actions/api";
+import { getPersistedSSRCurrency } from "./headlessFetch";
+
 
 /**
  * Custom fetch wrapper that automatically adds Authorization header from JWT cookie.
@@ -20,6 +22,8 @@ export async function authFetch(
     const cookieStore = await cookies();
     const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
     let isValidToken = false;
+
+    const currency = await getPersistedSSRCurrency();
 
     if (!token && forceVerify) {
         throw new Error("No auth token found");
@@ -56,6 +60,7 @@ export async function authFetch(
             ? Object.fromEntries(init.headers.entries())
             : (init.headers as Record<string, string>)) ?? {},
         "Content-Type": "application/json",
+        "X-App-Currency": currency,
     };
     
     // If token is valid, add Authorization header

@@ -5,7 +5,7 @@ import { useCart } from '@/app/context/cart-context';
 import { useState } from 'react';
 import QuantityInput from '@/components/cart/JcfQtyInput';
 import AddToCartModal from '../cart/AddToCartModal';
-import { CompetitionProduct } from '@/types/posts';
+import { CompetitionProduct, CURRENCY_MAP } from '@/types/posts';
 import { fetchUpsell } from '@/api-functions/cart';
 
 interface MultiBuyOption {
@@ -107,7 +107,7 @@ export default function TicketForm({ product, onAfterSubmit }: { product: Compet
                                             (
                                             <span className="woocommerce-Price-amount amount">
                                                 <bdi>
-                                                    <span className="woocommerce-Price-currencySymbol">£</span>{savings}
+                                                    <span className="woocommerce-Price-currencySymbol">{CURRENCY_MAP[product.currency]}</span>{savings}
                                                 </bdi>
                                             </span>
                                             )

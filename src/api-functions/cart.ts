@@ -16,7 +16,9 @@ export async function getStoreApiNonce(): Promise<string> {
 export async function fetchUpsell(productId: number) {
     const res = await fetch(`${BASE_URL}/api/cart/popup`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+         },
         body: JSON.stringify({ product_id: productId }),
     });
 

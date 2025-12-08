@@ -3,6 +3,7 @@ export interface CompetitionProduct {
     slug: string;
     title: string;
     permalink: string;
+    currency: string;
     image: string;
     type: string;
     is_on_sale: boolean;
@@ -22,6 +23,11 @@ export interface CompetitionProduct {
     start_date: number; // UNIX timestamp (seconds)
     order: number;
 }
+
+export const CURRENCY_MAP: { [key: string]: string } = {
+    GBP: '£',
+    EUR: '€',
+};
 
 export interface CompetitionSection {
     title: string;

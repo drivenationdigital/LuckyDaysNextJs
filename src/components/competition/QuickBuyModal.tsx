@@ -5,7 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import TicketForm from './ProductActions';
-import { CompetitionProduct } from '@/types/posts';
+import { CompetitionProduct, CURRENCY_MAP } from '@/types/posts';
 
 type QuickBuyModalProps = {
     productName?: string;
@@ -122,7 +122,7 @@ export default function QuickBuyModal({
                                     <div className="modal-quick-buy-price">
                                         <h4>
                                             <span className="woocommerce-Price-amount amount">
-                                                <bdi><span className="woocommerce-Price-currencySymbol">£</span>
+                                                <bdi><span className="woocommerce-Price-currencySymbol">{CURRENCY_MAP[product.currency]}</span>
                                                     {parseFloat(product.regular_price.replace(/[^0-9.-]+/g, '')).toFixed(2)}
                                                 </bdi>
                                             </span>

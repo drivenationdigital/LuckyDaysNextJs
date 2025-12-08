@@ -3,22 +3,29 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/app/context/cart-context';
+import { getPersistedCurrency, updatePersistedCurrency } from '@/utils/currencyHandler';
 
-const Header = ({ currency = 'GBP' }) => {
+const Header = () => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [showMoreDropdown, setShowMoreDropdown] = useState(false);
     const [pageScrolled, setPageScrolled] = useState(false);
+    const currency = getPersistedCurrency();
 
-    const {cart} = useCart();
+    const { cart } = useCart();
 
     const toggleOverlay = () => setShowOverlay(!showOverlay);
 
-    const handleScroll = () =>  window.scrollY > 10 ? setPageScrolled(true) : setPageScrolled(false); 
+    const handleScroll = () => window.scrollY > 10 ? setPageScrolled(true) : setPageScrolled(false);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     });
+
+    const handleCurrencyChange = (newCurrency: 'GBP' | 'EUR') => {
+        updatePersistedCurrency(newCurrency);
+        window.location.reload();
+    }
 
     return (
         <header className={`top-header ${pageScrolled == false ? "" : "fixed"}`}>
@@ -41,12 +48,12 @@ const Header = ({ currency = 'GBP' }) => {
                             onMouseLeave={() => setShowMoreDropdown(false)}
                         >
                             <a href="#" onClick={(e) => e.preventDefault()} className="dropdown-toggle">More</a>
-                                <div className={`dropdown-menu ${showMoreDropdown ? 'show' : ''}`}>
-                                    <Link className="dropdown-item" href="/my-account">My Account</Link>
-                                    <Link className="dropdown-item" href="/faqs">Facts & FAQs</Link>
-                                    <a className="dropdown-item" href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a>
-                                    <a className="dropdown-item" href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a>
-                                </div>
+                            <div className={`dropdown-menu ${showMoreDropdown ? 'show' : ''}`}>
+                                <Link className="dropdown-item" href="/my-account">My Account</Link>
+                                <Link className="dropdown-item" href="/faqs">Facts & FAQs</Link>
+                                <a className="dropdown-item" href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a>
+                                <a className="dropdown-item" href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a>
+                            </div>
                         </li>
                         <li className="currency-nav" style={{ display: 'none' }}>
                             <a href="#" onClick={(e) => e.preventDefault()} className="dropdown-toggle">{currency === 'GBP' ? 'GBP (£)' : 'EUR (€)'}</a>
@@ -109,34 +116,38 @@ const Header = ({ currency = 'GBP' }) => {
                 </nav>
 
                 {/* Overlay Mobile Menu */}
-                
-                    <div className={`overlay-menu ${showOverlay ? "active" : ""}`}>
-                        <a href="#" className="overlay-close" onClick={toggleOverlay}><i className="fa fa-times"></i></a>
-                        <ul className="mobile-menu">
-                            <li className="logo-list">
-                                <Link href="/"><Image src="/images/logo.png?v=1.02" alt="logo" width={120} height={40} className='img-fluid' /></Link>
-                            </li>
-                            <li><Link href="/" onClick={toggleOverlay}>Home</Link></li>
-                            <li><Link href="/all-competitions" onClick={toggleOverlay}>Competitions</Link></li>
-                            <li><Link href="/live-draws" onClick={toggleOverlay}>Live Draws</Link></li>
-                            <li><Link href="/draw-results" onClick={toggleOverlay}>Draw Results</Link></li>
-                            <li><Link href="/past-winners" onClick={toggleOverlay}>Our winners</Link></li>
-                            <li><a href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a></li>
-                            <li><Link href="/faqs" onClick={toggleOverlay}>Facts & FAQs</Link></li>
-                            <li><a href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a></li>
-                            <li><Link href="/my-account" onClick={toggleOverlay}>My Account</Link></li>
-                        </ul>
 
-                        <div className="mobile-currency-nav wcml_currency_switcher">
-                            <a className={currency === 'GBP' ? 'currency-active' : ''} rel="GBP">
-                                <Image src="/images/flag-uk.jpg" alt="UK Flag" width={24} height={16} /> GBP (£)
-                            </a>
-                            <a className={currency === 'EUR' ? 'currency-active' : ''} rel="EUR">
-                                <Image src="/images/flag-euro.jpg" alt="EU Flag" width={24} height={16} /> EUR (€)
-                            </a>
-                        </div>
+                <div className={`overlay-menu ${showOverlay ? "active" : ""}`}>
+                    <a href="#" className="overlay-close" onClick={toggleOverlay}><i className="fa fa-times"></i></a>
+                    <ul className="mobile-menu">
+                        <li className="logo-list">
+                            <Link href="/"><Image src="/images/logo.png?v=1.02" alt="logo" width={120} height={40} className='img-fluid' /></Link>
+                        </li>
+                        <li><Link href="/" onClick={toggleOverlay}>Home</Link></li>
+                        <li><Link href="/all-competitions" onClick={toggleOverlay}>Competitions</Link></li>
+                        <li><Link href="/live-draws" onClick={toggleOverlay}>Live Draws</Link></li>
+                        <li><Link href="/draw-results" onClick={toggleOverlay}>Draw Results</Link></li>
+                        <li><Link href="/past-winners" onClick={toggleOverlay}>Our winners</Link></li>
+                        <li><a href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a></li>
+                        <li><Link href="/faqs" onClick={toggleOverlay}>Facts & FAQs</Link></li>
+                        <li><a href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a></li>
+                        <li><Link href="/my-account" onClick={toggleOverlay}>My Account</Link></li>
+                    </ul>
+
+                    <div className="mobile-currency-nav wcml_currency_switcher">
+                        <a className={currency === 'GBP' ? 'currency-active' : ''} rel="GBP" onClick={() => {
+                            handleCurrencyChange('GBP')
+                        }} >
+                            <Image src="/images/flag-uk.jpg" alt="UK Flag" width={24} height={16} /> GBP (£)
+                        </a>
+                        <a className={currency === 'EUR' ? 'currency-active' : ''} rel="EUR" onClick={() => {
+                            handleCurrencyChange('EUR')
+                        }}>
+                            <Image src="/images/flag-euro.jpg" alt="EU Flag" width={24} height={16} /> EUR (€)
+                        </a>
                     </div>
-                
+                </div>
+
             </div>
         </header>
     );
