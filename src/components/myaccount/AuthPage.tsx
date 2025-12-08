@@ -59,6 +59,8 @@ const AuthPage: React.FC = () => {
                 throw new Error(data.error || 'Login failed');
             }
 
+            alert(JSON.stringify(data));
+
             if (data.token) {
                 if (window.ReactNativeWebView) {
                     window.ReactNativeWebView.postMessage(
@@ -67,18 +69,15 @@ const AuthPage: React.FC = () => {
                             token: data.token,
                         })
                     );
+                } else {
+                    alert("No ReactNativeWebView found");
                 }
             }
 
             setLoading(false);
-            // Store token in cookies 
-            // document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
-            // document.cookie = `token=${data.token}; Path=/; Secure; SameSite=None`;
-
             refetch();
         } catch (error) {
             setLoading(false);
-
             setError(error instanceof Error ? error.message : 'Unknown error');
         }
     }
