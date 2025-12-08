@@ -1,28 +1,29 @@
-import { Metadata } from "next";
-import Link from "next/link";
+import NextDrawOnlyCompetitions from "@/components/NextDrawOnlyCompetitions";
 
-export const metadata: Metadata = {
-    title: "Next Draws - Lucky Day Competitions",
-    description: "Explore the next draws of our exciting competitions and see who has won amazing prizes!",
-    icons: {
-        icon: 'images/favicon.png',
-    }
+export const metadata = {
+    title: "Next Draw Competitions - Lucky Day Competitions",
+    description: "Enter exciting competitions to win amazing prizes!",
 };
 
 export default function Page() {
     return (
         <>
-            <h1>Welcome to next draws page!</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <Link href="/">Page 1</Link>
-                    </li>
-                    <li>
-                        <Link href="/products">Page 2</Link>
-                    </li>
-                </ul>
-            </nav>
+            <div className="category-banner text-center">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-sm-6 offset-sm-3">
+                            <h1>Next Draw</h1>
+                            <p>Last chance - these products are ending very soon!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <main>
+                <div className="top-competition-section">
+                    <NextDrawOnlyCompetitions />
+                </div>
+            </main>
         </>
-    )
+    );
 }

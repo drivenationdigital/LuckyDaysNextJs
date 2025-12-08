@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
   response.headers.set(
     "Set-Cookie",
-    `${SESSION_COOKIE_NAME}=${data.token}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=604800`
+    `${SESSION_COOKIE_NAME}=${data.token}; Path=/; HttpOnly; Secure; SameSite=None`
   );
 
   return response;

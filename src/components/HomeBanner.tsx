@@ -16,6 +16,7 @@ type Slide = {
     link: {
         url: string;
         title: string;
+        slug: string;
     };
     product_end_date: string;
     show_days: boolean;
@@ -62,7 +63,7 @@ export default function BannerContent() {
     } = useQuery({
         queryKey: ['homepage-banners'],
         queryFn: fetchHomepageBanners,
-        staleTime: 1000 * 60 * 5, // 5 minutes cache
+        // staleTime: 1000 * 60 * 5, // 5 minutes cache
     });
 
     if (isLoading) return <BannerContentPlaceholder />;
@@ -79,19 +80,21 @@ export const HomeSlider: React.FC<{
     slides,
     className = ''
 }) => {
+    const isSingleSlide = slides.length === 1;
+
     const settings: Settings = {
-        dots: false,
-        arrows: true,
+        dots: !isSingleSlide,
+        arrows: !isSingleSlide,
         slidesToShow: 1,
         slidesToScroll: 1,
         adaptiveHeight: true,
-        autoplay: false,
+        autoplay: !isSingleSlide,
         autoplaySpeed: 3000,
 
-        infinite: true,
-        swipeToSlide: true,   // Allows you to drag to any slide, not only step-by-step
+        infinite: !isSingleSlide,
+        swipeToSlide: !isSingleSlide,
+        draggable: !isSingleSlide,
     };
-
 
     return (
         <section className={`sliderhome-section banner ${className}`} id="sliderhome">
@@ -100,7 +103,7 @@ export const HomeSlider: React.FC<{
                     const countdown = calculateCountdown(slide.product_end_date);
                     return (
                         <div key={idx} className="item">
-                            <Link href={slide.link.url} className="slider-row">
+                            <Link href={`product/${slide.link.slug}`} className="slider-row">
                                 {slide.video && slide.video.url ? (
                                     <video
                                         autoPlay
@@ -145,7 +148,7 @@ export const HomeSlider: React.FC<{
                                                     </div>
                                                 )}
                                             </div>
-                                            <Link href={slide.link.url} className="theme-btn wow fadeIn">
+                                            <Link href={`product/${slide.link.slug}`} className="theme-btn wow fadeIn">
                                                 <span>{slide.link.title || 'ENTER NOW'}</span>
                                             </Link>
                                         </div>

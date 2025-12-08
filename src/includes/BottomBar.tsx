@@ -30,12 +30,12 @@ export const BottomBar = () => {
 
             {/* Basket */}
             <div className="bottom-item text-center">
-                <i className="fa fa-shopping-cart"></i>
-                <div className="bottom-label">
-                    <Link href="/basket" className="dropdown-item">
+                <Link href="/basket" className="dropdown-item">
+                    <i className="fa fa-shopping-cart"></i>
+                    <div className="bottom-label">
                         Basket
-                    </Link>
-                </div>
+                    </div>
+                </Link>
             </div>
         </div>
     );

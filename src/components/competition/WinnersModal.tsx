@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
+import { fetchWinners } from '@/api-functions/instant-wins';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -124,47 +125,6 @@ function WinnersModal({ show, onClose, productId, prize }: WinnersModalProps) {
 //     };
 // };
 
-type WinnersQueryParams = {
-    product_id: number | string;
-    prize: string;
-    pageParam?: number;
-};
-
-
-async function fetchWinners({ product_id, prize, pageParam = 1 }: WinnersQueryParams) {
-    try {
-        const offset = (pageParam - 1) * 20;
-
-        const res = await fetch(`/api/get-winners-for-prize`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                product_id,
-                prize,
-                limit: 20,
-                offset,
-            }),
-        });
-
-
-        if (!res.ok) {
-            return { rows: [], has_more: false };
-        }
-
-        const json = await res.json();
-
-        if (!json || !json.success || !json.data) {
-            return { rows: [], has_more: false };
-        }
-
-        return json.data; // { rows, count, has_more, total, offset }
-    } catch (error) {
-        console.error("Error fetching winners:", error);
-        return { rows: [], has_more: false };
-    }
-}
-
-
 // Winners Modal
 function PrizeWinners({
     productId,
@@ -183,28 +143,61 @@ function PrizeWinners({
         isLoading,
         error,
     } = useInfiniteQuery({
-        initialPageParam: 1,
-        queryKey: [`iw-winner-${productId}-${prize}`],
-        queryFn: ({ pageParam = 1 }) =>
+        queryKey: ['iw-winner', productId, prize],
+
+        initialPageParam: 0, // ✅ OFFSET STARTS AT 0
+
+        queryFn: ({ pageParam = 0 }) =>
             fetchWinners({
                 product_id: productId!,
                 prize: prize!,
-                pageParam,
+                offset: pageParam,   // ✅ OFFSET PASSED DIRECTLY
             }),
-        getNextPageParam: (lastPage, pages) =>
-            lastPage?.has_more ? pages.length + 1 : undefined,
+
+        getNextPageParam: (lastPage) => {
+            if (!lastPage?.has_more) return undefined;
+            return lastPage.offset; // ✅ API RETURNS NEXT OFFSET
+        },
+
+        staleTime: 0,
+        gcTime: 0,
         retry: 0,
-        throwOnError: false,
+        refetchOnMount: true,
     });
+
+    useEffect(() => {
+        const el = containerRef.current;
+
+        // If content is not scrollable, but more pages exist → auto-load next page
+        if (
+            el &&
+            hasNextPage &&
+            !isFetchingNextPage &&
+            el.scrollHeight <= el.clientHeight
+        ) {
+            fetchNextPage();
+        }
+    }, [data, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+
+    const scrollLock = useRef(false);
 
     const handleScroll = () => {
         const el = containerRef.current;
-        if (el && hasNextPage && !isFetchingNextPage) {
-            if (el.scrollTop + el.clientHeight >= el.scrollHeight - 100) {
-                fetchNextPage();
-            }
+
+        if (!el || !hasNextPage || isFetchingNextPage || scrollLock.current) return;
+
+        if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+            scrollLock.current = true;
+
+            fetchNextPage().finally(() => {
+                setTimeout(() => {
+                    scrollLock.current = false;
+                }, 300);
+            });
         }
     };
+
 
     const pages = data?.pages ?? [];
 

@@ -28,6 +28,9 @@ export default function AddToCartModal({
     const [isVisible, setIsVisible] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
 
+    console.log(extraContent, showExtraContent);
+    
+
 
     useEffect(() => {
         setIsMounted(true);
@@ -144,11 +147,11 @@ export default function AddToCartModal({
                                 </div>
 
                                 {showExtraContent && extraContent && (
-                                    <div className="product-card-wrapper">
+                                    <div className="product-card-wrapper" style={{display: 'block'}}>
                                         <div className="product-card-wrapper-row">
                                             <div className="product-card-img-left">
                                                 <Link
-                                                    href={extraContent.link}
+                                                    href={`/product/${extraContent.link}`}
                                                     className="product-card-img-link"
                                                 >
                                                     <div
@@ -164,13 +167,13 @@ export default function AddToCartModal({
                                                 <div className="product-card-title">
                                                     <h4>{extraContent.title}</h4>
                                                     <div className="price-t">
-                                                        <span>{extraContent.description}</span>
+                                                        <span dangerouslySetInnerHTML={{ __html: extraContent.description }} />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="product-card-btn">
-                                            <Link href={extraContent.link} className="enter-now-btn">
+                                            <Link href={`/product/${extraContent.link}`} className="enter-now-btn">
                                                 Enter Here
                                             </Link>
                                         </div>

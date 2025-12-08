@@ -38,15 +38,35 @@ export const fetchAllCompetitions = async (page: number) => {
     return data;
 };
 
+export const fetchNextDrawCompetitions = async () => {
+    const response = await fetch(`${BASE_URL}/api/get-next-draw-competitions`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        next: {
+            revalidate: 0, // This ensures the data is always fresh
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch next draw competitions');
+    }
+    
+    const data = await response.json();
+    return data;
+}
+
+
 export const fetchHomepageBanners = async () => {
     const response = await fetch(`${BASE_URL}/api/get-homepage-banners`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        next: {
-            revalidate: 60, // This ensures the data is always fresh
-        }
+        // next: {
+        //     revalidate: 60, // This ensures the data is always fresh
+        // }
     });
 
     if (!response.ok) {

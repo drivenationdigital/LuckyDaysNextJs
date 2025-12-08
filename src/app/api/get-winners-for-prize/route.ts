@@ -27,15 +27,18 @@ export async function POST(request: NextRequest) {
 
     try {
         const response = await fetch(apiURL, {
-            method: "GET",
+            method: "POST",
             cache: "no-store",
             headers: {
                 "Content-Type": "application/json",
                 "Cache-Control": "no-store, no-cache, must-revalidate",
             },
+            next: { revalidate: 0 },
         });
 
         const data = await response.json();
+
+        console.log(data);
 
         return NextResponse.json(data, {
             status: response.status,

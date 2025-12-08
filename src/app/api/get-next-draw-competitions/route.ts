@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
     try {
-        const response = await fetch(`${API_URL}/wp-json/next/v1/get-home-banners`, {
+        const response = await fetch(`${API_URL}/wp-json/next/v1/get-all-next-draw-competitions?_=${Date.now()}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -17,8 +17,6 @@ export async function GET(request: NextRequest) {
         });
 
         const data = await response.json();
-        console.log(data);
-        
         return NextResponse.json(data);
     } catch (error: any) {
         return NextResponse.json({ error: error.message || "Fetch failed" }, { status: 500 });
