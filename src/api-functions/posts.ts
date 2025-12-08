@@ -96,11 +96,12 @@ export const fetchProductMetaData = async (identifier: string) => {
     return data;
 }
 
-export const fetchProductById = async (id: string) => {
+export const fetchProductById = async (id: string, currency: 'GBP' | 'EUR' = 'GBP') => {
     const response = await fetch(`${BASE_URL}/api/product/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "X-App-Currency": currency,
         },
         next: {
             revalidate: 60, // This ensures the data is always fresh

@@ -28,10 +28,6 @@ export default function AddToCartModal({
     const [isVisible, setIsVisible] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    console.log(extraContent, showExtraContent);
-    
-
-
     useEffect(() => {
         setIsMounted(true);
     }, []);

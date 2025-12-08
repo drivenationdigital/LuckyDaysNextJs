@@ -5,8 +5,10 @@ export function updatePersistedCurrency(currency: 'GBP' | 'EUR') {
 }
 
 export function getPersistedCurrency(): 'GBP' | 'EUR' {
-    if (typeof document === 'undefined') return 'GBP';
+    if (typeof document === 'undefined') {
+        return 'GBP';
+    }
+    const match = document.cookie.match(/ld_currency=(GBP|EUR)/) as [string, 'GBP' | 'EUR'] | null;
 
-    const match = document.cookie.match(/ld_currency=(GBP|EUR)/);
-    return (match?.[1] as 'GBP' | 'EUR') || 'GBP';
+    return match?.[1] || 'GBP';
 }

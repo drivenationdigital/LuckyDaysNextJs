@@ -1,15 +1,14 @@
+// utils/headlessFetch.server.ts
 import { cookies } from "next/headers";
 
-export async function getPersistedSSRCurrency(): Promise<'GBP' | 'EUR'> {
-    const cookieStore = await cookies();
-    const currency = cookieStore.get('ld_currency')?.value;
-
-    return (currency === 'GBP' || currency === 'EUR') ? currency : 'GBP';
-}
-
-
 export async function headlessFetch(url: string, options: RequestInit = {}) {
-    const currency = await getPersistedSSRCurrency();
+    const cookieStore = await cookies();
+    const currencyCookie = cookieStore.get('ld_currency')?.value;
+
+    const currency: 'GBP' | 'EUR' =
+        currencyCookie === 'GBP' || currencyCookie === 'EUR'
+            ? currencyCookie
+            : 'GBP';
 
     return fetch(url, {
         ...options,
@@ -17,5 +16,6 @@ export async function headlessFetch(url: string, options: RequestInit = {}) {
             ...options.headers,
             'X-App-Currency': currency,
         },
+        cache: 'no-store',
     });
 }

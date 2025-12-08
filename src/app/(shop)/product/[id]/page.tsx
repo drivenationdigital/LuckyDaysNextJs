@@ -9,6 +9,7 @@ import SlickGalleryWithThumbs from '@/components/competition/Slider';
 import InstantWinsSection from '@/components/competition/InstantWinsSection';
 import TicketForm from '@/components/competition/ProductActions';
 import PostalEntryModal from '@/components/competition/PostalEntryModal';
+import { cookies } from 'next/headers';
 
 type Props = {
     params: Promise<{ id: string }>
@@ -62,7 +63,10 @@ export default async function Page({
 }) {
     const { id } = await params
 
-    const response = await fetchProductById(id.toString());
+    const cookiesStore = await cookies();
+    const currency = cookiesStore.get('ld_currency')?.value as 'GBP' | 'EUR' || 'GBP';
+    
+    const response = await fetchProductById(id.toString(), currency);
 
     if (!response || !response?.success === true) {
         return (
