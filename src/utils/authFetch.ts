@@ -2,7 +2,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET, SESSION_COOKIE_NAME } from "@/actions/api";
-import { getPersistedSSRCurrency } from "./headlessFetch";
 
 
 /**
@@ -23,7 +22,8 @@ export async function authFetch(
     const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
     let isValidToken = false;
 
-    const currency = await getPersistedSSRCurrency();
+    const currencyCookie = cookieStore.get('ld_currency')?.value;
+    const currency = (currencyCookie === 'GBP' || currencyCookie === 'EUR') ? currencyCookie : 'GBP';
 
     if (!token && forceVerify) {
         throw new Error("No auth token found");
