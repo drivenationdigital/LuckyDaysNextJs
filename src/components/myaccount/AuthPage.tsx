@@ -59,6 +59,17 @@ const AuthPage: React.FC = () => {
                 throw new Error(data.error || 'Login failed');
             }
 
+            if (data.token) {
+                if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                            type: "LOGIN_TOKEN",
+                            token: data.token,
+                        })
+                    );
+                }
+            }
+
             setLoading(false);
             // Store token in cookies 
             // document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;

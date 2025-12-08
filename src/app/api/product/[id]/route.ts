@@ -22,8 +22,6 @@ export async function GET(request: NextRequest,
                 ? headerCurrency
                 : 'GBP';
 
-        console.log('currency', currency);
-
         const response = await fetch(`${API_URL}/wp-json/next/v1/get-product/${id}`, {
             method: "GET",
             headers: {
@@ -35,8 +33,6 @@ export async function GET(request: NextRequest,
         });
 
         const data = await response.json();
-        console.log(data);
-
         return NextResponse.json(data);
     } catch (error: any) {
         return NextResponse.json({ error: error.message || "Fetch failed" }, { status: 500 });

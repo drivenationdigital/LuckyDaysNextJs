@@ -8,6 +8,12 @@ export const LogoutButton: React.FC = () => {
 
     const handleLogout = () => {
         if (confirm('Are you sure you want to log out?')) {
+            if (window.ReactNativeWebView) {
+                window.ReactNativeWebView.postMessage(
+                    JSON.stringify({ type: "LOGOUT" })
+                );
+            }
+
             logout();
         };
     }

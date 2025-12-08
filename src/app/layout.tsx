@@ -24,6 +24,7 @@ import Link from "next/link";
 
 import NextTopLoader from 'nextjs-toploader';
 import { BottomBar } from "@/includes/BottomBar";
+import NativeTokenBridge from "@/components/NativeTokenBridge";
 
 export const metadata: Metadata = {
   title: "Home - Lucky Day Competitions",
@@ -52,6 +53,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body>
+        <NativeTokenBridge />
+        
         <NextTopLoader 
           color="#b67407"
           initialPosition={0.08}
