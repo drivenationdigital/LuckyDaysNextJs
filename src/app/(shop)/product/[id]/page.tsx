@@ -70,7 +70,7 @@ export default async function Page({
 
     if (!response || !response?.success === true) {
         return (
-            <div className="container">
+            <div className="container not-found">
                 <h1>Product not found</h1>
                 <p>The product you are looking for does not exist.</p>
                 <Link href="/">Go back to homepage</Link>
@@ -82,7 +82,7 @@ export default async function Page({
 
     if (!product) {
         return (
-            <div className="container">
+            <div className="container not-found">
                 <h1>Product not found</h1>
                 <p>The product you are looking for does not exist.</p>
                 <Link href="/">Go back to homepage</Link>
