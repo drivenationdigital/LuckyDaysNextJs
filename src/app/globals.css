@@ -1437,8 +1437,9 @@ h5.title-line span.bg-white {
 	cursor: zoom-in;
 }
 .prize-main-slider{margin-bottom: 12px;}
-.prize-main-slider .img-blur{position: absolute; z-index: -1; height: 100% !important; filter: blur(16px); opacity: 0.35;}
-.prize-main-slider .main-slider.slick-slider .slick-list .slick-track .slick-slide > div{position: relative; border-radius: 8px; overflow: hidden;}
+.prize-main-slider .img-blur{position: absolute; z-index: -1; pointer-events: none; height: 100% !important; filter: blur(16px); opacity: 0.35;}
+.prize-main-slider .main-slider.slick-slider .slick-list .slick-track .slick-slide > div{overflow: hidden; border-radius: 8px;}
+.prize-main-slider .main-slider.slick-slider .slick-list .slick-track .slick-slide div{position: relative; height: 100%;}
 .prize-main-slider .main-slider.slick-slider .slick-list .slick-track .slick-slide{height: 40vw; max-height:548px; min-height: 320px;}
 .prize-main-slider .main-slider.slick-slider .slick-list .slick-track .slick-slide > div{height: 100%; width: 100%;}
 .prize-main-slider .main-slider.slick-slider .slick-list .slick-track .slick-slide > div a{height: 100%; width: 100%;}

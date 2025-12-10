@@ -29,11 +29,10 @@ const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) =
     }
 
     const settingsMain = {
-        infinite: true,
+        infinite: false,
         speed: 200,
         slidesToShow: 1,
         slidesToScroll: 1,
-
     };
 
     const settingsThumbs = {
@@ -61,10 +60,10 @@ const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) =
         <div className="col-lg-6 engine-detail-left-content">
 
             {/* large image swiper */}
-            <div className="prize-main-slider"  style={{color:"red"}}>               
+            <div className="prize-main-slider">               
                 <Slider {...settingsMain} className="main-slider">
-                    {images.map((img, idx) => (
-                        <Fancybox key={idx} >
+                    {images.map((img, idx) => (            
+                        <div key={idx}>  
                             <Image
                                 src={img?.url}
                                 alt={`Image ${idx + 1}`}
@@ -73,16 +72,25 @@ const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) =
                                 unoptimized
                                 className='img-blur'
                             />
-                            <a href={img?.url} data-fancybox="gallery-main">
-                                <Image
-                                    src={img?.url}
-                                    alt={`Image ${idx + 1}`}
-                                    width={745}
-                                    height={497}
-                                    unoptimized
-                                />
-                            </a>
-                        </Fancybox>
+                            <Fancybox>
+                                <a href={img?.url} data-fancybox="gallery-main"
+                                    onClick={(e) => {
+                                        // allow Fancybox to handle the click (do NOT preventDefault)
+                                        // but stop propagation to parent elements if necessary
+                                        // (usually not necessary if nav buttons are outside)
+                                        e.stopPropagation();
+                                    }}
+                                >
+                                    <Image
+                                        src={img?.url}
+                                        alt={`Image ${idx + 1}`}
+                                        width={745}
+                                        height={497}
+                                        unoptimized
+                                    />
+                                </a>
+                            </Fancybox>
+                        </div>
                     ))}
                 </Slider>
             </div>
