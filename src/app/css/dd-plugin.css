@@ -474,3 +474,10 @@
     }
 
 }
+
+.cky-consent-container.cky-box-bottom-left{
+    display: none!important;
+}
+.cky-consent-container{
+    display: none!important;
+}
