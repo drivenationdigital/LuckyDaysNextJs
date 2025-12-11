@@ -208,26 +208,28 @@ export default async function Page({
                     <section className="pro-info-tab">
                         <div className="container">
                             <h3 className="text-center">More Information</h3>
-                            <div id="product-accordion">
-                                <div className="accordion" id="faq">
-                                    {product.dropdown_items?.map((item: any, index: number) => (
-                                        <div className="card" key={index}>
-                                            <div className="card-header">
-                                                <a href="#"
-                                                    className="btn btn-header-link collapsed"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target={`#dropdown-${index}`}
-                                                    aria-expanded="false">
-                                                    {item.title}
-                                                </a>
-                                            </div>
+                            <div className='bg-white' style={{borderRadius:"4px"}}>
+                                <div id="product-accordion">
+                                    <div className="accordion" id="faq">
+                                        {product.dropdown_items?.map((item: any, index: number) => (
+                                            <div className="card" key={index}>
+                                                <div className="card-header">
+                                                    <a href="#"
+                                                        className="btn btn-header-link collapsed"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target={`#dropdown-${index}`}
+                                                        aria-expanded="false">
+                                                        {item.title}
+                                                    </a>
+                                                </div>
 
-                                            <div id={`dropdown-${index}`} className="collapse" aria-labelledby="faqhead2"
-                                                data-parent="#faq">
-                                                <div className="card-body" dangerouslySetInnerHTML={{ __html: item.content }} />
+                                                <div id={`dropdown-${index}`} className="collapse" aria-labelledby="faqhead2"
+                                                    data-parent="#faq">
+                                                    <div className="card-body" dangerouslySetInnerHTML={{ __html: item.content }} />
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

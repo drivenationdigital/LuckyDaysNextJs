@@ -738,6 +738,8 @@ h5.title-line span.bg-white {
 .award-section {
 	padding: 20px 0;
 	background-color: #1d1e22;
+	position: relative;
+	z-index: 2;
 }
 
 .award-section h1 {
@@ -801,6 +803,7 @@ h5.title-line span.bg-white {
 	margin: 0px 0 50px;
 	height: 105px;
 }
+
 
 /*prize draw section*/
 .prize-draw-section {
@@ -981,16 +984,14 @@ h5.title-line span.bg-white {
 
 /* Winner Section */
 .winner-section {
-	padding: 60px 0px 60px;
-	background: url(/images/bg1.jpg);
+	padding: 36px 0px 20px;
+	margin-top: -6px;
+	/* background: url(/images/bg1.jpg); */
 	background-size: cover;
-	float: left;
+	/* float: left; */
 	width: 100%;
 }
 
-@media(max-width:768px){
-	.winner-section {padding: 40px 0px 20px;}
-}
 
 .winner-section .container {
 	position: relative;
@@ -2634,6 +2635,7 @@ form.cart .qty {
 	padding: 20px;
 	font-weight: 600;
 	text-transform: uppercase;
+	border-radius: 0px;
 }
 
 #product-accordion #faq .card .card-header span {
@@ -2709,10 +2711,11 @@ form.cart .qty {
 	margin-right: auto;
 }
 
-#product-accordion .accordion#faq{display: grid; gap: 16px;}
+#product-accordion .accordion#faq{display: grid; gap: 0px;}
 #product-accordion .accordion#faq .card{background-color: transparent; border: 1px solid white; overflow: hidden;}
 #product-accordion .accordion#faq .card .card-header .btn-header-link{border-color: transparent;}
 #product-accordion #faq .card, #product-accordion #faq .card .collapse.show{line-height: normal !important;}
+#product-accordion .card-body li a{word-break: break-all;}
 
 @media(max-width:980px) {
 
@@ -6657,7 +6660,10 @@ header.header-top-wrapper {
 .testimonial-item h5 {
 	font-size: 22px !important;
 	line-height: 30px !important;
+	text-align: center;
 }
+
+.testimonial-item  {text-align: center;}
 
 
 .draw-result-preview {
@@ -6681,6 +6687,7 @@ header.header-top-wrapper {
 
 .draw-result-preview h4 {
 	font-weight: bold;
+	margin-bottom: 16px;
 }
 
 .draw-result-img {
@@ -7319,6 +7326,7 @@ header.header-top-wrapper {
 @media only screen and (max-width: 767px) {
 	.award-section {
 		margin-top: 0px;
+		
 	}
 
 	.paypal-block {
@@ -7829,6 +7837,11 @@ header .currency-nav a[rel="EUR"] {
 	margin: 0 auto;
 }
 
+.testimonials-container .slick-list {
+	transition: 0.3s;
+}
+
+
 .testimonials-container .slick-prev {
 	left: -30px !important;
 }
@@ -7855,6 +7868,7 @@ header .currency-nav a[rel="EUR"] {
 	background-size: cover;
 	background-repeat: no-repeat;
 	border-radius: 5px;
+	background-position: center;
 }
 
 .testimonial-item .testimonial-media {
@@ -8477,6 +8491,7 @@ img.emoji {
 }
 @media(max-width:768px){
 	.dashboard-cta {grid-template-columns: 1fr;}
+	.winner-section .row.equal .col-12.col-sm-6.col-lg-4{margin-bottom: 0;}
 }
 
 .woocommerce-EditAccountForm.edit-account button[type="submit"], .woocommerce-button.woocommerce-button--next.woocommerce-Button.woocommerce-Button--next.button{background-color: var(--primary-color); color:white;}
@@ -8491,3 +8506,4 @@ img.emoji {
 
 .not-found{margin:60px auto 60px;}
 .not-found a{color:var(--primary-color)}
+

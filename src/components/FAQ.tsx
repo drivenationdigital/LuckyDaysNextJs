@@ -228,7 +228,7 @@ export default function FaqAccordion() {
     return (
         <main className="content-page">
             <div className="container text-center">
-                <div className="col-sm-12">
+                <div className="col-sm-12 bg-white" style={{borderRadius:"4px"}}>
                     <div id="product-accordion">
                         <div className="accordion" id="faq">
                             {faqs.map((faq) => (
