@@ -99,24 +99,26 @@ const InstantWinsSection: React.FC<{ product_id: number }> = ({
         <section className="pro-info-tab mt-0 pt-1">
             <div className="container">
                 <h3 className="text-center">Instant Wins</h3>
-                <div id="product-accordion">
-                    {notice && (
-                        <div className="alert alert-danger text-center" role="alert">
-                            {notice}
-                        </div>
-                    )}
-                    <div className="instant-wins-container">
-                        <div id="dropdown-iw" className="collapse show" data-parent="#faq">
-                            <div className="card-body">
-                                <div id="accordion">
-                                    <InstantWinsAccordion
-                                        data={data.data}
-                                        productId={product_id}
-                                        onPrizeClick={(prize) => {
-                                            setSelectedPrize(prize);
-                                            setModalOpen(true);
-                                        }}
-                                    />
+                <div className='bg-white' style={{borderRadius:"4px"}}>
+                    <div id="product-accordion">
+                        {notice && (
+                            <div className="alert alert-danger text-center" role="alert">
+                                {notice}
+                            </div>
+                        )}
+                        <div className="instant-wins-container">
+                            <div id="dropdown-iw" className="collapse show" data-parent="#faq">
+                                <div className="card-body">
+                                    <div id="accordion">
+                                        <InstantWinsAccordion
+                                            data={data.data}
+                                            productId={product_id}
+                                            onPrizeClick={(prize) => {
+                                                setSelectedPrize(prize);
+                                                setModalOpen(true);
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

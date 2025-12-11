@@ -65,7 +65,19 @@ export const LiveDrawsSection: React.FC = () => {
         if (section) {
             section.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         }
+        
     }, [page]);
+
+    // useEffect(() => {
+    //    setTimeout(() => {
+    //         const videos = document.querySelectorAll(".row.equal.videos iframe");
+    //         videos.forEach(video => {
+    //             console.log(video.getBoundingClientRect()) 
+    //              const rect = video.getBoundingClientRect();
+    //              console.log(rect.height > rect.width ? "portrait" : "landscape");
+    //         })
+    //    }, 3000);
+    // }, []);
 
     const renderFacebookVideo = (videoId?: string) => {
         if (!videoId) return null;
@@ -80,7 +92,7 @@ export const LiveDrawsSection: React.FC = () => {
                 scrolling="no"
                 frameBorder="0"
                 allowFullScreen
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allow="autoplay; fullscreen; clipboard-write; encrypted-media; picture-in-picture; web-share"
             />
         );
     };
@@ -96,7 +108,7 @@ export const LiveDrawsSection: React.FC = () => {
 
     return (
         <div className="container text-center">
-            <div className="row equal">
+            <div className="row equal videos">
                 {isFetching && !data ? (
                     // First load skeletons
                     Array.from({ length: 9 }).map((_, i) => <WinnerSkeleton key={i} />)
