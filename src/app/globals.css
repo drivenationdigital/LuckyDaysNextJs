@@ -1287,7 +1287,7 @@ h5.title-line span.bg-white {
 	border-radius: 5px;
 	border: 1px #B77B13 solid;
 	height: 100%;
-	overflow: hidden;
+	overflow: hidden; 
 }
 
 .fb-video-container .fb-video-title {
@@ -1306,6 +1306,7 @@ h5.title-line span.bg-white {
 	width: 100% !important;
 	aspect-ratio: 16 / 9;
     height:100%;
+	max-height: calc(100% - 69px);
 }
 
 .fb_iframe_widget,
@@ -1316,6 +1317,7 @@ h5.title-line span.bg-white {
 }
 
 .row.equal.videos{gap:30px 0; margin-bottom: 40px;}
+@media(max-width:992px){.fb-video-container iframe {max-height: calc(100% - 54px);}}
 @media(max-width:767px){
 	.row.equal.videos > .col-sm-6{margin: 0 auto 0px auto;}
 	.row.equal.videos{margin-bottom: 30px;}

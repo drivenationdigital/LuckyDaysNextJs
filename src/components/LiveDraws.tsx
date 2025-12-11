@@ -65,7 +65,19 @@ export const LiveDrawsSection: React.FC = () => {
         if (section) {
             section.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         }
+        
     }, [page]);
+
+    useEffect(() => {
+       setTimeout(() => {
+            const videos = document.querySelectorAll(".row.equal.videos iframe");
+            videos.forEach(video => {
+                console.log(video.getBoundingClientRect()) 
+                 const rect = video.getBoundingClientRect();
+                 console.log(rect.height > rect.width ? "portrait" : "landscape");
+            })
+       }, 3000);
+    }, []);
 
     const renderFacebookVideo = (videoId?: string) => {
         if (!videoId) return null;
