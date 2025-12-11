@@ -96,7 +96,7 @@ export const LiveDrawsSection: React.FC = () => {
 
     return (
         <div className="container text-center">
-            <div className="row equal">
+            <div className="row equal videos">
                 {isFetching && !data ? (
                     // First load skeletons
                     Array.from({ length: 9 }).map((_, i) => <WinnerSkeleton key={i} />)
