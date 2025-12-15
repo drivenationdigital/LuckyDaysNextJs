@@ -6,7 +6,7 @@ import { useState } from 'react';
 import QuantityInput from '@/components/cart/JcfQtyInput';
 import AddToCartModal from '../cart/AddToCartModal';
 import { CompetitionProduct, CURRENCY_MAP } from '@/types/posts';
-import { fetchUpsell } from '@/api-functions/cart';
+// import { fetchUpsell } from '@/api-functions/cart';
 
 interface MultiBuyOption {
     qty: number;
@@ -25,13 +25,13 @@ export default function TicketForm({ product, onAfterSubmit }: { product: Compet
     const { addItem, notice, isMutating } = useCart();
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [showExtraContent, setShowExtraContent] = useState(false);
-    const [extraContent, setExtraContent] = useState<{
-        title: string;
-        description: string;
-        imageUrl: string;
-        link: string;
-    } | null>(null);
+    // const [showExtraContent, setShowExtraContent] = useState(false);
+    // const [extraContent, setExtraContent] = useState<{
+    //     title: string;
+    //     description: string;
+    //     imageUrl: string;
+    //     link: string;
+    // } | null>(null);
 
     const handleMultiBuySelect = (qty: number) => {
         setQuantity(qty);
@@ -39,47 +39,71 @@ export default function TicketForm({ product, onAfterSubmit }: { product: Compet
     };
 
 
+    // const handleSubmit = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await addItem(product.id, quantity);
+    //         if (response && response.success) {
+    //             onAfterSubmit?.();
+    //             // setModalVisible(true);
+
+    //             const upsell = await fetchUpsell(product.id);
+    //             if (upsell?.upsell_product_title) {
+    //                 setExtraContent({
+    //                     title: upsell.upsell_product_title,
+    //                     imageUrl: upsell.upsell_product_thumbnail_url,
+    //                     description: upsell.upsell_product_price,
+    //                     link: upsell.upsell_product_link,
+    //                 });
+    //                 setShowExtraContent(true);
+    //             } else {
+    //                 setShowExtraContent(false);
+    //                 setExtraContent(null);
+    //             }
+
+    //             setModalVisible(true);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error adding item to cart:", error);
+    //         // Optionally, you can set a notice here if needed
+    //         // setNotice(`❌ ${error.message}`);
+    //     }
+    // };
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         try {
             const response = await addItem(product.id, quantity);
-            if (response && response.success) {
+
+            if (response?.success) {
                 onAfterSubmit?.();
-                // setModalVisible(true);
 
-                const upsell = await fetchUpsell(product.id);
-                if (upsell?.upsell_product_title) {
-                    setExtraContent({
-                        title: upsell.upsell_product_title,
-                        imageUrl: upsell.upsell_product_thumbnail_url,
-                        description: upsell.upsell_product_price,
-                        link: upsell.upsell_product_link,
-                    });
-                    setShowExtraContent(true);
-                } else {
-                    setShowExtraContent(false);
-                    setExtraContent(null);
-                }
-
+                // show modal immediately
                 setModalVisible(true);
             }
         } catch (error) {
             console.error("Error adding item to cart:", error);
-            // Optionally, you can set a notice here if needed
-            // setNotice(`❌ ${error.message}`);
         }
     };
+
 
     return (
         <div className="que-ans-block">
             <form className="cart" onSubmit={handleSubmit}>
-                <AddToCartModal
+                {/* <AddToCartModal
                     show={modalVisible}
                     productName={product.title}
                     onClose={() => setModalVisible(false)}
                     showExtraContent={showExtraContent}
                     extraContent={extraContent!}
+                /> */}
+                <AddToCartModal
+                    show={modalVisible}
+                    productId={product.id}
+                    productName={product.title}
+                    onClose={() => setModalVisible(false)}
                 />
+
 
                 <div className="answers">
                     <div className="answers-label">Multi-Buy Discount</div>

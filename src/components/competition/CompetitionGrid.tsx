@@ -19,6 +19,8 @@ export const CompetitionGrid: React.FC<{ products: CompetitionProduct[] }> = ({ 
             />
             <ul className="comp-grid row equal">
                 {products.map((product) => {
+                    if (!product) return null;
+
                     const cardProps: ProductCardProps = {
                         href: `/product/${product.slug}`,
                         imageUrl: product.image,
@@ -34,6 +36,7 @@ export const CompetitionGrid: React.FC<{ products: CompetitionProduct[] }> = ({ 
                             // Handle quick buy action
                             setSelectedProduct(product);
                         },
+                        ticketSalesDisabled: product.disable_ticket_sales == "1",
                     };
 
                     return <ProductCard key={product.id} {...cardProps} />;

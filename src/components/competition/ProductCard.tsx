@@ -14,6 +14,7 @@ export interface ProductCardProps {
     endsText: string;
     productId: number;
     onQuickBuy: (productId: number) => void;
+    ticketSalesDisabled?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -27,6 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     endsText,
     productId,
     onQuickBuy,
+    ticketSalesDisabled,
 }) => {
     function decodeHtml(str: string) {
         if (!str) return "";
@@ -72,7 +74,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </div>
                         </Link>
                         <div className="product-category-btn-home">
-                            {(ticketsRemaining && parseInt(ticketsRemaining) > 0) && (
+                            {(ticketsRemaining && parseInt(ticketsRemaining) > 0 && !ticketSalesDisabled) && (
                                 <button className="quick-buy-btn" name="quick-buy" data-pid={productId}
                                     data-skip-link="true"
                                     onClick={(e) => {
@@ -85,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 </button>
                             )}
                             <Link href={href} className="enter-now-btn">
-                                <i className="fas fa-ticket-alt"></i>Enter Now
+                                <i className="fas fa-ticket-alt"></i> {ticketSalesDisabled ? 'Read More' : 'Enter Now'}
                             </Link>
 
                         </div>

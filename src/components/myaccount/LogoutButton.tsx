@@ -2,7 +2,9 @@
 import { useSession } from '@/app/hooks/useSession';
 import React from 'react'
 
-export const LogoutButton: React.FC = () => {
+export const LogoutButton: React.FC<{ mode?: 'link' | 'button' }> = ({
+    mode = 'button'
+}) => {
     const { logout } = useSession();
 
 
@@ -17,6 +19,15 @@ export const LogoutButton: React.FC = () => {
             logout();
         };
     }
+    
+    if (mode === 'link') {
+        return (
+            <a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }} className="logout">
+                (Log out)
+            </a>
+        );
+    }
+
 
     return (
         <button

@@ -90,6 +90,9 @@ export default async function Page({
         );
     }
 
+    console.log(product);
+    
+
     const mainImage = product.images?.find((img: any) => img.type === 'main');
     const galleryImages = product.images?.filter((img: any) => img.type === 'gallery') || [];
 
@@ -142,16 +145,18 @@ export default async function Page({
                                         <div className="competition-timer-section shadow-img">
                                             <div className="que-ans-block">
                                                 <div className="item wow fadeIn">
-                                                    <h4>
-                                                        {product.regular_price}{' '}
-                                                        <span>per ticket</span>
-                                                    </h4>
 
                                                     {product.tickets.stock_count > 0 && !product.ticket_sales_disabled ? (
-                                                        <TicketForm product={product} />
+                                                        <>
+                                                            <h4>
+                                                                {product.regular_price}{' '}
+                                                                <span>per ticket</span>
+                                                            </h4>
+                                                            <TicketForm product={product} />
+                                                        </>
                                                     ) : (
                                                         <div className="no-ticket-message">
-                                                            {product.ticket_sales_disabled ? product.disabled_message
+                                                            {product.ticket_sales_disabled ? <div dangerouslySetInnerHTML={{ __html: product.disabled_message }} />
                                                                 : product.tickets.left <= 0
                                                                     ? 'No tickets available'
                                                                     : Date.now() > product.competition_dates.end * 1000

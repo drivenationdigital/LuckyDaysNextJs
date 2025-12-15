@@ -82,6 +82,8 @@ export default function OrderReceived({ order_id }: Props) {
         winning_numbers = [],
     } = data as IOrderDetails;
 
+    console.log(data);
+
     return (
         <div className="container my-4">
             <article className="post">

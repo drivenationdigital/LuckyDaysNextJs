@@ -20,9 +20,8 @@ export default async function Page() {
 
                     <div className="title">
                         <h3>Welcome!</h3>
-                        <Link href="/my-account/logout/" className="logout">
-                            (Log out)
-                        </Link>
+                      
+                        <LogoutButton mode="link" />
                     </div>
 
                     <p className="mb-4">

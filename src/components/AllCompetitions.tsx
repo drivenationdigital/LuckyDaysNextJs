@@ -27,6 +27,5 @@ export default function CompetitionsContent() {
     }
 
     if (isError || !data || data.length === 0) return <div>No competitions found.</div>;
-
     return <CompetitionGrid products={data} />;
 }

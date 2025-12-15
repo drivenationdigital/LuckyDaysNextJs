@@ -3,9 +3,12 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { fetchUpsell } from '@/api-functions/cart';
+
 
 type AddToCartModalProps = {
     productName?: string;
+    productId: number;
     show: boolean;
     onClose: () => void;
     showExtraContent?: boolean;
@@ -21,16 +24,62 @@ export default function AddToCartModal({
     show,
     onClose,
     productName,
-    showExtraContent,
-    extraContent,
+    productId,
+    // showExtraContent,
+    // extraContent,
 }: AddToCartModalProps) {
     const [isMounted, setIsMounted] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
 
+    const [extraContent, setExtraContent] = useState<{
+        title: string;
+        description: string;
+        imageUrl: string;
+        link: string;
+    } | null>(null);
+
+    const [isLoadingUpsell, setIsLoadingUpsell] = useState(false);
+
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
+    useEffect(() => {
+        if (!show) return;
+
+        let cancelled = false;
+
+        const loadUpsell = async () => {
+            try {
+                setIsLoadingUpsell(true);
+
+                const upsell = await fetchUpsell(productId);
+
+                if (!cancelled && upsell?.upsell_product_title) {
+                    setExtraContent({
+                        title: upsell.upsell_product_title,
+                        imageUrl: upsell.upsell_product_thumbnail_url,
+                        description: upsell.upsell_product_price,
+                        link: upsell.upsell_product_link,
+                    });
+                }
+            } catch (e) {
+                console.error('Upsell fetch failed', e);
+            } finally {
+                if (!cancelled) {
+                    setIsLoadingUpsell(false);
+                }
+            }
+        };
+
+        loadUpsell();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [show, productId]);
+
 
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
@@ -142,8 +191,14 @@ export default function AddToCartModal({
                                     </div>
                                 </div>
 
-                                {showExtraContent && extraContent && (
-                                    <div className="product-card-wrapper" style={{display: 'block'}}>
+                                {isLoadingUpsell && (
+                                    <div className="product-card-wrapper loading">
+                                        <p>Loading recommendation…</p>
+                                    </div>
+                                )}
+
+                                {!isLoadingUpsell && extraContent && (
+                                    <div className="product-card-wrapper" style={{ display: 'block' }}>
                                         <div className="product-card-wrapper-row">
                                             <div className="product-card-img-left">
                                                 <Link
@@ -163,18 +218,26 @@ export default function AddToCartModal({
                                                 <div className="product-card-title">
                                                     <h4>{extraContent.title}</h4>
                                                     <div className="price-t">
-                                                        <span dangerouslySetInnerHTML={{ __html: extraContent.description }} />
+                                                        <span
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: extraContent.description,
+                                                            }}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="product-card-btn">
-                                            <Link href={`/product/${extraContent.link}`} className="enter-now-btn">
+                                            <Link
+                                                href={`/product/${extraContent.link}`}
+                                                className="enter-now-btn"
+                                            >
                                                 Enter Here
                                             </Link>
                                         </div>
                                     </div>
                                 )}
+
                             </div>
                         </div>
                     </div>
