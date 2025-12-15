@@ -114,8 +114,20 @@ const AuthPage: React.FC = () => {
             }
 
             setLoading(false);
+
+            if (data.token) {
+                if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                            type: "LOGIN_TOKEN",
+                            token: data.token,
+                        })
+                    );
+                }
+            }
+
             // Store token in cookies 
-            document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
+            // document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
             refetch();
         } catch (error) {
             setLoading(false);
@@ -125,7 +137,6 @@ const AuthPage: React.FC = () => {
     };
 
     if (isLoggedIn) {
-
         window.location.href = redirectUrl; // Redirect to account page if already logged in
         return null;
     }
