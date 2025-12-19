@@ -51,8 +51,9 @@ const Header = () => {
                             <div className={`dropdown-menu ${showMoreDropdown ? 'show' : ''}`}>
                                 <Link className="dropdown-item" href="/my-account">My Account</Link>
                                 <Link className="dropdown-item" href="/faqs">Facts & FAQs</Link>
-                                <a className="dropdown-item" href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a>
-                                <a className="dropdown-item" href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a>
+                                <Link className="dropdown-item" href="/terms-and-conditions">Terms & Conditions</Link>
+                                {/* <a className="dropdown-item" href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a> */}
+                                {/* <a className="dropdown-item" href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a> */}
                             </div>
                         </li>
                         <li className="currency-nav" style={{ display: 'none' }}>
@@ -128,10 +129,12 @@ const Header = () => {
                         <li><Link href="/live-draws" onClick={toggleOverlay}>Live Draws</Link></li>
                         <li><Link href="/draw-results" onClick={toggleOverlay}>Draw Results</Link></li>
                         <li><Link href="/past-winners" onClick={toggleOverlay}>Our winners</Link></li>
-                        <li><a href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a></li>
+                        {/* <li><a href="https://www.luckydaymerch.com/product/lucky-day-competitions-gift-voucher/" target="_blank" rel="noopener noreferrer">Gift Vouchers</a></li> */}
                         <li><Link href="/faqs" onClick={toggleOverlay}>Facts & FAQs</Link></li>
-                        <li><a href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a></li>
+                        {/* <li><a href="https://www.luckydaymerch.com/" target="_blank" rel="noopener noreferrer">Lucky Day Merch</a></li> */}
                         <li><Link href="/my-account" onClick={toggleOverlay}>My Account</Link></li>
+                        {/* T&C */}
+                        <li><Link href="/terms-and-conditions" onClick={toggleOverlay}>Terms & Conditions</Link></li>
                     </ul>
 
                     <div className="mobile-currency-nav wcml_currency_switcher">

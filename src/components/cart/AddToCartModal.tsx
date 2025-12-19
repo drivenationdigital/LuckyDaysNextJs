@@ -37,9 +37,12 @@ export default function AddToCartModal({
         description: string;
         imageUrl: string;
         link: string;
-    } | null>(null);
-
-    const [isLoadingUpsell, setIsLoadingUpsell] = useState(false);
+    } | null>({
+        title: '',
+        description: '',
+        imageUrl: '',
+        link: '',
+    });
 
     useEffect(() => {
         setIsMounted(true);
@@ -52,7 +55,6 @@ export default function AddToCartModal({
 
         const loadUpsell = async () => {
             try {
-                setIsLoadingUpsell(true);
 
                 const upsell = await fetchUpsell(productId);
 
@@ -68,7 +70,6 @@ export default function AddToCartModal({
                 console.error('Upsell fetch failed', e);
             } finally {
                 if (!cancelled) {
-                    setIsLoadingUpsell(false);
                 }
             }
         };
@@ -146,7 +147,7 @@ export default function AddToCartModal({
                 role="dialog"
                 ref={modalRef}
                 style={{
-                  
+
                     display: 'block',
                     // transition: 'opacity 0.3s ease', 
                 }}
@@ -191,32 +192,27 @@ export default function AddToCartModal({
                                     </div>
                                 </div>
 
-                                {isLoadingUpsell && (
-                                    <div className="product-card-wrapper loading">
-                                        <p>Loading recommendation…</p>
-                                    </div>
-                                )}
 
-                                {!isLoadingUpsell && extraContent && (
-                                    <div className="product-card-wrapper" style={{ display: 'block' }}>
-                                        <div className="product-card-wrapper-row">
-                                            <div className="product-card-img-left">
-                                                <Link
-                                                    href={`/product/${extraContent.link}`}
-                                                    className="product-card-img-link"
-                                                >
-                                                    <div
-                                                        className="product-card-img"
-                                                        style={{
-                                                            backgroundImage: `url(${extraContent.imageUrl})`,
-                                                        }}
-                                                    />
-                                                </Link>
-                                            </div>
-                                            <div className="product-card-info">
-                                                <span>Don&apos;t miss this one!</span>
-                                                <div className="product-card-title">
-                                                    <h4>{extraContent.title}</h4>
+                                <div className="product-card-wrapper" style={{ display: 'block' }}>
+                                    <div className="product-card-wrapper-row">
+                                        <div className="product-card-img-left">
+                                            <Link
+                                                href={`/product/${extraContent?.link}`}
+                                                className="product-card-img-link"
+                                            >
+                                                <div
+                                                    className="product-card-img"
+                                                    style={{
+                                                        backgroundImage: `url(${extraContent?.imageUrl})`,
+                                                    }}
+                                                />
+                                            </Link>
+                                        </div>
+                                        <div className="product-card-info">
+                                            <span>Don&apos;t miss this one!</span>
+                                            <div className="product-card-title">
+                                                <h4>{extraContent?.title}</h4>
+                                                {extraContent && extraContent.description && (
                                                     <div className="price-t">
                                                         <span
                                                             dangerouslySetInnerHTML={{
@@ -224,20 +220,19 @@ export default function AddToCartModal({
                                                             }}
                                                         />
                                                     </div>
-                                                </div>
+                                                )}
                                             </div>
                                         </div>
-                                        <div className="product-card-btn">
-                                            <Link
-                                                href={`/product/${extraContent.link}`}
-                                                className="enter-now-btn"
-                                            >
-                                                Enter Here
-                                            </Link>
-                                        </div>
                                     </div>
-                                )}
-
+                                    <div className="product-card-btn">
+                                        <Link
+                                            href={`/product/${extraContent?.link}`}
+                                            className="enter-now-btn"
+                                        >
+                                            Enter Here
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
