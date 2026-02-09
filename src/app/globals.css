@@ -8480,6 +8480,11 @@ img.emoji {
 	color: #000;
 }
 
+button.bottom-item:hover {
+	background: transparent;
+	color: #fff;
+}
+
 /* Optional: Keep :hover for desktop users (media query) */
 @media (hover: hover) and (pointer: fine) {
 	.bottom-item:hover {
