@@ -66,6 +66,7 @@ const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) =
                 </Swiper>
             </div>
 
+            {(images.length > 2) && (
             <div className="image-thumbs">
 
                 {/* no swiper, grid desktop version */}
@@ -121,6 +122,7 @@ const SlickGalleryWithThumbs: React.FC<Props> = ({ mainImage, galleryImages }) =
                </div>
 
             </div>
+            )}
         </div>
     );
 };
