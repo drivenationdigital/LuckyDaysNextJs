@@ -90,7 +90,16 @@ export default async function Page({
         );
     }
 
-    console.log(product);
+    const stripYouTubeIframes = (html: string): string => {
+        if (!html) return html;
+
+        // Remove YouTube iframes
+        return html
+            .replace(/<iframe[^>]*youtube\.com[^>]*>.*?<\/iframe>/gi, '')
+            .replace(/<iframe[^>]*youtube-nocookie\.com[^>]*>.*?<\/iframe>/gi, '')
+            .replace(/<iframe[^>]*youtu\.be[^>]*>.*?<\/iframe>/gi, '');
+    };
+
     
 
     const mainImage = product.images?.find((img: any) => img.type === 'main');
@@ -187,11 +196,11 @@ export default async function Page({
                                 <div className="row align-items-center">
                                     {product.product_content?.main_description?.has_right_content ? (
                                         <>
-                                            <div className="col-md-6 left-content" dangerouslySetInnerHTML={{ __html: product.product_content.main_description.left_content }} />
-                                            <div className="col-md-6 right-content" dangerouslySetInnerHTML={{ __html: product.product_content.main_description.right_content }} />
+                                            <div className="col-md-6 left-content" dangerouslySetInnerHTML={{ __html: stripYouTubeIframes(product.product_content.main_description.left_content) }} />
+                                            <div className="col-md-6 right-content" dangerouslySetInnerHTML={{ __html: stripYouTubeIframes(product.product_content.main_description.right_content) }} />
                                         </>
                                     ) : (
-                                        <div className="col-md-10 offset-md-1 text-center" dangerouslySetInnerHTML={{ __html: product.product_content.main_description.left_content }} />
+                                        <div className="col-md-10 offset-md-1 text-center" dangerouslySetInnerHTML={{ __html: stripYouTubeIframes(product.product_content.main_description.left_content) }} />
                                     )}
                                 </div>
                             </div>
@@ -202,8 +211,8 @@ export default async function Page({
                             <div key={idx} className={`product-content-row ${row.row_class} ${row.background_colour}`}>
                                 <div className="container">
                                     <div className="row align-items-center">
-                                        <div className="col-md-6 left-content" dangerouslySetInnerHTML={{ __html: row.left_content }} />
-                                        <div className="col-md-6 right-content" dangerouslySetInnerHTML={{ __html: row.right_content }} />
+                                        <div className="col-md-6 left-content" dangerouslySetInnerHTML={{ __html: stripYouTubeIframes(row.left_content) }} />
+                                        <div className="col-md-6 right-content" dangerouslySetInnerHTML={{ __html: stripYouTubeIframes(row.right_content) }} />
                                     </div>
                                 </div>
                             </div>
