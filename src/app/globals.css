@@ -8739,3 +8739,27 @@ button.bottom-item:hover {
 .yith-funds-error .button:hover {
 	background: #f8f8f8;
 }
+
+/* Make WordPress videos responsive */
+.left-content .wp-video,
+.right-content .wp-video,
+.card-body .wp-video {
+	width: 100% !important;
+	max-width: 100% !important;
+}
+
+.left-content .wp-video-shortcode,
+.right-content .wp-video-shortcode,
+.card-body .wp-video-shortcode {
+	width: 100% !important;
+	height: auto !important;
+	max-width: 100% !important;
+}
+
+/* General fix for any videos in product content */
+.product-content video,
+.pro-info-tab video {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
