@@ -90,7 +90,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             const res = await fetch(`/api/cart/${cartKey}`);
             if (!res.ok) {
                 const errorData = await res.json();
-                setNotice(`❌ ${errorData.message || "Failed to fetch cart"}`);
+                if (errorData?.message == "invalid or expired token") {
+                    setNotice(null); // Clear any existing notices
+                } else {
+                    setNotice(`❌ ${errorData.message || "Failed to fetch cart"}`);
+                }
+
                 throw new Error(errorData.message || "Failed to fetch cart");
             }
 

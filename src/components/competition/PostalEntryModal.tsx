@@ -30,27 +30,29 @@ function PostalEntryModal({
             document.body.style.overflowY = 'hidden';
             window.addEventListener('keydown', handleEscape);
 
-            // Trigger show animation
-            setTimeout(() => {
-                if (modalRef.current) {
-                    modalRef.current.classList.add('show');
-                }
-            }, 10); // Delay to allow DOM update before adding class
+            // Use requestAnimationFrame for more reliable timing on iOS
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    if (modalRef.current) {
+                        modalRef.current.classList.add('show');
+                        modalRef.current.style.display = 'block';
+                    }
+                });
+            });
 
         } else if (isVisible) {
-            // Trigger hide animation then unmount after
             if (modalRef.current) {
                 modalRef.current.classList.remove('show');
             }
             setTimeout(() => {
                 setIsVisible(false);
                 document.body.style.overflowY = '';
-            }, 300); // should match CSS animation
+            }, 300);
             window.removeEventListener('keydown', handleEscape);
         }
 
         return () => window.removeEventListener('keydown', handleEscape);
-    }, [show]);
+    }, [show, isVisible]);
 
     const handleClose = () => {
         if (modalRef.current) {
@@ -60,7 +62,7 @@ function PostalEntryModal({
             setIsVisible(false);
             onClose();
             document.body.style.overflowY = '';
-        }, 300); // Delay matches fade-out CSS
+        }, 300);
     };
 
     if (!isMounted || !isVisible) return null;
@@ -70,7 +72,10 @@ function PostalEntryModal({
             <div
                 className="modal-backdrop fade show"
                 onClick={handleClose}
-                style={{ transition: 'opacity 0.3s ease' }}
+                style={{
+                    transition: 'opacity 0.3s ease',
+                    zIndex: 1050
+                }}
             />
             <div
                 className="modal fade"
@@ -81,6 +86,10 @@ function PostalEntryModal({
                 style={{
                     padding: '15px',
                     display: 'block',
+                    zIndex: 1055,
+                    // Force hardware acceleration on iOS
+                    WebkitTransform: 'translateZ(0)',
+                    transform: 'translateZ(0)',
                 }}
                 aria-modal="true"
             >
@@ -113,7 +122,16 @@ export default function PostalEntry() {
 
     return (
         <>
-            <a className="postal-entry-link" href="#" data-bs-toggle="modal" data-bs-target="#postEntry" onClick={() => setShow(true)}>
+            <a
+                className="postal-entry-link"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#postEntry"
+                onClick={(e) => {
+                    e.preventDefault();
+                    setShow(true);
+                }}
+            >
                 Free postal entry information <i className="fa fa-angle-right"></i>
             </a>
 
@@ -121,4 +139,3 @@ export default function PostalEntry() {
         </>
     );
 }
-
