@@ -8449,7 +8449,7 @@ img.emoji {
 	height: 60px;
 	background: #15141B;
 	border-top: 1px solid #ddd;
-	    border-top: 1px #3d3d3d solid;
+	border-top: 1px #3d3d3d solid;
 	z-index: 49;
 	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -8463,12 +8463,23 @@ img.emoji {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	-webkit-tap-highlight-color: transparent;
+	/* Remove default tap highlight */
 }
 
-.bottom-item:hover {
+/* Use :active instead of :hover for touch devices */
+.bottom-item:active {
 	background: linear-gradient(135deg, rgba(227, 198, 107, 1) 0%, rgba(182, 116, 7, 1) 100%);
-	cursor: pointer;
 	color: #000;
+}
+
+/* Optional: Keep :hover for desktop users (media query) */
+@media (hover: hover) and (pointer: fine) {
+	.bottom-item:hover {
+		background: linear-gradient(135deg, rgba(227, 198, 107, 1) 0%, rgba(182, 116, 7, 1) 100%);
+		cursor: pointer;
+		color: #000;
+	}
 }
 
 .bottom-label {
