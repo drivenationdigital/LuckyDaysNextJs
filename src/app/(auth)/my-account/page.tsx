@@ -47,6 +47,11 @@ export default async function Page() {
                             <p className="mb-0">Account</p>
                         </Link>
 
+                        <Link href="/my-account/my-wallet/" className="shortcut-icon">
+                            <i className="fa fa-user"></i>
+                            <p className="mb-0">My Wallet</p>
+                        </Link>
+
                     </div>
 
                     {/* if mobile. show logout button */}

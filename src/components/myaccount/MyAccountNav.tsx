@@ -12,8 +12,9 @@ export default function MyAccountNav() {
     const navItems = [
         { href: '/my-account', label: 'Dashboard', key: 'dashboard' },
         { href: '/my-account/orders', label: 'Orders', key: 'orders' },
-        { href: '/my-account/balance', label: 'Gift Card Balance', key: 'pw-gift-card-balance' },
+        // { href: '/my-account/balance', label: 'Gift Card Balance', key: 'pw-gift-card-balance' },
         { href: '/my-account/edit-address', label: 'Addresses', key: 'edit-address' },
+        { href: '/my-account/my-wallet', label: 'My Wallet', key: 'my-wallet' },
         { href: '/my-account/payment-methods', label: 'Payment methods', key: 'payment-methods' },
         { href: '/my-account/edit-account', label: 'Account details', key: 'edit-account' },
     ];

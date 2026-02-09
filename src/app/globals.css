@@ -8507,3 +8507,212 @@ img.emoji {
 .not-found{margin:60px auto 60px;}
 .not-found a{color:var(--primary-color)}
 
+
+.yith-funds-endpoint-wrapper {
+	/* max-width: 600px; */
+	margin: 0 auto;
+	/* padding: 20px; */
+}
+
+.yith-funds-endpoint-wrapper h2 {
+	text-align: center;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 30px;
+}
+
+.yith-funds-endpoint-header {
+	background: #f8f8f8;
+	padding: 30px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.yith-funds-balance {
+	margin-bottom: 20px;
+}
+
+.yith-funds-icon {
+	display: block;
+	margin: 0 auto 15px;
+	opacity: 0.7;
+}
+
+.yith-funds-label {
+	font-size: 14px;
+	margin-bottom: 5px;
+	color: #666;
+}
+
+.yith-funds-amount {
+	font-size: 32px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.yith-funds-withdrawable {
+	margin: 15px 0;
+	font-size: 14px;
+	color: #666;
+}
+
+.yith-funds-actions {
+	margin-top: 20px;
+}
+
+.yith-funds-actions .button {
+	background: #fff;
+	border: 1px solid #ddd;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 3px;
+	font-weight: 500;
+}
+
+.yith-funds-notice {
+	background: #f8f8f8;
+	padding: 20px;
+	border-radius: 4px;
+	margin-bottom: 30px;
+	font-size: 14px;
+}
+
+.yith-funds-history h3 {
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+
+.yith-funds-filters {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.yith-funds-filter-select {
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	background: #fff;
+}
+
+.yith-funds-transaction {
+	background: #f8f8f8;
+	padding: 20px;
+	border-radius: 4px;
+	margin-bottom: 15px;
+}
+
+.transaction-detail {
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
+.transaction-detail:last-child {
+	margin-bottom: 0;
+}
+
+.transaction-status {
+	color: #666;
+	font-size: 13px;
+}
+
+.negative-amount {
+	color: #e74c3c;
+	font-weight: 600;
+}
+
+.positive-amount {
+	color: #27ae60;
+	font-weight: 600;
+}
+
+/* Modern Shimmer Skeleton */
+.skeleton {
+	background: #f0f0f0;
+	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+}
+
+.skeleton::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg,
+			transparent,
+			rgba(255, 255, 255, 0.6),
+			transparent);
+	animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+	0% {
+		transform: translateX(-100%);
+	}
+
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.skeleton-icon {
+	width: 40px;
+	height: 40px;
+	border-radius: 8px;
+}
+
+.skeleton-text {
+	height: 16px;
+	margin-bottom: 8px;
+}
+
+.skeleton-label {
+	width: 120px;
+}
+
+.skeleton-amount {
+	width: 80px;
+	height: 32px;
+}
+
+.skeleton-withdrawable {
+	width: 200px;
+	margin: 15px auto;
+}
+
+.skeleton-button {
+	width: 180px;
+	height: 40px;
+	margin: 20px auto 0;
+	border-radius: 3px;
+}
+
+.yith-funds-error {
+	text-align: center;
+	padding: 40px 20px;
+}
+
+.yith-funds-error p {
+	color: #e74c3c;
+	margin-bottom: 15px;
+	font-size: 14px;
+}
+
+.yith-funds-error .button {
+	background: #fff;
+	border: 1px solid #ddd;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 3px;
+	font-weight: 500;
+	transition: background 0.2s ease;
+}
+
+.yith-funds-error .button:hover {
+	background: #f8f8f8;
+}

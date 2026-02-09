@@ -12,6 +12,8 @@ export async function POST(request: NextRequest) {
 
   if (!wpRes.ok) {
     const error = await wpRes.json();
+    console.log(error);
+    
     return NextResponse.json({ error: error.message }, { status: 401 });
   }
 

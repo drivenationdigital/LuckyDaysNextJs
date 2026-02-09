@@ -1,5 +1,6 @@
 import { BASE_URL } from "@/actions/api";
 import { IAddress } from "@/app/hooks/useSession";
+import { WalletBalanceResponse } from "@/types/wallet";
 
 export const fetchMyOrders = async (page: number) => {
     const response = await fetch(`${BASE_URL}/api/my-account/order?page=${page}`, {
@@ -143,3 +144,20 @@ export const updateAddress = async (addressType: 'billing' | 'shipping', address
 
     return await response.json();
 };
+
+
+
+export async function getWalletBalance(): Promise<WalletBalanceResponse> {
+    const res = await fetch(`${BASE_URL}/api/wallet/balance`, {
+        cache: 'no-store',
+    });
+    
+    const data = await res.json();
+    console.log(data);
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch wallet balance');
+    }
+
+    return res.json();
+}
