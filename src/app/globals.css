@@ -8464,7 +8464,14 @@ img.emoji {
 	justify-content: center;
 	align-items: center;
 	-webkit-tap-highlight-color: transparent;
-	/* Remove default tap highlight */
+}
+
+/* Remove focus styles for buttons */
+.bottom-item:focus,
+.bottom-item:focus-visible {
+	outline: none;
+	background: transparent;
+	color: white;
 }
 
 /* Use :active instead of :hover for touch devices */
