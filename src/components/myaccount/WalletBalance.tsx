@@ -128,7 +128,9 @@ export const WalletBalance: React.FC = () => {
 
                 <div className="yith-funds-actions">
                     <p>
-                        Manage funds on <a href="https://www.luckydaycompetitions.com/">luckycompetitions.com</a> in your browser
+                        To manage funds, please visit <a href="https://www.luckydaycompetitions.com/" target="_blank" rel="noopener noreferrer" style={{
+                            color: '#B77B13'
+                        }}>luckydaycompetitions.com</a>
                     </p>
                 </div>
             </form>
