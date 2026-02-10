@@ -1,0 +1,10 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "com.app.luckydaycompetitions",
+        "sha256_cert_fingerprints": [
+            "BE:90:D0:19:C1:70:02:AE:3D:B2:40:6F:B4:B5:AA:14:7A:B1:D3:A7:65:89:91:64:6A:76:CC:C6:6C:F4:A3:B8"
+        ]
+    }
+}]
