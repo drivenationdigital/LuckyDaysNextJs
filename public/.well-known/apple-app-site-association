@@ -1,12 +1,16 @@
 {
   "applinks": {
-    "details": [
-      {
-        "appID": "1501850869.com.app.luckydaycompetitions",
-        "paths": [
-          "/*"
-        ]
-      }
-    ]
+    "apps": [],
+    "details": [{
+      "appID": "R4ACZYM544.com.app.luckydaycompetitions",
+      "paths": [
+        "*"
+      ]
+    }],
+    "webcredentials": {
+      "apps": [
+        "R4ACZYM544.com.app.luckydaycompetitions"
+      ]
+    }
   }
 }

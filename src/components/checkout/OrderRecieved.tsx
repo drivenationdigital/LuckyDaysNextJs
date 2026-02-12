@@ -41,12 +41,30 @@ export default function OrderReceived({ order_id }: Props) {
         (window.navigator.userAgent.includes("wv") ||
             window.navigator.userAgent.includes("WebView"));
 
-    useEffect(() => {
-        if (!order_id || !isInWebView) return;
+    // useEffect(() => {
+    //     if (!order_id || !isInWebView) return;
 
-        setTimeout(() => {
-            window.location.href = `luckydays://order-received/${order_id}`;
-        }, 300);
+    //     setTimeout(() => {
+    //         window.location.href = `luckydays://order-received/${order_id}`;
+    //     }, 300);
+    // }, [order_id, isInWebView]);
+    useEffect(() => {
+        // Don't do anything if already in the app
+        if (isInWebView) return;
+
+        // Don't redirect if no order_id
+        if (!order_id) return;
+
+        // Only redirect if NOT in webview (i.e., opened in browser)
+        // Add a flag to prevent infinite redirects
+        const hasRedirected = sessionStorage.getItem('hasRedirected');
+
+        if (!hasRedirected) {
+            sessionStorage.setItem('hasRedirected', 'true');
+            setTimeout(() => {
+                window.location.href = `luckydays://order-received/${order_id}`;
+            }, 300);
+        }
     }, [order_id, isInWebView]);
 
 
