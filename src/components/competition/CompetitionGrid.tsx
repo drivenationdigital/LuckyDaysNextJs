@@ -22,21 +22,22 @@ export const CompetitionGrid: React.FC<{ products: CompetitionProduct[] }> = ({ 
                     if (!product) return null;
 
                     const cardProps: ProductCardProps = {
-                        href: `/product/${product.slug}`,
-                        imageUrl: product.image,
-                        categoryLabel: product.draw_date_tag || '',
-                        title: product.title,
-                        price: product.regular_price,
-                        progressPercent: product.percentage_left,
-                        ticketsRemaining: `${product.tickets_left}/${product.max_tickets}`,
-                        endsText: product.draw_date_tag,
-                        productId: product.id,
-                        onQuickBuy: () => {
-                            setModalVisible(true);
-                            // Handle quick buy action
-                            setSelectedProduct(product);
-                        },
-                        ticketSalesDisabled: product.disable_ticket_sales == "1",
+                      href: `/product/${product.slug}`,
+                      imageUrl: product.image,
+                      categoryLabel: product.additional_info.text || "",
+                      title: product.title,
+                      price: product.regular_price,
+                      progressPercent: product.percentage_left,
+                      ticketsRemaining: `${product.tickets_left}/${product.max_tickets}`,
+                      endsText: product.draw_date_tag,
+                      endTimeStamp: new Date(product.end_date).getTime(),
+                      productId: product.id,
+                      onQuickBuy: () => {
+                        setModalVisible(true);
+                        // Handle quick buy action
+                        setSelectedProduct(product);
+                      },
+                      ticketSalesDisabled: product.disable_ticket_sales == "1",
                     };
 
                     return <ProductCard key={product.id} {...cardProps} />;

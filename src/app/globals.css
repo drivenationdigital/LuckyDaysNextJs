@@ -1636,6 +1636,7 @@ p.stock {
 /*product ticket block*/
 .ticket-block {
 	margin: 0 auto 5px auto;
+	overflow: visible !important;
 }
 
 .ticket-block .values b {
@@ -1676,28 +1677,23 @@ p.stock {
 }
 
 .progress {
-	height: 14px;
-	background: #010101;
-	border-radius: 6px;
-	overflow: visible;
-}
-
-.progress-bar {
-	background: var(--primary-color);
-	border-radius: 6px 4px 4px 6px;
+    height: 14px;
+    background: #010101;
+    border-radius: 6px;
 	position: relative;
+    overflow: visible;
 }
 
 .progress-bar span {
-	font-size: 10px;
-	padding: 0px 4px 0;
-	line-height: 16px;
-	position: absolute;
-	background: var(--primary-color);
-	border-radius: 4px;
-	top: calc(100% + 8px);
-	right: -10px;
-	display: block;
+	    font-size: 10px;
+    padding: 0px 4px 0;
+    line-height: 16px;
+    position: absolute;
+    background: var(--primary-color);
+    border-radius: 4px;
+    top: calc(100% + 8px);
+    right: -10px;
+    display: block;
 }
 
 .progress-bar span:before {
@@ -4692,7 +4688,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	}
 
 	.progress-bar span {
-		font-size: 10px;
+		font-size: 8px;
 	}
 
 	/*engine details*/
@@ -5974,6 +5970,8 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	border-radius: 0px;
 	background: rgb(183, 123, 19);
 	background: linear-gradient(63deg, rgba(243, 219, 135, 1) 14%, rgba(183, 123, 19, 1) 100%);
+		position: relative;
+	overflow: visible;
 }
 
 .tickets-box-rs .progress {
@@ -5982,6 +5980,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 	background: #1d1e22;
 	border: solid 1px #b87b14;
 	position: relative;
+	overflow: visible;
 	max-width: 100%;
 	margin: 0 auto;
 }
@@ -5997,7 +5996,7 @@ label[for="wc-wc_checkout_com_cards-new-payment-method"] {
 }
 
 .ending-item .ticket-block.tickets-box-rs {
-	padding-bottom: 21px;
+	padding-bottom: 28px;
 }
 
 .mobile-cart-header ul li {

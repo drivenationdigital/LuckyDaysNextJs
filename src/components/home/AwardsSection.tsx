@@ -12,7 +12,7 @@ export const AwardsSection: React.FC= () => {
                                     <Image src="/images/award.png" alt="Prizes" width={49} height={49} />
                                 </div>
                                 <div className="award-desc wow fadeIn">
-                                    <h1>Over £75M</h1>
+                                    <h1>Over £85M</h1>
                                     <h5>Won in prizes</h5>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@ export const AwardsSection: React.FC= () => {
                                     <Image src="/images/smile.png" alt="Winners" width={50} height={50} />
                                 </div>
                                 <div className="award-desc wow fadeIn">
-                                    <h1>Over 30,000+</h1>
+                                    <h1>Over 40,000+</h1>
                                     <h5>Lucky winners</h5>
                                 </div>
                             </div>

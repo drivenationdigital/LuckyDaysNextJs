@@ -61,6 +61,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: '/luckydays.apk',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/vnd.android.package-archive',
+          },
+          {
+            key: 'Content-Disposition',
+            value: 'attachment; filename="luckydays.apk"',
+          },
+        ],
+      },
     ];
   }
 };

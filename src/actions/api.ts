@@ -1,4 +1,4 @@
-export const API_URL = process.env.NEXT_PUBLIC_HEADLESS_CMS_API_URL ?? "https://staging.luckydaycompetitions.com";
+export const API_URL = "https://luckydaycompetitions.com";
 
 export const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://app.luckydaycompetitions.com';
 
