@@ -424,27 +424,47 @@ useEffect(() => {
                       <div className="wc-proceed-to-checkout">
                         {rnPlatform === "android" ? (
                           // Android: post message to open checkout in modal WebView
-                          <button
+                          // <button
+                          //   className="checkout-button button alt wc-forward"
+                          //   onClick={() => {
+                          //     if (!isLoggedIn) {
+                          //       router.push("/auth?redirect=/basket");
+                          //       return;
+                          //     }
+                          //     if (!checkoutUrl) {
+                          //       setNotice("Checkout not ready…");
+                          //       return;
+                          //     }
+                          //     (window as any).ReactNativeWebView.postMessage(
+                          //       JSON.stringify({
+                          //         type: "OPEN_CHECKOUT",
+                          //         url: checkoutUrl,
+                          //       }),
+                          //     );
+                          //   }}
+                          // >
+                          //   Proceed to checkout
+                          // </button>
+                          <a
+                            href={checkoutUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="checkout-button button alt wc-forward"
-                            onClick={() => {
+                            onClick={(e) => {
                               if (!isLoggedIn) {
+                                e.preventDefault();
                                 router.push("/auth?redirect=/basket");
                                 return;
                               }
                               if (!checkoutUrl) {
+                                e.preventDefault();
                                 setNotice("Checkout not ready…");
-                                return;
                               }
-                              (window as any).ReactNativeWebView.postMessage(
-                                JSON.stringify({
-                                  type: "OPEN_CHECKOUT",
-                                  url: checkoutUrl,
-                                }),
-                              );
+                              // otherwise let the href do its thing naturally
                             }}
                           >
                             Proceed to checkout
-                          </button>
+                          </a>
                         ) : (
                           // iOS or plain browser: normal anchor, OS handles the deeplink on return
                           <a
