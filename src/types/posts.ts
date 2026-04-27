@@ -22,6 +22,9 @@ export interface CompetitionProduct {
     end_date: number; // UNIX timestamp (seconds)
     start_date: number; // UNIX timestamp (seconds)
     order: number;
+    multi_buy_discounts?: {
+        [quantity: number]: number; // quantity => discount (0.1 for 10% off)
+    };
 }
 
 export const CURRENCY_MAP: { [key: string]: string } = {
